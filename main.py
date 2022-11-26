@@ -122,25 +122,10 @@ def chapter_select_page():
             print("Please enter a valid command.")
             user_response = input("Please enter 1 to choose Chapter 1, 2 to choose Chapter 2, 3 to choose Chapter 3 or # to go back to Mode page: ")
 
-def campaign(chap_num):
-    score = 0
-    result_list = []
-    question_list = db_get_questions_by_chap_num(chap_num)
-    #TODO: For now one question one answer. In future, store k-v pair of question id and answer list, in all_answers_dict
-    all_answers_list = []
-
-    for question in question_list:
-        all_answers_list.append(db_get_answers_by_question_id(question._id))
-
-    for i in range(5):
-        isResultTrue = grade_question(question_list[i], all_answers_list[i])
-
-        if isResultTrue:
-            result_list.append("Correct")
-            score += 1
-        else:
-            result_list.append("Wrong")
-
+def campaign_scorecard_page(score, result_list):
+    """Creates scorecard page UI. 
+    
+    Result of each question is printed. If score >3 /5, print Success. Else print Try again!"""
     print("\n\n\n----Scorecard----")
     for i in range(5):
         print("Q{} - {}".format(i + 1, result_list[i]))
@@ -152,28 +137,69 @@ def campaign(chap_num):
 
     print("\n\n\n")
 
-def grade_question(question, answer_list):
-        print(question._name)
-        print("\n")
-        user_answer = input("answer: ")
+def setup():
+    db_setup()
 
-        #TODO: Now assume one question one answer. In future, each question will have multiple answers. Check if user input is in 
-        # answer dict
-        answer = answer_list[0] # answer object
+#TODO: Pass in user id in future
+def campaign(chap_num):
+    """Handles logic for campaign chapter, where user has to attempt 5 questions from selected chapter.
 
-        if user_answer == answer._name:
-            print("You got it right!")
-            a = input("Press enter to continue")
-            return True
+    Args:
+        chap_num: chapter number
+
+    Returns:
+        None
+    """
+    current_score = 0
+    result_list = []
+    question_list = db_get_questions_by_chap_num(chap_num)
+    answers_list = []
+
+    for question in question_list:
+        answers_list.append(db_get_answers_by_question_id(question._id))
+        isResultTrue = grade_question(question, answers_list)
+
+        if isResultTrue:
+            result_list.append("Correct")
+            current_score += 1
         else:
-            print("You got it wrong!")
-            print("The answer is", answer._name)
-            a = input("Press enter to continue")
-            return False
+            result_list.append("Wrong")
 
-def get_question():
-    pass
+    # Get high score of chapter from database
+    # If user's current score > database high score
+    # Update high score
+    # Update next chapter score
+    # If not dont do anything
 
+    campaign_scorecard_page(current_score, result_list)
+
+def grade_question(question, answers_list):
+    """Gets list of questions of specified chapter number from questions table
+
+    Args:
+        question: Question object
+        answers_list: List of answer object(s) linked to question
+
+    Returns:
+        Boolean: True if user answer is in answer list, False if not.s
+    """
+    print(question._name)
+    print("\n")
+    user_answer = input("answer: ")
+
+    if user_answer in answers_list:
+        print("You got it right!")
+        input("Press enter to continue")
+        return True
+    else:
+        print("You got it wrong!")
+        print("Correct answer(s): ")
+
+        for answer in answers_list:
+            print(answer)
+        
+        input("Press enter to continue")
+        return False
 
 home_page()
 
