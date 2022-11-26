@@ -10,8 +10,8 @@ class Question:
     """
     def __init__(self, id, chap_num, name):
         """Inits Question with id, chap_num, name."""
-        self._id = id
-        self._chap = chap_num
+        self._id = None if id == None else id
+        self._chap_num = chap_num
         self._name = name
 
 class Answer:
@@ -55,7 +55,7 @@ def setup_questions_table(cursor):
     """
     create_table_query = """CREATE TABLE IF NOT EXISTS questions (
                             id INTEGER PRIMARY KEY,
-                            chapter INTEGER,
+                            chap_num INTEGER,
                             name TEXT)"""
 
     cursor.execute(create_table_query)
@@ -72,7 +72,7 @@ def setup_questions_table(cursor):
                     (2, "Chapter 2 Question 4"),
                     (2, "Chapter 2 Question 5")]
 
-    cursor.executemany("INSERT INTO questions (chapter, name) VALUES(?, ?)", question_list)
+    cursor.executemany("INSERT INTO questions (chap_num, name) VALUES(?, ?)", question_list)
 
 def setup_answers_table(cursor):
     """Create and populate answers table
@@ -176,33 +176,6 @@ def db_setup():
     cursor.close()
     connection.close()
 
-def db_get_all_questions():
-    """Gets a list of all questions from questions table
-
-    Args:
-        None
-        
-    Returns:
-        A list of question objects. Each row is represented as a Question object, and then appended into
-        question_list.
-    """
-    connection = sqlite3.connect('main.db')
-    cursor = connection.cursor()
-
-    cursor.execute("SELECT * FROM questions")
-    results = cursor.fetchall()
-    question_list =[]
-    
-    # Save each result in Question object
-    for result in results:
-        question = Question(result[0], result[1], result[2])
-        question_list.append(question)
-    
-    cursor.close()
-    connection.close()
-
-    return question_list
-
 #TODO: In future, get_chapters_from_user_id
 def db_get_all_chapters():
     """Gets list of all chapter data from chapters table
@@ -219,7 +192,7 @@ def db_get_all_chapters():
 
     cursor.execute("SELECT * FROM chapters")
     results = cursor.fetchall()
-    chapters_list =[]
+    chapters_list = []
     
     # Save each result in Chapter object
     for result in results:
@@ -262,7 +235,7 @@ def db_get_questions_by_chap_num(chap_num):
     connection = sqlite3.connect('main.db')
     cursor = connection.cursor()
 
-    cursor.execute("SELECT * FROM questions WHERE chapter = ?", (chap_num,))
+    cursor.execute("SELECT * FROM questions WHERE chap_num = ?", (chap_num,))
 
     question_list = []
     results = cursor.fetchall()
@@ -306,13 +279,33 @@ def db_get_answers_by_question_id(qn_id):
 
     return answer_list
 
-def db_add_question():
+
+def db_get_all_questions():
+    """Gets a list of all questions from questions table
+
+    Args:
+        None
+        
+    Returns:
+        A list of question objects. Each row is represented as a Question object, and then appended into
+        question_list.
+    """
     connection = sqlite3.connect('main.db')
     cursor = connection.cursor()
 
-    query = """INSERT INTO questions (id, chapter, name)
-                VALUES 
-                (1, 1, "Failure")"""
+    cursor.execute("SELECT * FROM questions")
+    results = cursor.fetchall()
+    question_list =[]
+    
+    # Save each result in Question object
+    for result in results:
+        question = Question(result[0], result[1], result[2])
+        question_list.append(question)
+    
+    cursor.close()
+    connection.close()
+
+    return question_list
     
     cursor.execute(query)
 
