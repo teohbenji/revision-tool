@@ -92,15 +92,23 @@ def chapter_select_page():
     """Creates chapter select page UI. Only unlocked chapters are available for user to select. Best score out of previous attempts are shown"""
     print("---------------\n")
     print("Welcome to Campaign mode!")
-    print("""Pick a chapter:
-    1 - Chapter 1
-    2 - Chapter 2
-    3 - Chapter 3
-    # - Back to Mode page""")
+    chapter_list = db_get_all_chapters()
+    
+    for chapter in chapter_list:
+        print("{} - Chapter {} ({})".format(chapter._chapter_num, chapter._chapter_num, "Unlocked" if chapter._unlocked == 1 else "Locked"))
+        
+    print("# - Back to Mode page")
     print("---------------")
 
+    #TODO: Only allow user to 
+    #get a list of chapter nums from chapter_list, and store in valid_inputs list
+    #for each of the chapternums, append "Chapter <chapter_num>" and "chapter <chapter_num>" to valid_inputs list
+    #if user_response is in chapter_list, call campaign(user_response)
+    #Else if, if #, go back to mode page
+    #Else get user_response again
+    
     user_response_check = False
-    user_response = input("Please enter 1 to choose Chapter 1, 2 to choose Chapter 2, 3 to choose Chapter 3 or # to go back to Mode page: ")
+    user_response = input("Please enter 1 to choose Chapter 1, 2 to choose Chapter 2, so on and so forth or # to go back to Mode page: ")
 
     while not user_response_check:
         if user_response == "1" or user_response == "Chapter 1" or user_response == "chapter 1":
