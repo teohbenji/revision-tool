@@ -205,7 +205,14 @@ def db_get_all_chapters():
     return chapters_list
 
 def get_chapter_high_score(chap_num):
+    """Gets high score of chapter from chapters table
 
+    Args:
+        chap_num: Chapter number
+
+    Returns:
+        High score of chapter
+    """
     connection = sqlite3.connect('main.db')
     cursor = connection.cursor()
 
@@ -219,7 +226,46 @@ def get_chapter_high_score(chap_num):
     return chapter_high_score
 
 def update_chapter_high_score(chap_num, new_high_score):
-    pass
+    """Updates high score of chapter in chapters table
+
+    Args:
+        chap_num: Chapter number
+        new_high_score: New high score that replaces old high score in table
+
+    Returns:
+        None
+    """
+    
+    connection = sqlite3.connect('main.db')
+    cursor = connection.cursor()
+
+    cursor.execute('''UPDATE chapters
+                      SET high_score = ?
+                      WHERE chapter_num = ?''', (new_high_score, chap_num))
+
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+def update_chapter_unlocked(chap_num):
+    """Updates unlocked status of chapter in chapters table
+
+    Args:
+        chap_num: Chapter number
+
+    Returns:
+        None
+    """
+    connection = sqlite3.connect('main.db')
+    cursor = connection.cursor()
+
+    cursor.execute('''UPDATE chapters
+                      SET unlocked = ?
+                      WHERE chapter_num = ?''', (1, chap_num))
+
+    connection.commit()
+    cursor.close()
+    connection.close()
 
 def db_get_questions_by_chap_num(chap_num):
     """Gets list of questions of specified chapter number from questions table
@@ -306,9 +352,23 @@ def db_get_all_questions():
     connection.close()
 
     return question_list
+
+def db_add_question(question):
+    """Adds question into questions table
+
+    question object has empty id value, only _chap_num and _name
+
+    Args:
+        question: Question object
+
+    Returns:
+        None
+    """
+    connection = sqlite3.connect('main.db')
+    cursor = connection.cursor()
     
-    cursor.execute(query)
+    cursor.execute("INSERT INTO questions (chap_num, name) VALUES(?, ?)", (question._chap_num, question._name))
 
     connection.commit()
+    cursor.close()
     connection.close()
-
