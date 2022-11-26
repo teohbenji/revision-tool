@@ -1,9 +1,7 @@
 from db import *
 
-def setup():
-    db_setup()
-
 def home_page():
+    """Creates home page UI. User has options to select game mode, settings or exit program"""
     print("""Home page
     1 - Start
     2 - Settings
@@ -31,7 +29,8 @@ def home_page():
             print("Please enter a valid command.")
             user_response = input("Please enter 1 to choose a game mode, 2 to go to settings or 3 to exit the game: ")
 
-def settings():
+def settings_page():
+    """Creates settings page UI. User has option to add question."""
     print("""Settings page
     1 - Add a question
     2 - ??
@@ -60,8 +59,9 @@ def settings():
             user_response = input("Please enter 1 to add a question, 2 to ?? or 3 to go back to Home page: ")
 
 def mode_page():
+    """Creates mode page UI. Option to add question."""
     print("---------------\n")
-    print("""Mode page
+    print("""Mode Select
     1 - Campaign (Play on to move to the next chapter)
     2 - Sudden death (One wrong answer and you lose...)
     3 - Back to Home page""")
@@ -74,7 +74,7 @@ def mode_page():
         if user_response == "1" or user_response == "Campaign" or user_response == "campaign":
             user_response_check = True
             print("\nYou have chosen 1 - Campaign to start Campaign mode.")
-            campaign_mode()
+            chapter_select_page()
         elif user_response == "2" or user_response == "Sudden death" or user_response == "sudden death":
             user_response_check = True
             print("\nYou have chosen 2 - Sudden death to start Sudden death. One wrong move you loseeeeeeee.")
@@ -88,7 +88,8 @@ def mode_page():
             print("Please enter a valid command.")
             user_response = input("Please enter 1 to choose Campaign mode, 2 to choose Sudden death Mode or 3 to go back to Home page: ")
 
-def campaign_mode():
+def chapter_select_page():
+    """Creates chapter select page UI. Only unlocked chapters are available for user to select. Best score out of previous attempts are shown"""
     print("---------------\n")
     print("Welcome to Campaign mode!")
     print("""Pick a chapter:
@@ -109,7 +110,7 @@ def campaign_mode():
         elif user_response == "2" or user_response == "Chapter 2" or user_response == "chapter 2":
             user_response_check = True
             print("\nYou have chosen 2 - Chapter 2.")
-            #TODO: Chapter 2 page
+            campaign(2)
         elif user_response == "3" or user_response == "Chapter 3" or user_response == "chapter 3":
             user_response_check = True
             print("\nYou have chosen 3 - Chapter 3.")
