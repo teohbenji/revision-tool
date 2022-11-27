@@ -99,14 +99,14 @@ def setup_answers_table(cursor):
                   (3, "1"),
                   (4, "False"),
                   (5, "False"),
-                  (6, "Chapter 2 Question 1 Answer 1"),
-                  (6, "Chapter 2 Question 1 Answer 2"),
-                  (7, "Chapter 2 Question 2 Answer 1"),
-                  (7, "Chapter 2 Question 2 Answer 2"),
-                  (7, "Chapter 2 Question 2 Answer 3"),
-                  (8, "Chapter 2 Question 3 Answer"),
-                  (9, "Chapter 2 Question 4 Answer"),
-                  (10, "Chapter 2 Question 5 Answer")]
+                  (6, "Answer 1"),
+                  (6, "Answer 2"),
+                  (7, "Answer 1"),
+                  (7, "Answer 2"),
+                  (7, "Answer 3"),
+                  (8, "Answer"),
+                  (9, "Answer"),
+                  (10, "Answer")]
 
     cursor.executemany("INSERT INTO answers (qn_id, name) VALUES(?, ?)", answer_list)
 
@@ -324,7 +324,6 @@ def db_get_answers_by_question_id(qn_id):
     connection.close()
 
     return answer_list
-
 
 def db_get_all_questions():
     """Gets a list of all questions from questions table

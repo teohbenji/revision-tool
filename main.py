@@ -145,9 +145,6 @@ def campaign_scorecard_page(score, result_list):
 
     print("\n\n\n")
 
-def setup():
-    db_setup()
-
 #TODO: Pass in user id in future
 def campaign(chap_num):
     """Handles logic for campaign chapter, where user has to attempt 5 questions from selected chapter.
@@ -161,10 +158,10 @@ def campaign(chap_num):
     current_score = 0
     result_list = []
     question_list = db_get_questions_by_chap_num(chap_num)
-    answers_list = []
 
     for question in question_list:
-        answers_list.append(db_get_answers_by_question_id(question._id))
+        answers_list = []
+        answers_list = db_get_answers_by_question_id(question._id)
         isResultTrue = grade_question(question, answers_list)
 
         if isResultTrue:
@@ -182,32 +179,34 @@ def campaign(chap_num):
     campaign_scorecard_page(current_score, result_list)
 
 def grade_question(question, answers_list):
-    """Gets list of questions of specified chapter number from questions table
+        grading = "wrong"
+        print(question._name)
+        print("\n")
+        user_answer = input("answer: ")
+        
+        for answer in answers_list:
+            if user_answer == answer._name:
+                grading = "right"
+                print("You got it {}!".format(grading))
+                input("Press enter to continue")
 
-    Args:
-        question: Question object
-        answers_list: List of answer object(s) linked to question
+                return True
 
-    Returns:
-        Boolean: True if user answer is in answer list, False if not.s
-    """
-    print(question._name)
-    print("\n")
-    user_answer = input("answer: ")
-
-    if user_answer in answers_list:
-        print("You got it right!")
-        input("Press enter to continue")
-        return True
-    else:
-        print("You got it wrong!")
+        print("You got it {}!".format(grading))
         print("Correct answer(s): ")
 
+        #Prints out all correct answers
         for answer in answers_list:
-            print(answer)
-        
+            print(answer._name)
         input("Press enter to continue")
+
         return False
 
-home_page()
+def main():
+    home_page()
 
+def setup():
+    db_setup()
+
+db_setup()
+main()
