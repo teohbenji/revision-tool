@@ -1,31 +1,195 @@
 import sqlite3
+import unittest
+from db import *
+
+class Question:
+    """Stores data in each row from questions table
+
+    Attributes:
+        id: Unique identifier
+        chap_num: The chapter where the question is from
+        name: Question name
+    """
+    def __init__(self, id, chap_num, name):
+        """Inits Question with id, chap_num, name."""
+        self._id = None if id == None else id
+        self._chap_num = chap_num
+        self._name = name
+    
+    #Compare attribute values of two Question objects
+    def __eq__(self, other):
+        return self._id == other._id, self._chap_num == other._chap_num, self._name == other._name
+
+class Answer:
+    """Stores data in each row from answers table
+
+    Attributes:
+        id: Unique identifier
+        qn_id: Foreign key. Linked to id in questions table
+        name: Answer name
+    """
+    def __init__(self, id, qn_id, name):
+        """Inits Answer with id, qn_id, name."""
+        self._id = id
+        self._qn_id = qn_id
+        self._name = name
+
+    #Compare attribute values of two Answer objects
+    def __eq__(self, other):
+        return self._id == other._id, self._qn_id == other._qn_id, self._name == other._name
+
+class Chapter:
+    """Stores data in each row from chapter table
+
+    Attributes:
+        id: Unique identifier
+        chap_num: The chapter number
+        high_score: highest score of the chapter ever attained
+        unlocked: boolean variable. True if unlocked, False if still locked.
+    """
+    def __init__(self, id, chap_num, high_score, unlocked):
+        """Inits Answer with id, qn_id, name."""
+        self._id = id
+        self._chap_num = chap_num
+        self._high_score = high_score
+        self._unlocked = unlocked
+
+    #Compare attribute values of two Chapter objects
+    def __eq__(self, other):
+        return self._id == other._id, self._chap_num == other._chap_num, self._high_score == other._high_score, self._unlocked == self._unlocked
 
 def test_db_setup():
+    """Setup test.db by deleting and recreating tables"""
+    # Define connection and cursor
     connection = sqlite3.connect('test.db')
     cursor = connection.cursor()
 
-    command_1 = """DROP TABLE questions"""
-    cursor.execute(command_1)
+    results = get_all_table_names(cursor)
+    
+    for result in results:
+        (table_name, ) = result
+        cursor.execute("DROP TABLE IF EXISTS " + table_name)
 
-    command_2 = """CREATE TABLE IF NOT EXISTS questions (
-                   id INTEGER PRIMARY KEY,
-                   chapter INTEGER,
-                   name TEXT)"""
-
-    cursor.execute(command_2)
-
-    command_3 = """INSERT INTO questions (chapter, name)
-                 VALUES 
-                 (1, "Hello world"),
-                 (1, "Royce"),
-                 (2, "Benjamin"),
-                 (2, "Sean")"""
-                
-    cursor.execute(command_3)
-    cursor.execute("SELECT * FROM questions")
-
-    results = cursor.fetchall()
-    print(results)
+    # Setup schema 
+    test_setup_questions_table(cursor)
+    test_setup_answers_table(cursor)
+    test_setup_chapters_table(cursor)
 
     connection.commit()
+    cursor.close()
     connection.close()
+
+def test_setup_questions_table(cursor):
+    """Create and populate questions table in test.db
+    
+    Args:
+        cursor: cursor object for executing SQLite queries
+
+    Returns:
+        None
+    """
+    create_table_query = """CREATE TABLE IF NOT EXISTS questions (
+                            id INTEGER PRIMARY KEY,
+                            chap_num INTEGER,
+                            name TEXT)"""
+
+    cursor.execute(create_table_query)
+
+    # Populates table with question list
+    question_list = [(1, "Chap 1 Q1"),
+                     (1, "Chap 1 Q2"),
+                     (2, "Chap 2 Q1"),
+                     (3, "Chap 3 Q1")]
+
+    cursor.executemany("INSERT INTO questions (chap_num, name) VALUES(?, ?)", question_list)
+
+def test_setup_answers_table(cursor):
+    """Create and populate answers table in test.db
+    
+    Args:
+        cursor: cursor object for executing SQLite queries
+
+    Returns:
+        None
+    """
+    create_table_query = """CREATE TABLE IF NOT EXISTS answers (
+                            id INTEGER PRIMARY KEY,
+                            qn_id INTEGER,
+                            name TEXT,
+                            FOREIGN KEY (qn_id)
+                                REFERENCES questions (id)
+                            )"""
+
+    cursor.execute(create_table_query)
+
+    # Populates table with answer list
+    answer_list = [(1,"Chap 1 Q1 A1"),
+                   (1,"Chap 1 Q1 A2"),
+                   (2,"Chap 1 Q2 A1"),
+                   (3,"Chap 2 Q1 A1"),
+                   (4,"Chap 3 Q1 A1")]
+
+    cursor.executemany("INSERT INTO answers (qn_id, name) VALUES(?, ?)", answer_list)
+
+def test_setup_chapters_table(cursor):
+    """Create and populate chapters table in test.db
+    
+    Args:
+        cursor: cursor object for executing SQLite queries
+
+    Returns:
+        None
+    """
+    create_table_query = """CREATE TABLE IF NOT EXISTS chapters (
+                            id INTEGER PRIMARY KEY,
+                            chap_num INTEGER,
+                            high_score INTEGER,
+                            unlocked BOOLEAN
+                            )"""
+
+    cursor.execute(create_table_query)
+
+    # Populates table with chapter list
+    chapter_list = [(1, 5, True),
+                  (2, 4, True),
+                  (3, 0, False)]
+
+    cursor.executemany("INSERT INTO chapters (chap_num, high_score, unlocked) VALUES(?, ?, ?)", chapter_list)  
+
+class Testdb(unittest.TestCase):
+
+    def setUp(self):
+        test_db_setup()
+
+    def test_db_get_all_chapters(self):
+        self.assertEqual(db_get_all_chapters("test"), [Chapter(1, 1, 5, 1), Chapter(2, 2, 4, 1), Chapter(3, 3, 0, 0)])
+    
+    def test_db_get_unlocked_chap_nums(self):
+        self.assertEqual(db_get_unlocked_chap_nums("test"), [1, 2])
+
+    def test_db_get_locked_chap_nums(self):
+        self.assertEqual(db_get_locked_chap_nums("test"), [3])
+
+    def test_db_get_chapter_high_score(self):
+        self.assertEqual(db_get_chapter_high_score(1, "test"), 5)
+        self.assertEqual(db_get_chapter_high_score(2, "test"), 4)
+        self.assertEqual(db_get_chapter_high_score(3, "test"), 0)
+
+    def test_db_update_chapter_high_score(self):
+        db_update_chapter_high_score(3, 4, "test")
+        self.assertEqual(db_get_chapter_high_score(3, "test"), 4)
+
+    def test_db_update_chapter_unlocked(self):
+        db_update_chapter_unlocked(3, "test")
+        self.assertTrue(3 in db_get_unlocked_chap_nums("test"))
+
+    def test_db_get_questions_by_chap_num(self):
+        self.assertEqual(db_get_questions_by_chap_num(1, "test"), [Question(1, 1, "Chap 1 Q1"), Question(2, 1, "Chap 1 Q2")])
+        self.assertEqual(db_get_questions_by_chap_num(3, "test"), [Question(4, 3, "Chap 3 Q1")])
+
+    def test_db_get_answers_by_question_id(self):
+        self.assertEqual(db_get_answers_by_question_id(1, "test"), [Answer(1, 1, "Chap 1 Q1 A1"), Answer(2, 1, "Chap 1 Q1 A2")])
+        self.assertEqual(db_get_answers_by_question_id(2, "test"), [Answer(3, 2, "Chap 1 Q2 A1")])
+
+if __name__ == '__main__':
+    unittest.main()
