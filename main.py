@@ -92,43 +92,50 @@ def chapter_select_page():
     """Creates chapter select page UI. Only unlocked chapters are available for user to select. Best score out of previous attempts are shown"""
     print("---------------\n")
     print("Welcome to Campaign mode!")
-    chapter_list = db_get_all_chapters()
+
+    unlocked_chap_nums_list = db_get_unlocked_chap_nums()
+    locked_chap_nums_list = db_get_locked_chap_nums()
+    #Valid inputs refer to inputs with correct chapter numbers, and invalid inputs refers to inputs with wrong chapter numbers
+    correct_inputs_list = []
+    wrong_inputs_list = []
+
+    for chap_num in unlocked_chap_nums_list:
+        correct_inputs_list += [str(chap_num), "Chapter {}".format(str(chap_num)), "chapter {}".format(str(chap_num))]
+        print("{} - Chapter {} ({})".format(chap_num, chap_num, "Unlocked" ))
+
+    for chap_num in locked_chap_nums_list:
+        wrong_inputs_list += [str(chap_num), "Chapter {}".format(str(chap_num)), "chapter {}".format(str(chap_num))]
+        print("{} - Chapter {} ({})".format(chap_num, chap_num, "Locked" ))
     
-    for chapter in chapter_list:
-        print("{} - Chapter {} ({})".format(chapter._chapter_num, chapter._chapter_num, "Unlocked" if chapter._unlocked == 1 else "Locked"))
-        
     print("# - Back to Mode page")
     print("---------------")
 
-    #TODO: Only allow user to 
-    #get a list of chapter nums from chapter_list, and store in valid_inputs list
-    #for each of the chapternums, append "Chapter <chapter_num>" and "chapter <chapter_num>" to valid_inputs list
-    #if user_response is in chapter_list, call campaign(user_response)
-    #Else if, if #, go back to mode page
-    #Else get user_response again
-    
-    user_response_check = False
-    user_response = input("Please enter 1 to choose Chapter 1, 2 to choose Chapter 2, so on and so forth or # to go back to Mode page: ")
+    chapter_select_page_input_validation(correct_inputs_list, wrong_inputs_list)
 
-    while not user_response_check:
-        if user_response == "1" or user_response == "Chapter 1" or user_response == "chapter 1":
-            user_response_check = True
-            print("\nYou have chosen 1 - Chapter 1.")
-            campaign(1)
-        elif user_response == "2" or user_response == "Chapter 2" or user_response == "chapter 2":
-            user_response_check = True
-            print("\nYou have chosen 2 - Chapter 2.")
-            campaign(2)
-        elif user_response == "3" or user_response == "Chapter 3" or user_response == "chapter 3":
-            user_response_check = True
-            print("\nYou have chosen 3 - Chapter 3.")
-            #TODO: Chapter 3 page
-        elif user_response == "#" or user_response == "Back to Mode page" or user_response == "back to Mode page":
-            mode_page()
-        else:
-            print("\nYou entered an invalid command: {}.".format(user_response))
-            print("Please enter a valid command.")
-            user_response = input("Please enter 1 to choose Chapter 1, 2 to choose Chapter 2, 3 to choose Chapter 3 or # to go back to Mode page: ")
+def chapter_select_page_input_validation(valid_inputs_list, invalid_inputs_list):
+    """Validates user input when selecting chapter
+    
+        If user selects unlocked chapter, user is redirected to campaign.
+        If user selects mode, user is redirected to mode page
+        Depending on whether user selects locked chapter or types wrong input, different messages are output 
+        and user has to select chapter again
+    """
+    user_response = input("Please enter 1 to choose Chapter 1, 2 to choose Chapter 2, so on and so forth or # to go back to Mode page: ")
+    
+    if user_response in valid_inputs_list:
+        chap_num = user_response[-1]
+        campaign(chap_num)
+    elif user_response == "#" or user_response == "Back to Mode page" or user_response == "back to Mode page":
+        mode_page()
+    elif user_response in invalid_inputs_list:
+        chap_num = user_response[-1]
+        print("\nChapter {} is locked.".format(user_response))
+        print("Please choose an unlocked chapter instead.")
+        chapter_select_page_input_validation(valid_inputs_list, invalid_inputs_list)
+    else:
+        print("\nYou entered an invalid command: {}.".format(user_response))
+        print("Please enter a valid command.")
+        chapter_select_page_input_validation(valid_inputs_list, invalid_inputs_list)
 
 def campaign_scorecard_page(score, result_list):
     """Creates scorecard page UI. 
@@ -179,28 +186,37 @@ def campaign(chap_num):
     campaign_scorecard_page(current_score, result_list)
 
 def grade_question(question, answers_list):
-        grading = "wrong"
-        print(question._name)
-        print("\n")
-        user_answer = input("answer: ")
+    """Checks if user's answer is correct
+
+    Args:
+        question: Question object
+        answers_list: list of Answer objects
         
-        for answer in answers_list:
-            if user_answer == answer._name:
-                grading = "right"
-                print("You got it {}!".format(grading))
-                input("Press enter to continue")
+    Returns:
+        Boolean depending on user's answer
+    """
+    grading = "wrong"
+    print(question._name)
+    print("\n")
+    user_answer = input("answer: ")
+    
+    for answer in answers_list:
+        if user_answer == answer._name:
+            grading = "right"
+            print("You got it {}!".format(grading))
+            input("Press enter to continue")
 
-                return True
+            return True
 
-        print("You got it {}!".format(grading))
-        print("Correct answer(s): ")
+    print("You got it {}!".format(grading))
+    print("Correct answer(s): ")
 
-        #Prints out all correct answers
-        for answer in answers_list:
-            print(answer._name)
-        input("Press enter to continue")
+    #Prints out all correct answers
+    for answer in answers_list:
+        print(answer._name)
+    input("Press enter to continue")
 
-        return False
+    return False
 
 def main():
     home_page()
