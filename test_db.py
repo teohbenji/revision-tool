@@ -2,62 +2,6 @@ import sqlite3
 import unittest
 from db import *
 
-class Question:
-    """Stores data in each row from questions table
-
-    Attributes:
-        id: Unique identifier
-        chap_num: The chapter where the question is from
-        name: Question name
-    """
-    def __init__(self, id, chap_num, name):
-        """Inits Question with id, chap_num, name."""
-        self._id = None if id == None else id
-        self._chap_num = chap_num
-        self._name = name
-    
-    #Compare attribute values of two Question objects
-    def __eq__(self, other):
-        return self._id == other._id, self._chap_num == other._chap_num, self._name == other._name
-
-class Answer:
-    """Stores data in each row from answers table
-
-    Attributes:
-        id: Unique identifier
-        qn_id: Foreign key. Linked to id in questions table
-        name: Answer name
-    """
-    def __init__(self, id, qn_id, name):
-        """Inits Answer with id, qn_id, name."""
-        self._id = id
-        self._qn_id = qn_id
-        self._name = name
-
-    #Compare attribute values of two Answer objects
-    def __eq__(self, other):
-        return self._id == other._id, self._qn_id == other._qn_id, self._name == other._name
-
-class Chapter:
-    """Stores data in each row from chapter table
-
-    Attributes:
-        id: Unique identifier
-        chap_num: The chapter number
-        high_score: highest score of the chapter ever attained
-        unlocked: boolean variable. True if unlocked, False if still locked.
-    """
-    def __init__(self, id, chap_num, high_score, unlocked):
-        """Inits Answer with id, qn_id, name."""
-        self._id = id
-        self._chap_num = chap_num
-        self._high_score = high_score
-        self._unlocked = unlocked
-
-    #Compare attribute values of two Chapter objects
-    def __eq__(self, other):
-        return self._id == other._id, self._chap_num == other._chap_num, self._high_score == other._high_score, self._unlocked == self._unlocked
-
 def test_db_setup():
     """Setup test.db by deleting and recreating tables"""
     # Define connection and cursor
@@ -123,11 +67,12 @@ def test_setup_answers_table(cursor):
     cursor.execute(create_table_query)
 
     # Populates table with answer list
-    answer_list = [(1,"Chap 1 Q1 A1"),
-                   (1,"Chap 1 Q1 A2"),
-                   (2,"Chap 1 Q2 A1"),
-                   (3,"Chap 2 Q1 A1"),
-                   (4,"Chap 3 Q1 A1")]
+    answer_list = [(1, "Chap 1 Q1 A1"),
+                   (1, "Chap 1 Q1 A2"),
+                   (2, "Chap 1 Q2 A1"),
+                   (3, "Chap 2 Q1 A1"),
+                   (4, "Chap 3 Q1 A1"),
+                   (5, "Not a question")]
 
     cursor.executemany("INSERT INTO answers (qn_id, name) VALUES(?, ?)", answer_list)
 
@@ -157,7 +102,6 @@ def test_setup_chapters_table(cursor):
     cursor.executemany("INSERT INTO chapters (chap_num, high_score, unlocked) VALUES(?, ?, ?)", chapter_list)  
 
 class Testdb(unittest.TestCase):
-
     def setUp(self):
         test_db_setup()
 
@@ -193,3 +137,4 @@ class Testdb(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
