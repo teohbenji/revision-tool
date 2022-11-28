@@ -1,7 +1,9 @@
 from db import *
 
 def home_page():
-    """Creates home page UI. User has options to select game mode, settings or exit program"""
+    """Creates home page CLI
+    
+    Includes options to start program, access settings or exit program"""
     print("""Home page
     1 - Start
     2 - Settings
@@ -19,7 +21,7 @@ def home_page():
         elif user_response == "2" or user_response == "Settings" or user_response == "settings":
             user_response_check = True
             print("\nYou have chosen 2 - Settings.")
-            #TODO: Settings page
+            settings_page()
         elif user_response == "3" or user_response == "Exit" or user_response == "exit":
             user_response_check = True
             print("\nYou have chosen 3 - Exit.")
@@ -30,7 +32,9 @@ def home_page():
             user_response = input("Please enter 1 to choose a game mode, 2 to go to settings or 3 to exit the game: ")
 
 def settings_page():
-    """Creates settings page UI. User has option to add question."""
+    """Creates settings page CLI
+    
+    Includes options to add question or return to home page"""
     print("""Settings page
     1 - Add a question
     2 - ??
@@ -48,7 +52,7 @@ def settings_page():
         elif user_response == "2" or user_response == "??" or user_response == "??":
             user_response_check = True
             print("\nYou have chosen 2 - ??.")
-            #TODO: ??
+            #TODO: Redirect to select user page?
         elif user_response == "3" or user_response == "Back to Home page" or user_response == "back to Home page":
             user_response_check = True
             print("\nYou have chosen 3 - Back to Home page.")
@@ -59,7 +63,9 @@ def settings_page():
             user_response = input("Please enter 1 to add a question, 2 to ?? or 3 to go back to Home page: ")
 
 def mode_page():
-    """Creates mode page UI. Option to add question."""
+    """Creates mode page CLI
+    
+    Includes options to play campaign, sudden death or return to home page"""
     print("---------------\n")
     print("""Mode Select
     1 - Campaign (Play on to move to the next chapter)
@@ -89,7 +95,9 @@ def mode_page():
             user_response = input("Please enter 1 to choose Campaign mode, 2 to choose Sudden death Mode or 3 to go back to Home page: ")
 
 def chapter_select_page():
-    """Creates chapter select page UI. Only unlocked chapters are available for user to select. Best score out of previous attempts are shown"""
+    """Creates chapter select page CLI
+    
+    Only unlocked chapters are available for user to select. Best score out of previous attempts are shown"""
     print("---------------\n")
     print("Welcome to Campaign mode!")
 
@@ -138,9 +146,9 @@ def chapter_select_page_input_validation(valid_inputs_list, invalid_inputs_list)
         chapter_select_page_input_validation(valid_inputs_list, invalid_inputs_list)
 
 def campaign_scorecard_page(score, result_list):
-    """Creates scorecard page UI. 
+    """Creates scorecard page CLI. 
     
-    Result of each question is printed. If score >3 /5, print Success. Else print Try again!"""
+    Result of each question is printed. If score >3 /5, prints Success. Else prints Try again!"""
     print("\n\n\n----Scorecard----")
     for i in range(5):
         print("Q{} - {}".format(i + 1, result_list[i]))
@@ -169,7 +177,7 @@ def campaign(chap_num):
     for question in question_list:
         answers_list = []
         answers_list = db_get_answers_by_question_id(question._id)
-        isResultTrue = grade_question(question, answers_list)
+        isResultTrue = grade_question_page(question, answers_list)
 
         if isResultTrue:
             result_list.append("Correct")
@@ -185,8 +193,11 @@ def campaign(chap_num):
 
     campaign_scorecard_page(current_score, result_list)
 
-def grade_question(question, answers_list):
-    """Checks if user's answer is correct
+def grade_question_page(question, answers_list):
+    """Creates question grading CLI
+
+    Prints different lines depending on user answer. If user answer is wrong,
+    prints out all possible answers
 
     Args:
         question: Question object
