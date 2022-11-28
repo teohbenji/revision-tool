@@ -26,6 +26,7 @@ def home_page():
             user_response_check = True
             print("\nYou have chosen 3 - Exit.")
             print("Thank you for playing! :)")
+            quit()
         else:
             print("\nYou entered an invalid command: {}.".format(user_response))
             print("Please enter a valid command.")
@@ -131,13 +132,13 @@ def chapter_select_page_input_validation(valid_inputs_list, invalid_inputs_list)
     user_response = input("Please enter 1 to choose Chapter 1, 2 to choose Chapter 2, so on and so forth or # to go back to Mode page: ")
     
     if user_response in valid_inputs_list:
-        chap_num = user_response[-1]
+        chap_num = int(user_response[-1])
         campaign(chap_num)
     elif user_response == "#" or user_response == "Back to Mode page" or user_response == "back to Mode page":
         mode_page()
     elif user_response in invalid_inputs_list:
-        chap_num = user_response[-1]
-        print("\nChapter {} is locked.".format(user_response))
+        chap_num = int(user_response[-1])
+        print("\nChapter {} is locked.".format(chap_num))
         print("Please choose an unlocked chapter instead.")
         chapter_select_page_input_validation(valid_inputs_list, invalid_inputs_list)
     else:
@@ -170,6 +171,89 @@ def campaign(chap_num):
     Returns:
         None
     """
+    (current_score, result_list) = grade_campaign_questions(chap_num)
+
+    # Get high score of chapter from database
+    # If user's current score > database high score
+    # Update high score
+    # Update next chapter score
+    # If not dont do anything
+
+    campaign_scorecard_page(current_score, result_list)
+
+    chap_high_score = db_get_chapter_high_score(chap_num)
+    
+    #Update high score if user beats highscore
+    if current_score > chap_high_score:
+        db_update_chapter_high_score(chap_num, current_score)
+        print("Congratulations, you just got a new highscore of {}/5!".format(current_score))
+    
+    # UI for new chapter being unlocked
+    # TODO: put this in a new function
+    if current_score >= 4:
+        #NOT BEING UNLOCKED
+        db_update_chapter_unlocked(chap_num + 1)
+        if chap_num < 7:
+            print("Congratulations! You have unlocked chapter {}!".format(chap_num + 1))
+            user_response_check = False
+            user_response = input("Please enter 1 to attempt the next chapter, 2 to try this chapter again or # to go back to home page: ")
+            while user_response_check == False:
+                if user_response == "1":
+                    user_response_check = True
+                    campaign(chap_num + 1)
+                elif user_response == "2":
+                    user_response = True
+                    campaign(chap_num)
+                elif user_response == "#":
+                    user_response_check = True
+                    home_page()
+                else:
+                    print("\nYou entered an invalid command: {}.".format(user_response))
+                    print("Please enter a valid command.")
+                    user_response = input("Please enter 1 to try again or # to go back to home page: ")
+        else:
+            print("Congratulations! You have completed campaign mode!")
+            user_response_check = False
+            user_response = input("Please enter 1 to try this chapter again or # to go back to home page: ")
+            while user_response_check == False:
+                if user_response == "1":
+                    user_response_check = True
+                    campaign(chap_num)
+                elif user_response == "#":
+                    user_response_check = True
+                    home_page()
+                else:
+                    print("\nYou entered an invalid command: {}.".format(user_response))
+                    print("Please enter a valid command.")
+                    user_response = input("Please enter 1 to try again or # to go back to home page: ")
+    
+     # UI for failed attempt. Prompt to try again or return to home page
+    else:
+        user_response_check = False
+        user_response = input("Please enter 1 to try again or # to go back to home page: ")
+        while user_response_check == False:
+            if user_response == "1":
+                user_response_check = True
+                campaign(chap_num)
+            elif user_response == "#":
+                user_response_check = True
+                home_page()
+            else:
+                print("\nYou entered an invalid command: {}.".format(user_response))
+                print("Please enter a valid command.")
+                user_response = input("Please enter 1 to try again or # to go back to home page: ")
+
+def grade_campaign_questions(chap_num):
+    """Cheks results of user attempting 5 questions from selected chapter.
+
+    Args:
+        chap_num: chapter number
+
+    Returns:
+        current_score: User score out of 5
+        result_list: List of length 5 containing user results. Either "Correct" or "Wrong"
+    """
+
     current_score = 0
     result_list = []
     question_list = db_get_questions_by_chap_num(chap_num)
@@ -184,14 +268,8 @@ def campaign(chap_num):
             current_score += 1
         else:
             result_list.append("Wrong")
-
-    # Get high score of chapter from database
-    # If user's current score > database high score
-    # Update high score
-    # Update next chapter score
-    # If not dont do anything
-
-    campaign_scorecard_page(current_score, result_list)
+    
+    return current_score, result_list
 
 def grade_question_page(question, answers_list):
     """Creates question grading CLI
@@ -235,5 +313,4 @@ def main():
 def setup():
     db_setup()
 
-db_setup()
 main()

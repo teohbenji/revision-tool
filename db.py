@@ -282,10 +282,8 @@ def db_get_chapter_high_score(chap_num, db='main'):
 
     cursor.execute("SELECT high_score FROM chapters WHERE chap_num = ?", (chap_num,))
 
-    result = cursor.fetchone()
+    (high_score,) = cursor.fetchone()
 
-    (high_score,) = result 
-    
     cursor.close()
     connection.close()
 
