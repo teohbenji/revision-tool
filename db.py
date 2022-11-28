@@ -193,7 +193,7 @@ def db_get_all_chapters(db='main'):
     """Gets list of all chapter data from chapters table
 
     Args:
-        db: Default value is 'main' to access mani.db, use 'test' instead for accessing test.db 
+        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db 
 
     Returns:
         A list of data for each chapter. Each row is represented as a Chapter object, and then appended into
@@ -220,7 +220,7 @@ def db_get_unlocked_chap_nums(db='main'):
     """Gets list of unlocked chapter numbers from chapters table
 
     Args:
-        db: Default value is 'main' to access mani.db, use 'test' instead for accessing test.db 
+        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db 
 
     Returns:
         A list of unlocked chapter numbers.
@@ -246,7 +246,7 @@ def db_get_locked_chap_nums(db='main'):
     """Gets list of locked chapter numbers from chapters table
 
     Args:
-        db: Default value is 'main' to access mani.db, use 'test' instead for accessing test.db 
+        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db 
 
     Returns:
         A list of locked chapter numbers.
@@ -272,7 +272,7 @@ def db_get_chapter_high_score(chap_num, db='main'):
 
     Args:
         chap_num: Chapter number
-        db: Default value is 'main' to access mani.db, use 'test' instead for accessing test.db 
+        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db 
 
     Returns:
         High score of chapter
@@ -297,7 +297,7 @@ def db_update_chapter_high_score(chap_num, new_high_score, db='main'):
     Args:
         chap_num: Chapter number
         new_high_score: New high score that replaces old high score in table
-        db: Default value is 'main' to access mani.db, use 'test' instead for accessing test.db 
+        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db 
 
     Returns:
         None
@@ -319,7 +319,7 @@ def db_update_chapter_unlocked(chap_num, db='main'):
 
     Args:
         chap_num: Chapter number
-        db: Default value is 'main' to access mani.db, use 'test' instead for accessing test.db
+        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
 
     Returns:
         None
@@ -335,12 +335,39 @@ def db_update_chapter_unlocked(chap_num, db='main'):
     cursor.close()
     connection.close()
 
+def db_get_all_questions(db="main"):
+    """Gets a list of all questions from questions table
+
+    Args:
+        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
+        
+    Returns:
+        A list of question objects. Each row is represented as a Question object, and then appended into
+        question_list.
+    """
+    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT * FROM questions")
+    results = cursor.fetchall()
+    questions_list =[]
+
+    # Save each result in Question object
+    for result in results:
+        question = Question(result[0], result[1], result[2])
+        questions_list.append(question)
+
+    cursor.close()
+    connection.close()
+
+    return questions_list
+
 def db_get_questions_by_chap_num(chap_num, db='main'):
     """Gets list of questions of specified chapter number from questions table
 
     Args:
         chap_num: chapter number
-        db: Default value is 'main' to access mani.db, use 'test' instead for accessing test.db
+        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
 
     Returns:
         A list of questions. Each row is represented as a Question object, and then appended into
@@ -370,7 +397,7 @@ def db_get_answers_by_question_id(qn_id, db='main'):
 
     Args:
         qn_id: question id
-        db: Default value is 'main' to access mani.db, use 'test' instead for accessing test.db
+        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
 
     Returns:
         A list of answers. Each row is represented as an Answer object, and then appended into

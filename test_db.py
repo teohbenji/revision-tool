@@ -71,8 +71,7 @@ def test_setup_answers_table(cursor):
                    (1, "Chap 1 Q1 A2"),
                    (2, "Chap 1 Q2 A1"),
                    (3, "Chap 2 Q1 A1"),
-                   (4, "Chap 3 Q1 A1"),
-                   (5, "Not a question")]
+                   (4, "Chap 3 Q1 A1")]
 
     cursor.executemany("INSERT INTO answers (qn_id, name) VALUES(?, ?)", answer_list)
 
@@ -126,6 +125,10 @@ class Testdb(unittest.TestCase):
     def test_db_update_chapter_unlocked(self):
         db_update_chapter_unlocked(3, "test")
         self.assertTrue(3 in db_get_unlocked_chap_nums("test"))
+
+    def test_db_get_all_questions(self):
+        self.assertEqual(db_get_all_questions("test"), [Question(1, 1, "Chap 1 Q1"), Question(2, 1, "Chap 1 Q1"), 
+                                                        Question(4, 3, "Chap 2 Q1"), Question(5, 4, "Chap 3 Q1")])
 
     def test_db_get_questions_by_chap_num(self):
         self.assertEqual(db_get_questions_by_chap_num(1, "test"), [Question(1, 1, "Chap 1 Q1"), Question(2, 1, "Chap 1 Q2")])
