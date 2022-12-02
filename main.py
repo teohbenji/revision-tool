@@ -39,12 +39,12 @@ def settings_page():
     Includes options to add question or return to home page"""
     print("""Settings page
     1 - Add a question
-    2 - ??
+    2 - Reset program
     3 - Back to Home page""")
     print("---------------")
 
     user_response_check = False
-    user_response = input("Please enter 1 to add a question, 2 to ?? or 3 to go back to Home page: ")
+    user_response = input("Please enter 1 to add a question, 2 to reset program or 3 to go back to Home page: ")
 
     while not user_response_check:
         if user_response == "1" or user_response == "Add a question" or user_response == "add a question":
@@ -53,8 +53,8 @@ def settings_page():
             add_new_question()
         elif user_response == "2" or user_response == "??" or user_response == "??":
             user_response_check = True
-            print("\nYou have chosen 2 - ??.")
-            #TODO: Redirect to select user page?
+            print("\nYou have chosen 2 - Reset program.")
+            reset_page()            
         elif user_response == "3" or user_response == "Back to Home page" or user_response == "back to Home page":
             user_response_check = True
             print("\nYou have chosen 3 - Back to Home page.")
@@ -361,6 +361,45 @@ def grade_question_page(question, answers_list):
     input("Press enter to continue")
 
     return False
+
+def reset_page():
+    """Creates reset data CLI
+
+    Warns user before resetting database.
+
+    Args:
+        None
+        
+    Returns:
+        None
+    """
+    print("""WARNING: Are you sure you want to reset the program?\n
+ALL progress will be LOST, including new questions created,\n
+and the highscores in campaign and sudden death mode.
+          """)
+
+    user_response_check = False
+    user_response = input("Please enter 1 to confirm, 2 to go back to the settings page, or # to return to the home page: ")
+
+    while user_response_check == False:
+        if user_response == "1":
+            setup()
+            print("""--------------------
+Reset success! Returning you to homepage
+--------------------
+                  """)
+            home_page()
+            break
+        elif user_response == "2":
+            settings_page()
+            break
+        elif user_response == "#":
+            home_page()
+            break
+        else:
+            print("\nYou entered an invalid command: {}.".format(user_response))
+            print("Please enter a valid command.")
+            user_response = input("Please enter 1 to confirm, 2 to go back to the settings page, or # to return to the home page: ")
 
 def main():
     home_page()
