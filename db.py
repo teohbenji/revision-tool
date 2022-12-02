@@ -14,9 +14,8 @@ class Question:
         self._chap_num = chap_num
         self._name = name
     
-    #Compare attribute values of two Question objects
-    def __eq__(self, other):
-        return self._id == other._id, self._chap_num == other._chap_num, self._name == other._name
+    def __eq__(self, other) : 
+        return self.__dict__ == other.__dict__
 
 class Answer:
     """Stores data in each row from answers table
@@ -33,8 +32,8 @@ class Answer:
         self._name = name
 
     #Compare attribute values of two Answer objects
-    def __eq__(self, other):
-        return self._id == other._id, self._qn_id == other._qn_id, self._name == other._name
+    def __eq__(self, other) : 
+        return self.__dict__ == other.__dict__
 
 class Chapter:
     """Stores data in each row from chapter table
@@ -53,9 +52,8 @@ class Chapter:
         self._unlocked = unlocked
 
     #Compare attribute values of two Chapter objects
-    def __eq__(self, other):
-        return self._id == other._id, self._chap_num == other._chap_num, self._high_score == other._high_score, self._unlocked == self._unlocked
-
+    def __eq__(self, other) : 
+        return self.__dict__ == other.__dict__
 
 def setup_questions_table(cursor):
     """Create and populate questions table
