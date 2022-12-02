@@ -500,9 +500,13 @@ def add_new_question():
         confirmation = input("Please enter 1 to confirm your new question and answer or # to quit: ")
 
     if confirmation == "1":
-        question = Question('', chap_num, new_question)
+        question = Question('', int(chap_num), new_question)
         db_add_question(question)
-        print("\nYou have successfully added the question.")
+
+        answer = Answer("", db_get_newest_question_id(), new_answer)
+        db_add_answer(answer)
+
+        print("\nYou have successfully added the question and answer.")
         print("You will be directed back to Settings page.\n")
         settings_page()
 

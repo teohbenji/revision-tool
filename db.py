@@ -458,6 +458,7 @@ def db_add_question(question, db='main'):
     """Adds question into questions table
 
     question object has empty id value, only _chap_num and _name
+    db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
 
     Args:
         question: Question object
@@ -473,6 +474,50 @@ def db_add_question(question, db='main'):
     connection.commit()
     cursor.close()
     connection.close()
+
+def db_get_newest_question_id(db = 'main'):
+    """Gets id of newest question from questions table
+
+    Args:
+        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
+
+    Returns:
+        newest_qn_id: Question id of newest 
+    """
+    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    cursor = connection.cursor()
+    cursor.execute("SELECT id FROM questions ORDER BY id DESC LIMIT 1")
+
+    result = cursor.fetchall()
+    (newest_qn_id,) = result[0]
+
+    print("--------------------")
+    print(newest_qn_id, type(newest_qn_id))
+    print("--------------------")
+
+    return newest_qn_id
+
+def db_add_answer(answer, db = 'main'):
+    """Adds answer into answers table
+
+    answer object has empty id value, only _qn_id and _name
+
+    Args:
+        answer: Answer object
+        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
+
+    Returns:
+        None
+    """
+    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    cursor = connection.cursor()
+
+    cursor.execute("INSERT INTO answers (qn_id, name) VALUES(?, ?)", (answer._qn_id, answer._name))
+
+    connection.commit()
+    cursor.close()
+    connection.close()
+
 
 def get_highscores(db='main'):
     """Gets list of the 5 highest scores in sudden death
@@ -519,7 +564,3 @@ def add_score(score, db='main'):
     connection.commit()
     cursor.close()
     connection.close()
-
-db_setup()
-print(len(get_highscores()))
-
