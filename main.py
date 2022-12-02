@@ -5,7 +5,8 @@ def home_page():
     """Creates home page CLI
     
     Includes options to start program, access settings or exit program"""
-    print("""Home page
+    print("""---------------  
+Home page
     1 - Start
     2 - Settings
     3 - Exit""")
@@ -367,9 +368,12 @@ def grade_campaign_questions(chap_num):
 
     current_score = 0
     result_list = []
-    question_list = db_get_questions_by_chap_num(chap_num)
+    questions_list = db_get_questions_by_chap_num(chap_num)
+    
+    #Choose 5 questions out of all the questions in the chapter
+    random_questions_list = random.sample(questions_list, 5)
 
-    for question in question_list:
+    for question in random_questions_list:
         answers_list = []
         answers_list = db_get_answers_by_question_id(question._id)
         isResultTrue = grade_question_page(question, answers_list)
@@ -396,9 +400,9 @@ def grade_question_page(question, answers_list):
         Boolean depending on user's answer
     """
     grading = "wrong"
-    print(question._name)
+    print("\n\nQuestion: {}".format(question._name))
     print("\n")
-    user_answer = input("answer: ")
+    user_answer = input("Your answer: ")
     
     for answer in answers_list:
         if user_answer == answer._name:
