@@ -1,5 +1,27 @@
 import sqlite3
 
+def db_setup():
+    """Setup main.db by deleting and recreating tables"""
+    # Define connection and cursor
+    connection = sqlite3.connect('main.db')
+    cursor = connection.cursor()
+
+    results = get_all_table_names(cursor)
+    
+    for result in results:
+        (table_name, ) = result
+        cursor.execute("DROP TABLE IF EXISTS " + table_name)
+
+    # Setup schema 
+    setup_questions_table(cursor)
+    setup_answers_table(cursor)
+    setup_chapters_table(cursor)
+    setup_scores_table(cursor)
+
+    connection.commit()
+    cursor.close()
+    connection.close()
+
 class Question:
     """Stores data in each row from questions table
 
@@ -54,6 +76,24 @@ class Chapter:
     #Compare attribute values of two Chapter objects
     def __eq__(self, other) : 
         return self.__dict__ == other.__dict__
+
+class Score:
+    """Stores data in each row from scores table
+
+    Attributes:
+        id: Unique identifier
+        name: User's name
+        score: Value of score
+    """
+    def __init__(self, id, name, score):
+        """Inits Score with id, name, score."""
+        self._id = id
+        self._name = name
+        self._score = score
+
+    #Compare attribute values of two Answer objects
+    def __eq__(self, other) : 
+        return self.__dict__ == other.__dict__   
 
 def setup_questions_table(cursor):
     """Create and populate questions table
@@ -148,7 +188,24 @@ def setup_chapters_table(cursor):
                   (6, 0, False),
                   (7, 0, False)]
 
-    cursor.executemany("INSERT INTO chapters (chap_num, high_score, unlocked) VALUES(?, ?, ?)", chapter_list)  
+    cursor.executemany("INSERT INTO chapters (chap_num, high_score, unlocked) VALUES(?, ?, ?)", chapter_list) 
+
+def setup_scores_table(cursor):
+    """Creates empty scores table
+    
+    Args:
+        cursor: cursor object for executing SQLite queries
+
+    Returns:
+        None
+    """
+    create_table_query = """CREATE TABLE IF NOT EXISTS scores (
+                            id INTEGER PRIMARY KEY,
+                            name TEXT,
+                            score INTEGER
+                            )"""
+
+    cursor.execute(create_table_query)
 
 def get_all_table_names(cursor):
     """Gets all table names in schema
@@ -164,27 +221,6 @@ def get_all_table_names(cursor):
     results = cursor.fetchall()
 
     return results
-
-def db_setup():
-    """Setup main.db by deleting and recreating tables"""
-    # Define connection and cursor
-    connection = sqlite3.connect('main.db')
-    cursor = connection.cursor()
-
-    results = get_all_table_names(cursor)
-    
-    for result in results:
-        (table_name, ) = result
-        cursor.execute("DROP TABLE IF EXISTS " + table_name)
-
-    # Setup schema 
-    setup_questions_table(cursor)
-    setup_answers_table(cursor)
-    setup_chapters_table(cursor)
-
-    connection.commit()
-    cursor.close()
-    connection.close()
 
 #TODO: In future, get_chapters_from_user_id
 def db_get_all_chapters(db='main'):
@@ -437,3 +473,53 @@ def db_add_question(question):
     connection.commit()
     cursor.close()
     connection.close()
+
+def get_highscores(db='main'):
+    """Gets list of the 5 highest scores in sudden death
+
+    Args:
+        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
+
+    Returns:
+        A list of scores. Each row is represented as a score object, and then appended into
+        scores_list.
+    """
+
+    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM scores ORDER BY score DESC LIMIT 5")
+
+    results = cursor.fetchall()
+    scores_list = []
+
+    # Save each result in Score object
+    for result in results:
+        score = Score(result[0], result[1], result[2])
+        scores_list.append(score)
+
+    cursor.close()
+    connection.close()
+
+    return scores_list
+
+def add_score(score, db='main'):
+    """Add new score from sudden death mode
+    Args:
+        score: score object to be added
+        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
+
+    Returns:
+        None
+    """
+    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    cursor = connection.cursor()
+
+    cursor.execute("INSERT INTO scores (name, score) VALUES(?, ?)", (score._name, score._score))
+
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+db_setup()
+print(len(get_highscores()))
+
