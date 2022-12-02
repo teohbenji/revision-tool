@@ -1,4 +1,5 @@
 from db import *
+import random
 
 def home_page():
     """Creates home page CLI
@@ -85,7 +86,7 @@ def mode_page():
         elif user_response == "2" or user_response == "Sudden death" or user_response == "sudden death":
             user_response_check = True
             print("\nYou have chosen 2 - Sudden death to start Sudden death. One wrong move you loseeeeeeee.")
-            #TODO: Sudden death page
+            grade_sudden_death()
         elif user_response == "3" or user_response == "Back to Home page" or user_response == "back to Home page":
             user_response_check = True
             print("\nYou have chosen 3 - Back to Home page.")
@@ -242,6 +243,60 @@ def campaign(chap_num):
                 print("\nYou entered an invalid command: {}.".format(user_response))
                 print("Please enter a valid command.")
                 user_response = input("Please enter 1 to try again or # to go back to home page: ")
+
+def grade_sudden_death():
+    """Handles logic for sudden death mode.
+
+    User answers every question in questions table. If user gets question wrong, the mode ends.
+
+    Args:
+        None
+
+    Returns:
+        None
+    """
+    questions_correct = 0
+    questions_list = db_get_all_questions()
+
+    while len(questions_list) > 0:
+        question = random.choice(questions_list)
+        answers_list = db_get_answers_by_question_id(question._id)
+        isResultCorrect = grade_question_page(question, answers_list)
+
+        if isResultCorrect:
+            questions_correct += 1
+            questions_list.pop(questions_list.index(question))
+        else:
+            print("You got {} questions correct!".format(questions_correct))
+            user_response_check = False
+            user_response = input("Please enter 1 to try again or # to go back to home page: ")
+
+            while user_response_check == False:
+                if user_response == "1":
+                    user_response_check = True
+                    grade_sudden_death()
+                elif user_response == "#":
+                    user_response_check = True
+                    home_page()
+                else:
+                    print("\nYou entered an invalid command: {}.".format(user_response))
+                    print("Please enter a valid command.")
+                    user_response = input("Please enter 1 to try again or # to go back to home page: ")
+
+    print("Congratulations! You have completed the sudden death gamemode! You got all {} questions right!".format(questions_correct))
+    user_response_check = False
+    user_response = input("Please enter 1 to try again or # to go back to home page: ")
+    while user_response_check == False:
+        if user_response == "1":
+            user_response_check = True
+            grade_sudden_death()
+        elif user_response == "#":
+            user_response_check = True
+            home_page()
+        else:
+            print("\nYou entered an invalid command: {}.".format(user_response))
+            print("Please enter a valid command.")
+            user_response = input("Please enter 1 to try again or # to go back to home page: ")
 
 def grade_campaign_questions(chap_num):
     """Cheks results of user attempting 5 questions from selected chapter.
