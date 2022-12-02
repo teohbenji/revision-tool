@@ -85,8 +85,8 @@ def mode_page():
             chapter_select_page()
         elif user_response == "2" or user_response == "Sudden death" or user_response == "sudden death":
             user_response_check = True
-            print("\nYou have chosen 2 - Sudden death to start Sudden death. One wrong move you loseeeeeeee.")
-            grade_sudden_death()
+            print("\nYou have chosen 2 - Sudden death")
+            sudden_death_page()
         elif user_response == "3" or user_response == "Back to Home page" or user_response == "back to Home page":
             user_response_check = True
             print("\nYou have chosen 3 - Back to Home page.")
@@ -244,6 +244,56 @@ def campaign(chap_num):
                 print("Please enter a valid command.")
                 user_response = input("Please enter 1 to try again or # to go back to home page: ")
 
+def sudden_death_page():
+    user_response_check = False
+    user_response = input("Please enter 1 to begin the sudden death game mode, 2 to view the top 5 highscores or # to go back to Home page: ")
+
+    while not user_response_check:
+        if user_response == "1":
+            user_response_check = True
+            print("\nYou have chosen 1 - Sudden death to start Sudden death. One wrong move you loseeeeeeee.")
+            grade_sudden_death()
+
+        elif user_response == "2":
+            user_response_check = True
+            print("\nYou have chosen 2 - These are your champions:")
+            highscores = get_highscores()
+            place = 1
+
+            for score in highscores:
+                print("{}) {} - {}".format(place, score._name, score._score))
+                place += 1
+                
+            print("\n")
+
+            user_response_check = False
+            user_response = input("Please enter 1 to attempt the sudden death game mode or # to go back to home page: ")
+
+            while not user_response_check:
+                if user_response == "1":
+                    user_response_check = True
+                    print("\nYou have chosen 1 - Sudden death to start Sudden death. One wrong move you loseeeeeeee.")
+                    grade_sudden_death()
+                    
+                elif user_response == "#":
+                    user_response_check = True
+                    home_page()
+
+                else:
+                    print("\nYou entered an invalid command: {}.".format(user_response))
+                    print("Please enter a valid command.")
+                    user_response = input("Please enter 1 to try again or # to go back to home page: ")
+
+        elif user_response == "#":
+            user_response_check = True
+            home_page()
+        else:
+            print("\nYou entered an invalid command: {}.".format(user_response))
+            print("Please enter a valid command.")
+            user_response = input("Please enter 1 to try again or # to go back to home page: ")
+
+    # grade_sudden_death()
+
 def grade_sudden_death():
     """Handles logic for sudden death mode.
 
@@ -268,6 +318,9 @@ def grade_sudden_death():
             questions_list.pop(questions_list.index(question))
         else:
             print("You got {} questions correct!".format(questions_correct))
+            user_name = input("What name would you like to save this score under?")
+            score = Score("", user_name, questions_correct)
+            add_score(score)
             user_response_check = False
             user_response = input("Please enter 1 to try again or # to go back to home page: ")
 
@@ -284,6 +337,9 @@ def grade_sudden_death():
                     user_response = input("Please enter 1 to try again or # to go back to home page: ")
 
     print("Congratulations! You have completed the sudden death gamemode! You got all {} questions right!".format(questions_correct))
+    user_name = input("What name would you like to save this score under?")
+    score = Score("", user_name, questions_correct)
+    add_score(score)
     user_response_check = False
     user_response = input("Please enter 1 to try again or # to go back to home page: ")
     while user_response_check == False:
@@ -518,4 +574,5 @@ def add_new_question():
 def setup():
     db_setup()
 
+setup()
 main()
