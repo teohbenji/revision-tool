@@ -50,7 +50,7 @@ def settings_page():
         if user_response == "1" or user_response == "Add a question" or user_response == "add a question":
             user_response_check = True
             print("\nYou have chosen 1 - Add a question.")
-            #TODO Add a question function
+            add_new_question()
         elif user_response == "2" or user_response == "??" or user_response == "??":
             user_response_check = True
             print("\nYou have chosen 2 - ??.")
@@ -111,7 +111,7 @@ def chapter_select_page():
 
     for chap_num in unlocked_chap_nums_list:
         correct_inputs_list += [str(chap_num), "Chapter {}".format(str(chap_num)), "chapter {}".format(str(chap_num))]
-        print("{} - Chapter {} ({})".format(chap_num, chap_num, "Unlocked" ))
+        print("{} - Chapter {} ({}) * Highest score: {} / 5 *".format(chap_num, chap_num, "Unlocked", db_get_chapter_high_score(chap_num)))
 
     for chap_num in locked_chap_nums_list:
         wrong_inputs_list += [str(chap_num), "Chapter {}".format(str(chap_num)), "chapter {}".format(str(chap_num))]
@@ -364,6 +364,125 @@ def grade_question_page(question, answers_list):
 
 def main():
     home_page()
+
+def add_new_question():
+    print("Hello, you are about to add a new question. Enter # at anytime to quit back to Settings page")
+
+    user_response_check = False
+    chap_num = input("\nWhich chapter from Chapter 1-7 is the new question from:  ")
+
+    while not user_response_check:
+        if chap_num in [str(i) for i in range(1,8)]:
+            user_response_check = True
+            print("\nYou will add a question under Chapter {}".format(chap_num))
+        elif chap_num == '#':
+            print("\nYou have entered # to go back to Settings page.\n")
+            settings_page()
+        else:
+            print("\nYou entered an invalid command: {}.".format(chap_num))
+            chap_num = input("Please enter a valid Chapter number from 1 - 7: ")
+    
+    user_response_check = False
+    mcq_or_not = input("\nIs your question an mcq or open-ended question?\n1 - MCQ\n2 - Open-ended\nEnter 1 or 2: ")
+    while not user_response_check:
+        if mcq_or_not == '1':
+            user_response_check = True
+            is_mcq_question = True
+            print("\nYou will add an MCQ question")
+        elif mcq_or_not == '2':
+            user_response_check = True
+            is_mcq_question = False
+            print("\nYou will add an open-ended question")
+        elif mcq_or_not == '#':
+            user_response_check = True
+            print("\nYou have entered # to go back to Settings page.\n")
+            settings_page()
+        else:
+            print("\nYou entered an invalid command: {}.".format(mcq_or_not))
+            mcq_or_not = input("\nIs your question an mcq or open-ended question?\n1 - MCQ\n2 - Open-ended\nEnter 1 or 2: ")
+
+    if is_mcq_question:
+        new_question = input("Input your new question: ")
+        if new_question == '#':
+                print("\nYou have entered # to go back to Settings page.\n")
+                settings_page()
+        option_number = [str(i) for i in range(1,100)]
+        answer_options = []
+        any_more_options = True
+        new_question += " (To answer, enter 1 for Option 1, enter 2 for Option 2 etc.)"
+        while any_more_options:
+            new_mcq_option = input("\nAdd your MCQ Option: ")
+            current_option = option_number.pop(0)
+            answer_options.append(current_option)
+            new_question += "\nOption {}".format(current_option) + " - " + new_mcq_option
+            print("\nYou have entered:\nChapter number: {}\nQuestion: {}".format(chap_num, new_question))
+            more_options = input("\nDo you want to add more MCQ Options?\n1 - Yes\n2 - No\nEnter 1 or 2: ")
+            user_response_check = False
+            while not user_response_check:
+                if more_options == "1":
+                    user_response_check = True
+                elif more_options == "2":
+                    user_response_check = True
+                    any_more_options = False
+                elif more_options == '#':
+                    user_response_check = True
+                    print("\nYou have entered # to go back to Settings page.\n")
+                    settings_page()
+                else:
+                    print("\nYou entered an invalid command: {}.".format(more_options))
+                    more_options = input("Do you want to add more MCQ Options?\n1 - Yes\n2 - No\nEnter 1 or 2: ")
+
+        new_answer = input("\nInput your answer to the question (Eg. Enter 1 for Option 1, Enter 2 for Option 2): ")
+        user_response_check = False
+        while not user_response_check:
+            if new_answer in answer_options:
+                user_response_check = True
+            elif new_answer == '#':
+                user_response_check = True
+                print("\nYou have entered # to go back to Settings page.\n")
+                settings_page()
+            else:
+                print("\nYou entered an invalid option: {}.".format(new_answer))
+                new_answer = input("\nInput your answer to the question (Eg. Enter 1 for Option 1, Enter 2 for Option 2): ")
+
+    else:
+        new_question = input("Input your new question: ")
+
+        if new_question == '#':
+                print("\nYou have entered # to go back to Settings page.\n")
+                settings_page()
+
+        print("\nYou have entered:\nChapter number: {}\nQuestion: {}".format(chap_num, new_question))
+
+        new_answer = input("\nInput your answer to the question: ")
+
+        if new_answer == '#':
+                print("\nYou have entered # to go back to Settings page.\n")
+                settings_page()
+
+    print("\nYou have entered:\nChapter number: {}\nQuestion: {}\nAnswer: {}".format(chap_num, new_question, new_answer))
+
+    confirmation = input("\nTo confirm the addition of the above question, please enter 1: ")
+    
+    user_response_check = False
+    while not user_response_check:
+        if confirmation == "1":
+            user_response_check = True
+            
+            ### UPDATE QUESTION INTO DATABASE
+            #print("You have successfully added the question. Question unique id = {}".format())
+            #print("You will be directed back to Settings page.\n")
+            settings_page()
+
+        elif confirmation == '#':
+            user_response_check = True
+            print("\nYou have entered # to go back to Settings page.\n")
+            settings_page()
+        else:
+            print("\nYou entered an invalid command: {}.".format(confirmation))
+            confirmation = input("Please enter 1 to confirm your new question and answer or # to quit: ")
+
+    
 
 def setup():
     db_setup()
