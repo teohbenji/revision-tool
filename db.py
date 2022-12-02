@@ -222,7 +222,6 @@ def get_all_table_names(cursor):
 
     return results
 
-#TODO: In future, get_chapters_from_user_id
 def db_get_all_chapters(db='main'):
     """Gets list of all chapter data from chapters table
 
@@ -482,7 +481,7 @@ def db_get_newest_question_id(db = 'main'):
         db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
 
     Returns:
-        newest_qn_id: Question id of newest 
+        newest_qn_id: id of newest question
     """
     connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
     cursor = connection.cursor()

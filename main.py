@@ -1,4 +1,5 @@
 from db import *
+import os.path
 import random
 
 def home_page():
@@ -163,7 +164,6 @@ def campaign_scorecard_page(score, result_list):
 
     print("\n\n\n")
 
-#TODO: Pass in user id in future
 def campaign(chap_num):
     """Handles logic for campaign chapter, where user has to attempt 5 questions from selected chapter.
 
@@ -191,7 +191,6 @@ def campaign(chap_num):
         print("Congratulations, you just got a new highscore of {}/5!".format(current_score))
     
     # UI for new chapter being unlocked
-    # TODO: put this in a new function
     if current_score >= 4:
         #NOT BEING UNLOCKED
         db_update_chapter_unlocked(chap_num + 1)
@@ -461,9 +460,6 @@ Reset success! Returning you to homepage
             print("Please enter a valid command.")
             user_response = input("Please enter 1 to confirm, 2 to go back to the settings page, or # to return to the home page: ")
 
-def main():
-    home_page()
-
 def add_new_question():
     print("Hello, you are about to add a new question. Enter # at anytime to quit back to Settings page")
 
@@ -573,10 +569,17 @@ def add_new_question():
     elif confirmation == '#':
         print("\nYou have entered # to go back to Settings page.\n")
         settings_page()
-    
 
-def setup():
-    db_setup()
+def initial_setup():
+    """Setups if main.db doesn't exist"""
+    db_exists = os.path.exists('main.db')
 
-setup()
+    if not db_exists:
+        db_setup()
+
+def main():
+    """Main logic of program"""
+    initial_setup()
+    home_page()
+
 main()
