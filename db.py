@@ -32,7 +32,7 @@ class Question:
     """
     def __init__(self, id, chap_num, name):
         """Inits Question with id, chap_num, name."""
-        self._id = None if id == None else id
+        self._id = id
         self._chap_num = chap_num
         self._name = name
     
@@ -454,7 +454,7 @@ def db_get_answers_by_question_id(qn_id, db='main'):
 
     return answer_list
 
-def db_add_question(question):
+def db_add_question(question, db='main'):
     """Adds question into questions table
 
     question object has empty id value, only _chap_num and _name
@@ -465,7 +465,7 @@ def db_add_question(question):
     Returns:
         None
     """
-    connection = sqlite3.connect('main.db')
+    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
     cursor = connection.cursor()
     
     cursor.execute("INSERT INTO questions (chap_num, name) VALUES(?, ?)", (question._chap_num, question._name))
