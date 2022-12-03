@@ -13,27 +13,26 @@ Home page
     3 - Exit""")
     print("---------------")
 
-    user_response_check = False
     user_response = input("Please enter 1 to choose a game mode, 2 to go to settings or 3 to exit the game: ")
 
-    while not user_response_check:
-        if user_response == "1" or user_response == "Start" or user_response == "start":
-            user_response_check = True
-            print("\nYou have chosen 1 - Start to choose a game mode.")
-            mode_page()
-        elif user_response == "2" or user_response == "Settings" or user_response == "settings":
-            user_response_check = True
-            print("\nYou have chosen 2 - Settings.")
-            settings_page()
-        elif user_response == "3" or user_response == "Exit" or user_response == "exit":
-            user_response_check = True
-            print("\nYou have chosen 3 - Exit.")
-            print("Thank you for playing! :)")
-            quit()
-        else:
-            print("\nYou entered an invalid command: {}.".format(user_response))
-            print("Please enter a valid command.")
-            user_response = input("Please enter 1 to choose a game mode, 2 to go to settings or 3 to exit the game: ")
+    while user_response != "1" and user_response != "Start" and user_response != "start" and \
+          user_response != "2" and user_response != "Settings" and user_response != "settings" and \
+          user_response != "3" and user_response != "Exit" and user_response != "exit":
+
+        print("\nYou entered an invalid command: {}.".format(user_response))
+        print("Please enter a valid command.")
+        user_response = input("Please enter 1 to choose a game mode, 2 to go to settings or 3 to exit the game: ")
+
+    if user_response == "1" or user_response == "Start" or user_response == "start":
+        print("\nYou have chosen 1 - Start to choose a game mode.")
+        mode_page()
+    elif user_response == "2" or user_response == "Settings" or user_response == "settings":
+        print("\nYou have chosen 2 - Settings.")
+        settings_page()
+    elif user_response == "3" or user_response == "Exit" or user_response == "exit":
+        print("\nYou have chosen 3 - Exit.")
+        print("Thank you for playing! :)")
+        quit()
 
 def settings_page():
     """Creates settings page CLI
@@ -45,26 +44,24 @@ def settings_page():
     3 - Back to Home page""")
     print("---------------")
 
-    user_response_check = False
     user_response = input("Please enter 1 to add a question, 2 to reset program or 3 to go back to Home page: ")
 
-    while not user_response_check:
-        if user_response == "1" or user_response == "Add a question" or user_response == "add a question":
-            user_response_check = True
-            print("\nYou have chosen 1 - Add a question.")
-            add_new_question()
-        elif user_response == "2" or user_response == "??" or user_response == "??":
-            user_response_check = True
-            print("\nYou have chosen 2 - Reset program.")
-            reset_page()            
-        elif user_response == "3" or user_response == "Back to Home page" or user_response == "back to Home page":
-            user_response_check = True
-            print("\nYou have chosen 3 - Back to Home page.")
-            home_page()
-        else:
-            print("\nYou entered an invalid command: {}.".format(user_response))
-            print("Please enter a valid command.")
-            user_response = input("Please enter 1 to add a question, 2 to ?? or 3 to go back to Home page: ")
+    while user_response != "1" and user_response != "Add a question" and user_response != "add a question" and \
+          user_response != "2" and user_response != "Reset Program" and user_response != "reset Program" and \
+          user_response != "3" and user_response != "Back to Home page" and user_response != "back to Home page":
+        print("\nYou entered an invalid command: {}.".format(user_response))
+        print("Please enter a valid command.")
+        user_response = input("Please enter 1 to add a question, 2 to reset program or 3 to go back to Home page: ")
+
+    if user_response == "1" or user_response == "Add a question" or user_response == "add a question":
+        print("\nYou have chosen 1 - Add a question.")
+        add_new_question()
+    elif user_response == "2" or user_response == "Reset Program" or user_response == "reset program":
+        print("\nYou have chosen 2 - Reset program.")
+        reset_page()            
+    elif user_response == "3" or user_response == "Back to Home page" or user_response == "back to Home page":
+        print("\nYou have chosen 3 - Back to Home page.")
+        home_page()
 
 def mode_page():
     """Creates mode page CLI
@@ -77,26 +74,24 @@ def mode_page():
     3 - Back to Home page""")
     print("---------------")
 
-    user_response_check = False
     user_response = input("Please enter 1 to choose Campaign mode, 2 to choose Sudden death Mode or 3 to go back to Home page: ")
 
-    while not user_response_check:
-        if user_response == "1" or user_response == "Campaign" or user_response == "campaign":
-            user_response_check = True
-            print("\nYou have chosen 1 - Campaign to start Campaign mode.")
-            chapter_select_page()
-        elif user_response == "2" or user_response == "Sudden death" or user_response == "sudden death":
-            user_response_check = True
-            print("\nYou have chosen 2 - Sudden death")
-            sudden_death_page()
-        elif user_response == "3" or user_response == "Back to Home page" or user_response == "back to Home page":
-            user_response_check = True
-            print("\nYou have chosen 3 - Back to Home page.")
-            home_page()
-        else:
-            print("\nYou entered an invalid command: {}.".format(user_response))
-            print("Please enter a valid command.")
-            user_response = input("Please enter 1 to choose Campaign mode, 2 to choose Sudden death Mode or 3 to go back to Home page: ")
+    while user_response != "1" and user_response != "Campaign" and user_response != "campaign" and \
+          user_response != "2" and user_response != "Sudden death" and user_response != "sudden death" and \
+          user_response != "3" and user_response != "Back to Home page" and user_response != "back to Home page":
+        print("\nYou entered an invalid command: {}.".format(user_response))
+        print("Please enter a valid command.")
+        user_response = input("Please enter 1 to choose Campaign mode, 2 to choose Sudden death Mode or 3 to go back to Home page: ")
+
+    if user_response == "1" or user_response == "Campaign" or user_response == "campaign":
+        print("\nYou have chosen 1 - Campaign to start Campaign mode.")
+        chapter_select_page()
+    elif user_response == "2" or user_response == "Sudden death" or user_response == "sudden death":
+        print("\nYou have chosen 2 - Sudden death")
+        sudden_death_page()
+    elif user_response == "3" or user_response == "Back to Home page" or user_response == "back to Home page":
+        print("\nYou have chosen 3 - Back to Home page.")
+        home_page()
 
 def chapter_select_page():
     """Creates chapter select page CLI
@@ -164,6 +159,7 @@ def campaign_scorecard_page(score, result_list):
 
     print("\n\n\n")
 
+#TODO: Pass in user id in future
 def campaign(chap_num):
     """Handles logic for campaign chapter, where user has to attempt 5 questions from selected chapter.
 
@@ -191,107 +187,101 @@ def campaign(chap_num):
         print("Congratulations, you just got a new highscore of {}/5!".format(current_score))
     
     # UI for new chapter being unlocked
+    # TODO: put this in a new function
     if current_score >= 4:
         #NOT BEING UNLOCKED
         db_update_chapter_unlocked(chap_num + 1)
         if chap_num < 7:
             print("Congratulations! You have unlocked chapter {}!".format(chap_num + 1))
-            user_response_check = False
+
             user_response = input("Please enter 1 to attempt the next chapter, 2 to try this chapter again or # to go back to home page: ")
-            while user_response_check == False:
-                if user_response == "1":
-                    user_response_check = True
-                    campaign(chap_num + 1)
-                elif user_response == "2":
-                    user_response = True
-                    campaign(chap_num)
-                elif user_response == "#":
-                    user_response_check = True
-                    home_page()
-                else:
-                    print("\nYou entered an invalid command: {}.".format(user_response))
-                    print("Please enter a valid command.")
-                    user_response = input("Please enter 1 to try again or # to go back to home page: ")
-        else:
-            print("Congratulations! You have completed campaign mode!")
-            user_response_check = False
-            user_response = input("Please enter 1 to try this chapter again or # to go back to home page: ")
-            while user_response_check == False:
-                if user_response == "1":
-                    user_response_check = True
-                    campaign(chap_num)
-                elif user_response == "#":
-                    user_response_check = True
-                    home_page()
-                else:
-                    print("\nYou entered an invalid command: {}.".format(user_response))
-                    print("Please enter a valid command.")
-                    user_response = input("Please enter 1 to try again or # to go back to home page: ")
-    
-     # UI for failed attempt. Prompt to try again or return to home page
-    else:
-        user_response_check = False
-        user_response = input("Please enter 1 to try again or # to go back to home page: ")
-        while user_response_check == False:
+            
+            while user_response != "1" and user_response != "2" and user_response != "#":
+                print("\nYou entered an invalid command: {}.".format(user_response))
+                print("Please enter a valid command.")
+                user_response = input("Please enter 1 to attempt the next chapter, 2 to try this chapter again or # to go back to home page: ")
+
             if user_response == "1":
-                user_response_check = True
+                campaign(chap_num + 1)
+            elif user_response == "2":
                 campaign(chap_num)
             elif user_response == "#":
-                user_response_check = True
+                print("\nYou have chosen # - Back to Home page.")
                 home_page()
-            else:
+
+        else:
+            print("Congratulations! You have completed campaign mode!")
+
+            user_response = input("Please enter 1 to try this chapter again or # to go back to home page: ")
+            while user_response != "1" and user_response != "#":
                 print("\nYou entered an invalid command: {}.".format(user_response))
                 print("Please enter a valid command.")
                 user_response = input("Please enter 1 to try again or # to go back to home page: ")
 
-def sudden_death_page():
-    user_response_check = False
-    user_response = input("Please enter 1 to begin the sudden death game mode, 2 to view the top 5 highscores or # to go back to Home page: ")
+            if user_response == "1":
+                campaign(chap_num)
+            elif user_response == "#":
+                print("\nYou have chosen # - Back to Home page.")
+                home_page()
+    
+     # UI for failed attempt. Prompt to try again or return to home page
+    else:
+        print("\nYou failed to unlock the next chapter. :(")
+        user_response = input("Please enter 1 to try again or # to go back to home page: ")
 
-    while not user_response_check:
-        if user_response == "1":
-            user_response_check = True
-            print("\nYou have chosen 1 - Sudden death to start Sudden death. One wrong move you loseeeeeeee.")
-            grade_sudden_death()
-
-        elif user_response == "2":
-            user_response_check = True
-            print("\nYou have chosen 2 - These are your champions:")
-            highscores = get_highscores()
-            place = 1
-
-            for score in highscores:
-                print("{}) {} - {}".format(place, score._name, score._score))
-                place += 1
-                
-            print("\n")
-
-            user_response_check = False
-            user_response = input("Please enter 1 to attempt the sudden death game mode or # to go back to home page: ")
-
-            while not user_response_check:
-                if user_response == "1":
-                    user_response_check = True
-                    print("\nYou have chosen 1 - Sudden death to start Sudden death. One wrong move you loseeeeeeee.")
-                    grade_sudden_death()
-                    
-                elif user_response == "#":
-                    user_response_check = True
-                    home_page()
-
-                else:
-                    print("\nYou entered an invalid command: {}.".format(user_response))
-                    print("Please enter a valid command.")
-                    user_response = input("Please enter 1 to try again or # to go back to home page: ")
-
-        elif user_response == "#":
-            user_response_check = True
-            home_page()
-        else:
+        while user_response != "1" and user_response != "#":
             print("\nYou entered an invalid command: {}.".format(user_response))
             print("Please enter a valid command.")
             user_response = input("Please enter 1 to try again or # to go back to home page: ")
 
+        if user_response == "1":
+            campaign(chap_num)
+        elif user_response == "#":
+            print("\nYou have chosen # - Back to Home page.")
+            home_page()
+
+def sudden_death_page():
+    user_response = input("Please enter 1 to begin the sudden death game mode, 2 to view the top 5 highscores or # to go back to Home page: ")
+
+    while user_response != "1" and user_response != "2" and user_response != "#":
+        print("\nYou entered an invalid command: {}.".format(user_response))
+        print("Please enter a valid command.")
+        user_response = input("Please enter 1 to begin the sudden death game mode, 2 to view the top 5 highscores or # to go back to Home page: ")
+
+    if user_response == "1":
+        print("\nYou have chosen 1 - Sudden death to start Sudden death. One wrong move you loseeeeeeee.")
+        grade_sudden_death()
+
+    elif user_response == "#":
+        print("\nYou have chosen # - Back to Home page.")
+        home_page()
+
+    elif user_response == "2":
+        print("\nYou have chosen 2 - These are your champions:")
+        highscores = get_highscores()
+        place = 1
+
+        for score in highscores:
+            print("{}) {} - {}".format(place, score._name, score._score))
+            place += 1
+            
+        print("\n")
+
+        user_response = input("Please enter 1 to attempt the sudden death game mode or # to go back to home page: ")
+
+        while user_response != "1" and user_response != "#":
+            print("\nYou entered an invalid command: {}.".format(user_response))
+            print("Please enter a valid command.")
+            user_response = input("Please enter 1 to try again or # to go back to home page: ")
+
+        if user_response == "1":
+            print("\nYou have chosen 1 - Sudden death to start Sudden death. One wrong move you loseeeeeeee.")
+            grade_sudden_death()
+            
+        elif user_response == "#":
+            print("\nYou have chosen # - Back to Home page.")
+            home_page()
+ 
     # grade_sudden_death()
 
 def grade_sudden_death():
@@ -321,38 +311,37 @@ def grade_sudden_death():
             user_name = input("What name would you like to save this score under?")
             score = Score("", user_name, questions_correct)
             add_score(score)
-            user_response_check = False
+
             user_response = input("Please enter 1 to try again or # to go back to home page: ")
 
-            while user_response_check == False:
-                if user_response == "1":
-                    user_response_check = True
-                    grade_sudden_death()
-                elif user_response == "#":
-                    user_response_check = True
-                    home_page()
-                else:
-                    print("\nYou entered an invalid command: {}.".format(user_response))
-                    print("Please enter a valid command.")
-                    user_response = input("Please enter 1 to try again or # to go back to home page: ")
+            while user_response != "1" and user_response != "#":
+                print("\nYou entered an invalid command: {}.".format(user_response))
+                print("Please enter a valid command.")
+                user_response = input("Please enter 1 to try again or # to go back to home page: ")
+
+            if user_response == "1":
+                grade_sudden_death()
+            elif user_response == "#":
+                print("\nYou have chosen # - Back to Home page.")
+                home_page()
+
 
     print("Congratulations! You have completed the sudden death gamemode! You got all {} questions right!".format(questions_correct))
     user_name = input("What name would you like to save this score under?")
     score = Score("", user_name, questions_correct)
     add_score(score)
-    user_response_check = False
+
     user_response = input("Please enter 1 to try again or # to go back to home page: ")
-    while user_response_check == False:
-        if user_response == "1":
-            user_response_check = True
-            grade_sudden_death()
-        elif user_response == "#":
-            user_response_check = True
-            home_page()
-        else:
-            print("\nYou entered an invalid command: {}.".format(user_response))
-            print("Please enter a valid command.")
-            user_response = input("Please enter 1 to try again or # to go back to home page: ")
+    while user_response != "1" and user_response != "#":
+        print("\nYou entered an invalid command: {}.".format(user_response))
+        print("Please enter a valid command.")
+        user_response = input("Please enter 1 to try again or # to go back to home page: ")
+
+    if user_response == "1":
+        grade_sudden_death()
+    elif user_response == "#":
+        print("\nYou have chosen # - Back to Home page.")
+        home_page()
 
 def grade_campaign_questions(chap_num):
     """Cheks results of user attempting 5 questions from selected chapter.
@@ -437,28 +426,29 @@ ALL progress will be LOST, including new questions created,\n
 and the highscores in campaign and sudden death mode.
           """)
 
-    user_response_check = False
     user_response = input("Please enter 1 to confirm, 2 to go back to the settings page, or # to return to the home page: ")
 
-    while user_response_check == False:
-        if user_response == "1":
-            setup()
-            print("""--------------------
+    while user_response != "1" and user_response != "2" and user_response != "#":
+        print("\nYou entered an invalid command: {}.".format(user_response))
+        print("Please enter a valid command.")
+        user_response = input("Please enter 1 to confirm, 2 to go back to the settings page, or # to return to the home page: ")
+
+    if user_response == "1":
+        db_setup()
+        print("""--------------------
 Reset success! Returning you to homepage
 --------------------
-                  """)
-            home_page()
-            break
-        elif user_response == "2":
-            settings_page()
-            break
-        elif user_response == "#":
-            home_page()
-            break
-        else:
-            print("\nYou entered an invalid command: {}.".format(user_response))
-            print("Please enter a valid command.")
-            user_response = input("Please enter 1 to confirm, 2 to go back to the settings page, or # to return to the home page: ")
+                """)
+        home_page()
+        #break(This was here when using user_response_check) After changing while loop no need break right?
+    elif user_response == "2":
+        print("\nYou have chosen 2 - Back to Settings page.")
+        settings_page()
+        #break(This was here when using user_response_check) After changing while loop no need break right?
+    elif user_response == "#":
+        print("\nYou have chosen # - Back to Home page.")
+        home_page()
+        #break(This was here when using user_response_check) After changing while loop no need break right?
 
 def add_new_question():
     print("Hello, you are about to add a new question. Enter # at anytime to quit back to Settings page")
