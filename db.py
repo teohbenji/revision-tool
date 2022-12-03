@@ -490,10 +490,6 @@ def db_get_newest_question_id(db = 'main'):
     result = cursor.fetchall()
     (newest_qn_id,) = result[0]
 
-    print("--------------------")
-    print(newest_qn_id, type(newest_qn_id))
-    print("--------------------")
-
     return newest_qn_id
 
 def db_add_answer(answer, db = 'main'):
@@ -518,7 +514,7 @@ def db_add_answer(answer, db = 'main'):
     connection.close()
 
 
-def get_highscores(db='main'):
+def db_get_highscores(db='main'):
     """Gets list of the 5 highest scores in sudden death
 
     Args:
@@ -546,7 +542,7 @@ def get_highscores(db='main'):
 
     return scores_list
 
-def add_score(score, db='main'):
+def db_add_score(score, db='main'):
     """Add new score from sudden death mode
     Args:
         score: score object to be added

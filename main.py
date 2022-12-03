@@ -258,7 +258,7 @@ def sudden_death_page():
 
     elif user_response == "2":
         print("\nYou have chosen 2 - These are your champions:")
-        highscores = get_highscores()
+        highscores = db_get_highscores()
         place = 1
 
         for score in highscores:
@@ -310,7 +310,7 @@ def grade_sudden_death():
             print("You got {} questions correct!".format(questions_correct))
             user_name = input("What name would you like to save this score under?")
             score = Score("", user_name, questions_correct)
-            add_score(score)
+            db_add_score(score)
 
             user_response = input("Please enter 1 to try again or # to go back to home page: ")
 
@@ -329,7 +329,7 @@ def grade_sudden_death():
     print("Congratulations! You have completed the sudden death gamemode! You got all {} questions right!".format(questions_correct))
     user_name = input("What name would you like to save this score under?")
     score = Score("", user_name, questions_correct)
-    add_score(score)
+    db_add_score(score)
 
     user_response = input("Please enter 1 to try again or # to go back to home page: ")
     while user_response != "1" and user_response != "#":

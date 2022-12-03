@@ -18,6 +18,7 @@ def test_db_setup():
     test_setup_questions_table(cursor)
     test_setup_answers_table(cursor)
     test_setup_chapters_table(cursor)
+    test_setup_scores_table(cursor)
 
     connection.commit()
     cursor.close()
@@ -100,7 +101,37 @@ def test_setup_chapters_table(cursor):
 
     cursor.executemany("INSERT INTO chapters (chap_num, high_score, unlocked) VALUES(?, ?, ?)", chapter_list)  
 
+def test_setup_scores_table(cursor):
+    """Creates and populates scores table
+    
+    Args:
+        cursor: cursor object for executing SQLite queries
+
+    Returns:
+        None
+    """
+    create_table_query = """CREATE TABLE IF NOT EXISTS scores (
+                            id INTEGER PRIMARY KEY,
+                            name TEXT,
+                            score INTEGER
+                            )"""
+
+    cursor.execute(create_table_query)
+
+    # Populates table with scores list
+    scores_list = [("Alice", 1),
+                   ("Bob", 2),
+                   ("Jordan", 23),
+                   ("Ronaldo", 7),
+                   ("Messi", 10),
+                   ("Lebron", 6),
+                   ("Kobe", 24)
+                  ]
+
+    cursor.executemany("INSERT INTO scores (name, score) VALUES(?, ?)", scores_list)
+
 class Testdb(unittest.TestCase):
+    #Resets test.db whenever every test case is run
     def setUp(self):
         test_db_setup()
 
@@ -127,8 +158,8 @@ class Testdb(unittest.TestCase):
         self.assertTrue(3 in db_get_unlocked_chap_nums("test"))
 
     def test_db_get_all_questions(self):
-        self.assertEqual(db_get_all_questions("test"), [Question(1, 1, "Chap 1 Q1"), Question(2, 1, "Chap 1 Q1"), 
-                                                        Question(4, 3, "Chap 2 Q1"), Question(5, 4, "Chap 3 Q1")])
+        self.assertEqual(db_get_all_questions("test"), [Question(1, 1, "Chap 1 Q1"), Question(2, 1, "Chap 1 Q2"), 
+                                                        Question(3, 2, "Chap 2 Q1"), Question(4, 3, "Chap 3 Q1")])
 
     def test_db_get_questions_by_chap_num(self):
         self.assertEqual(db_get_questions_by_chap_num(1, "test"), [Question(1, 1, "Chap 1 Q1"), Question(2, 1, "Chap 1 Q2")])
@@ -138,6 +169,21 @@ class Testdb(unittest.TestCase):
         self.assertEqual(db_get_answers_by_question_id(1, "test"), [Answer(1, 1, "Chap 1 Q1 A1"), Answer(2, 1, "Chap 1 Q1 A2")])
         self.assertEqual(db_get_answers_by_question_id(2, "test"), [Answer(3, 2, "Chap 1 Q2 A1")])
 
+    def test_get_newest_question_id(self):
+        self.assertEqual(db_get_newest_question_id("test"), 4)
+    
+    def test_db_add_question(self):
+        db_add_question(Question("", 4, "Chap 4 Q1"), "test")
+        self.assertEqual(db_get_newest_question_id("test"), 5)
+    
+    def test_get_highscores(self):
+        self.assertEqual(db_get_highscores("test"), [Score(7, "Kobe", 24), Score(3, "Jordan", 23), Score(5, "Messi", 10),
+                                                     Score(4, "Ronaldo", 7), Score(6, "Lebron", 6)])
+
+    def test_add_score(self):
+        db_add_score(Score("", "Trent", 66), "test")
+        self.assertEqual(db_get_highscores("test"), [Score(8, "Trent", 66), Score(7, "Kobe", 24), Score(3, "Jordan", 23), 
+                                                     Score(5, "Messi", 10), Score(4, "Ronaldo", 7)])
 if __name__ == '__main__':
     unittest.main()
 
