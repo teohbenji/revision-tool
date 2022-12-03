@@ -40,27 +40,32 @@ def settings_page():
     Includes options to add question or return to home page"""
     print("""Settings page
     1 - Add a question
-    2 - Reset program
-    3 - Back to Home page""")
+    2 - Remove a question
+    3 - Reset program
+    4 - Back to Home page""")
     print("---------------")
 
-    user_response = input("Please enter 1 to add a question, 2 to reset program or 3 to go back to Home page: ")
+    user_response = input("Please enter 1 to add a question, 2 to remove a question, 3 to reset program or 4 to go back to Home page: ")
 
     while user_response != "1" and user_response != "Add a question" and user_response != "add a question" and \
-          user_response != "2" and user_response != "Reset Program" and user_response != "reset Program" and \
-          user_response != "3" and user_response != "Back to Home page" and user_response != "back to Home page":
+          user_response != "2" and user_response != "Remove a question" and user_response != "remove a question" and \
+          user_response != "3" and user_response != "Reset Program" and user_response != "reset Program" and \
+          user_response != "4" and user_response != "Back to Home page" and user_response != "back to Home page":
         print("\nYou entered an invalid command: {}.".format(user_response))
         print("Please enter a valid command.")
-        user_response = input("Please enter 1 to add a question, 2 to reset program or 3 to go back to Home page: ")
+        user_response = input("Please enter 1 to add a question, 2 to remove a question, 3 to reset program or 4 to go back to Home page: ")
 
     if user_response == "1" or user_response == "Add a question" or user_response == "add a question":
         print("\nYou have chosen 1 - Add a question.")
         add_new_question()
-    elif user_response == "2" or user_response == "Reset Program" or user_response == "reset program":
-        print("\nYou have chosen 2 - Reset program.")
-        reset_page()            
-    elif user_response == "3" or user_response == "Back to Home page" or user_response == "back to Home page":
-        print("\nYou have chosen 3 - Back to Home page.")
+    elif user_response == "2" or user_response == "Remove a question" or user_response == "remove a question":
+        print("\nYou have chosen 2 - Remove a question.")
+        remove_question_page()
+    elif user_response == "3" or user_response == "Reset Program" or user_response == "reset Program":
+        print("\nYou have chosen 3 - Reset program.")
+        reset_page()         
+    elif user_response == "4" or user_response == "Back to Home page" or user_response == "back to Home page":
+        print("\nYou have chosen 4 - Back to Home page.")
         home_page()
 
 def mode_page():
@@ -560,6 +565,84 @@ def add_new_question():
         print("\nYou have entered # to go back to Settings page.\n")
         settings_page()
 
+def remove_question_page():
+    print("\nHello, you are about to remove a question. Enter # at anytime to quit back to Settings page")
+    print("1 - Remove specific question (Based on unique question id number. If you do not know the unique question id, pick option 2.)\
+        \n2 - Show all unique question id, question and answer\
+        \n# - Go back to Settings page")
+
+    user_response = input("Please enter 1 to remove a question, 2 to show all questions and answers, or # to return to the Settings page: ")
+
+    while user_response != "1" and user_response != "2" and user_response != "#":
+        print("\nYou entered an invalid command: {}.".format(user_response))
+        print("Please enter a valid command.")
+        user_response = input("Please enter 1 to remove a question, 2 to show all questions and answers, or # to return to the Settings page: ")
+
+    if user_response == "1":
+        print("\nYou have chosen 1 - Remove specific question.")
+        #ASK FOR WHICH UNIQUE ID
+        user_response = input("\nPlease enter the unique ID number of the question you wish to remove: ")
+        valid_qn_id = db_get_all_qn_id()
+        while user_response not in valid_qn_id and user_response != '#':
+            print("\nYou entered an invalid command: {}.".format(user_response))
+            print("Please enter a valid command.")
+            user_response = input("Enter # to go back to Settings. If not, please enter a valid unique ID number of the question you wish to remove: ")
+        if user_response == "#":
+            print("\nYou have chosen # - Back to Settings page.")
+            settings_page()
+        elif user_response in valid_qn_id:
+            db_remove_question_by_id(int(user_response))
+            db_remove_answer_by_qn_id(int(user_response))
+            print("\nYou have successfully deleted the question and answer with unique id: {}".format(user_response))
+            print("You will be directed back to Settings page\n")
+            settings_page()
+
+    elif user_response == "#":
+        print("\nYou have chosen # - Back to Settings page.")
+        settings_page()
+
+    elif user_response == "2":
+        print("\nYou have chosen 2 - Show all qestions and answers.")
+        show_all_qn_and_answer()
+
+        user_response = input("Please enter 1 to remove a question or # to return to the Settings page: ")
+
+        while user_response != "1" and user_response != "#":
+            print("\nYou entered an invalid command: {}.".format(user_response))
+            print("Please enter a valid command.")
+            user_response = input("Please enter 1 to remove a question or # to return to the Settings page: ")
+
+        if user_response == "1":
+            print("\nYou have chosen 1 - Remove specific question.")
+            #REMOVE QUESTION FUNCTION
+        elif user_response == "#":
+            print("\nYou have chosen # - Back to Settings page.")
+            settings_page()
+
+
+def show_all_qn_and_answer():
+    chapter_question_list = db_sort_question_by_chapter(db='main')
+    chapter_answer_list = db_sort_answer_by_chapter(chapter_question_list, db = 'main')
+
+    print("--------------------------------")
+    for chapter_list, chapter_list2 in zip(chapter_question_list, chapter_answer_list):
+
+        print("Chapter {} Questions\n".format(chapter_list[0]._chap_num))
+        for question, answer in zip(chapter_list, chapter_list2):
+            if len(answer) == 1:
+                print("\nQuestion Unique ID: {} \
+                    \nQuestion: {} \
+                    \nAnswer: {} ".format (question._id, question._name, answer[0]._name))
+            else:
+                multiple_answer_string = ""
+                for multipleanswer in answer:
+                    multiple_answer_string += "{}/".format(multipleanswer._name)
+                print("\nQuestion Unique ID: {} \
+                    \nQuestion: {} \
+                    \nMultiple way to answer: {} ".format (question._id, question._name, multiple_answer_string))
+
+        print("\n--------------------------------")
+
 def initial_setup():
     """Setups if main.db doesn't exist"""
     db_exists = os.path.exists('main.db')
@@ -573,3 +656,5 @@ def main():
     home_page()
 
 main()
+
+

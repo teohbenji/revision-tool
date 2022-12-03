@@ -559,3 +559,83 @@ def db_add_score(score, db='main'):
     connection.commit()
     cursor.close()
     connection.close()
+
+def db_sort_question_by_chapter(db='main'):
+    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    cursor = connection.cursor()
+    
+    cursor.execute("SELECT chap_num FROM questions" )
+    chapter_set = set(cursor.fetchall())
+
+    chapter_question_list = []
+
+    for chap_tuple in chapter_set:
+        (chap_num, ) = chap_tuple
+        cursor.execute("SELECT * FROM questions WHERE chap_num = ?", (chap_num,))
+
+        
+        question_list = []
+        #(last_chap, ) = list(chapter_set)[-1]
+        results = cursor.fetchall()
+
+        # Save each result in Question object
+        for result in results:
+            question = Question(result[0], result[1], result[2])
+            question_list.append(question)
+
+        chapter_question_list.append(question_list)
+
+    cursor.close()
+    connection.close()
+    
+    return chapter_question_list
+
+def db_sort_answer_by_chapter(chapter_question_list, db = 'main'):
+    
+    chapter_answer_list = []
+    for chapter in chapter_question_list:
+        answer_list = []
+        for question in chapter:
+            answer = db_get_answers_by_question_id(question._id)
+            answer_list.append(answer)
+            
+        chapter_answer_list.append(answer_list)
+        
+    return chapter_answer_list
+
+def db_get_all_qn_id(db='main'):
+    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    cursor = connection.cursor()
+    
+    cursor.execute("SELECT id FROM questions" )
+    id_list = cursor.fetchall()
+    str_id_list = []
+    for id_tuple in id_list:
+        (id,) = id_tuple
+        str_id_list.append(str(id))
+
+    cursor.close()
+    connection.close()
+    
+    return str_id_list
+
+def db_remove_question_by_id(id, db = 'main'):
+    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    cursor = connection.cursor()
+    
+    cursor.execute("DELETE FROM questions where id = ?" , (id,))
+
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+def db_remove_answer_by_qn_id(qn_id, db = 'main'):
+    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    cursor = connection.cursor()
+    
+    cursor.execute("DELETE FROM answers where qn_id = ?" , (qn_id,))
+
+    connection.commit()
+    cursor.close()
+    connection.close()
+
