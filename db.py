@@ -590,8 +590,9 @@ def db_sort_question_by_chapter(db='main'):
     
     return chapter_question_list
 
+#TODO: this is not a database fn, xfer to main.py
 def db_sort_answer_by_chapter(chapter_question_list, db = 'main'):
-    
+    #TODO: write docstring
     chapter_answer_list = []
     for chapter in chapter_question_list:
         answer_list = []
@@ -604,6 +605,7 @@ def db_sort_answer_by_chapter(chapter_question_list, db = 'main'):
     return chapter_answer_list
 
 def db_get_all_qn_id(db='main'):
+    #TODO: write docstring
     connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
     cursor = connection.cursor()
     
@@ -620,6 +622,7 @@ def db_get_all_qn_id(db='main'):
     return str_id_list
 
 def db_remove_question_by_id(id, db = 'main'):
+    #TODO: write docstring
     connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
     cursor = connection.cursor()
     
@@ -630,6 +633,7 @@ def db_remove_question_by_id(id, db = 'main'):
     connection.close()
 
 def db_remove_answer_by_qn_id(qn_id, db = 'main'):
+    #TODO: write docstring
     connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
     cursor = connection.cursor()
     
