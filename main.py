@@ -685,22 +685,22 @@ def show_all_qns_and_answers_page():
 
         print("\n--------------------------------")
 
+    user_response = input("Please enter 1 to remove a question or # to return to the Settings page: ")
+
+    #Reprompts user for valid user_response input
+    while user_response != "1" and user_response != "#":
+        print("\nYou entered an invalid command: {}.".format(user_response))
+        print("Please enter a valid command.")
         user_response = input("Please enter 1 to remove a question or # to return to the Settings page: ")
 
-        #Reprompts user for valid user_response input
-        while user_response != "1" and user_response != "#":
-            print("\nYou entered an invalid command: {}.".format(user_response))
-            print("Please enter a valid command.")
-            user_response = input("Please enter 1 to remove a question or # to return to the Settings page: ")
-
-        #Redirects user based on user_response
-        if user_response == "1":
-            print("\nYou have chosen 1 - Remove specific question.")
-            remove_question()
-            
-        elif user_response == "#":
-            print("\nYou have chosen # - Back to Settings page.")
-            settings_page()
+    #Redirects user based on user_response
+    if user_response == "1":
+        print("\nYou have chosen 1 - Remove specific question.")
+        remove_question()
+        
+    elif user_response == "#":
+        print("\nYou have chosen # - Back to Settings page.")
+        settings_page()
 
 def sort_answer_by_chapter(chapter_question_list):
     """Sorts answer objects by chapter
