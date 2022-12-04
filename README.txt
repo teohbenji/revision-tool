@@ -8,31 +8,24 @@ Concepts tested include loops, strings, dictionaries etc.
 Quiz questions adapted from SUTD's 10.014 Computational Thinking Design course with permission.
 
 
-
 ## Installation
 
 No external libraries required. To start the program, run the following command. 
-
-```bash
   main.py
-```
+
     
 ## Running Tests
 
 To run tests, run the following command
-
-```bash
   test_db.py
-```
 
 
 ## Features
 
 - Campaign mode
 - Sudden death mode, with highscores table
-- Add/remove questions and answers
+- Addremove questions and answers
 - Reset program
-
 
 ## Tech Stack
 
