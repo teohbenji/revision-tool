@@ -581,21 +581,7 @@ def remove_question_page():
     if user_response == "1":
         print("\nYou have chosen 1 - Remove specific question.")
         #ASK FOR WHICH UNIQUE ID
-        user_response = input("\nPlease enter the unique ID number of the question you wish to remove: ")
-        valid_qn_id = db_get_all_qn_id()
-        while user_response not in valid_qn_id and user_response != '#':
-            print("\nYou entered an invalid command: {}.".format(user_response))
-            print("Please enter a valid command.")
-            user_response = input("Enter # to go back to Settings. If not, please enter a valid unique ID number of the question you wish to remove: ")
-        if user_response == "#":
-            print("\nYou have chosen # - Back to Settings page.")
-            settings_page()
-        elif user_response in valid_qn_id:
-            db_remove_question_by_id(int(user_response))
-            db_remove_answer_by_qn_id(int(user_response))
-            print("\nYou have successfully deleted the question and answer with unique id: {}".format(user_response))
-            print("You will be directed back to Settings page\n")
-            settings_page()
+        remove_question()
 
     elif user_response == "#":
         print("\nYou have chosen # - Back to Settings page.")
@@ -615,10 +601,28 @@ def remove_question_page():
         if user_response == "1":
             print("\nYou have chosen 1 - Remove specific question.")
             #REMOVE QUESTION FUNCTION
+            remove_question()
+            
         elif user_response == "#":
             print("\nYou have chosen # - Back to Settings page.")
             settings_page()
 
+def remove_question():
+    user_response = input("\nPlease enter the unique ID number of the question you wish to remove: ")
+    valid_qn_id = db_get_all_qn_id()
+    while user_response not in valid_qn_id and user_response != '#':
+        print("\nYou entered an invalid command: {}.".format(user_response))
+        print("Please enter a valid command.")
+        user_response = input("Enter # to go back to Settings. If not, please enter a valid unique ID number of the question you wish to remove: ")
+    if user_response == "#":
+        print("\nYou have chosen # - Back to Settings page.")
+        settings_page()
+    elif user_response in valid_qn_id:
+        db_remove_question_by_id(int(user_response))
+        db_remove_answer_by_qn_id(int(user_response))
+        print("\nYou have successfully deleted the question and answer with unique id: {}".format(user_response))
+        print("You will be directed back to Settings page\n")
+        settings_page()
 
 def show_all_qn_and_answer():
     chapter_question_list = db_sort_question_by_chapter(db='main')
