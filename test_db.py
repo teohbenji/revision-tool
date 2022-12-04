@@ -176,14 +176,26 @@ class Testdb(unittest.TestCase):
         db_add_question(Question("", 4, "Chap 4 Q1"), "test")
         self.assertEqual(db_get_newest_question_id("test"), 5)
     
-    def test_get_highscores(self):
+    def test_db_get_highscores(self):
         self.assertEqual(db_get_highscores("test"), [Score(7, "Kobe", 24), Score(3, "Jordan", 23), Score(5, "Messi", 10),
                                                      Score(4, "Ronaldo", 7), Score(6, "Lebron", 6)])
 
-    def test_add_score(self):
+    def test_db_add_score(self):
         db_add_score(Score("", "Trent", 66), "test")
         self.assertEqual(db_get_highscores("test"), [Score(8, "Trent", 66), Score(7, "Kobe", 24), Score(3, "Jordan", 23), 
                                                      Score(5, "Messi", 10), Score(4, "Ronaldo", 7)])
+
+    def test_db_get_all_question_ids(self):
+        self.assertEqual(db_get_all_question_ids("test"), ['1', '2', '3', '4'])
+
+    def test_db_remove_question_by_id(self):
+        db_remove_question_by_id(4, "test")
+        self.assertEqual(db_get_newest_question_id("test"), 3)
+
+    def test_db_remove_answer_by_question_id(self):
+        db_remove_answer_by_question_id(4, "test")
+        self.assertEqual(db_get_answers_by_question_id(4, "test"), [])
+
 if __name__ == '__main__':
     unittest.main()
 

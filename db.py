@@ -594,7 +594,7 @@ def db_get_questions_sorted_by_chapter(db='main'):
     
     return chapter_question_list
 
-def db_get_all_qn_id(db='main'):
+def db_get_all_question_ids(db='main'):
     """Gets a list of all question ids from questions table
 
     Args:
@@ -638,7 +638,7 @@ def db_remove_question_by_id(qn_id, db = 'main'):
     cursor.close()
     connection.close()
 
-def db_remove_answer_by_qn_id(qn_id, db = 'main'):
+def db_remove_answer_by_question_id(qn_id, db = 'main'):
     """Deletes answer(s) from answers table using qn_id
 
     Args:

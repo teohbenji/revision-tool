@@ -725,7 +725,7 @@ def sort_answer_by_chapter(chapter_question_list):
 def remove_question():
     """Deletes question based on qn id that user inputs"""
     qn_id = input("\nPlease enter the unique ID number of the question you wish to remove: ")
-    valid_qn_id_list = db_get_all_qn_id()
+    valid_qn_id_list = db_get_all_question_ids()
 
     #Reprompts user for valid qn_id input
     while qn_id not in valid_qn_id_list and qn_id != '#':
@@ -740,7 +740,7 @@ def remove_question():
 
     elif qn_id in valid_qn_id_list:
         db_remove_question_by_id(int(qn_id))
-        db_remove_answer_by_qn_id(int(qn_id))
+        db_remove_answer_by_question_id(int(qn_id))
 
         print("\nYou have successfully deleted the question and answer with unique id: {}".format(qn_id))
         print("You will be directed back to Settings page\n")
