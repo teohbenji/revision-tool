@@ -6,8 +6,7 @@ def home_page():
     """Creates home page CLI
     
     Includes options to start program, access settings or exit program"""
-    print("""---------------  
-Home page
+    print("""---------------\nHome page
     1 - Start
     2 - Settings
     3 - Exit""")
@@ -15,6 +14,7 @@ Home page
 
     user_response = input("Please enter 1 to choose a game mode, 2 to go to settings or 3 to exit the game: ")
 
+    #Reprompts user for valid user_response input
     while user_response != "1" and user_response != "Start" and user_response != "start" and \
           user_response != "2" and user_response != "Settings" and user_response != "settings" and \
           user_response != "3" and user_response != "Exit" and user_response != "exit":
@@ -23,6 +23,7 @@ Home page
         print("Please enter a valid command.")
         user_response = input("Please enter 1 to choose a game mode, 2 to go to settings or 3 to exit the game: ")
 
+    #Redirects user based on user_response
     if user_response == "1" or user_response == "Start" or user_response == "start":
         print("\nYou have chosen 1 - Start to choose a game mode.")
         mode_page()
@@ -38,8 +39,7 @@ def settings_page():
     """Creates settings page CLI
     
     Includes options to add question or return to home page"""
-    print("""---------------
-Settings page
+    print("""---------------\nSettings page
     1 - Add a question
     2 - Remove a question
     3 - Reset program
@@ -48,6 +48,7 @@ Settings page
 
     user_response = input("Please enter 1 to add a question, 2 to remove a question, 3 to reset program or # to go back to Home page: ")
 
+    #Reprompts user for valid user_response input
     while user_response != "1" and user_response != "Add a question" and user_response != "add a question" and \
           user_response != "2" and user_response != "Remove a question" and user_response != "remove a question" and \
           user_response != "3" and user_response != "Reset Program" and user_response != "reset Program" and \
@@ -56,6 +57,7 @@ Settings page
         print("Please enter a valid command.")
         user_response = input("Please enter 1 to add a question, 2 to remove a question, 3 to reset program or # to go back to Home page: ")
 
+    #Redirects user based on user_response
     if user_response == "1" or user_response == "Add a question" or user_response == "add a question":
         print("\nYou have chosen 1 - Add a question.")
         add_new_question_page()
@@ -77,11 +79,13 @@ def reset_page():
 
     user_response = input("Please enter 1 to confirm or # to go back to the settings page: ")
 
+    #Reprompts user for valid user_response input
     while user_response != "1" and user_response != "#":
         print("\nYou entered an invalid command: {}.".format(user_response))
         print("Please enter a valid command.")
         user_response = input("Please enter 1 to confirm, # to go back to the settings page: ")
 
+    #Resets database
     if user_response == "1":
         db_setup()
         print("\n---------------------------------------------------")
@@ -91,6 +95,7 @@ def reset_page():
     else:
         print("\nYou have chosen # - Back to Settings page.")
 
+    #Returns user back to settings page
     settings_page()
 
 def mode_page():
@@ -106,6 +111,7 @@ def mode_page():
 
     user_response = input("Please enter 1 to choose Campaign mode, 2 to choose Sudden death Mode or # to go back to Home page: ")
 
+    #Reprompts user for valid user_response input
     while user_response != "1" and user_response != "Campaign" and user_response != "campaign" and \
           user_response != "2" and user_response != "Sudden death" and user_response != "sudden death" and \
           user_response != "#" and user_response != "Back to Home page" and user_response != "back to Home page":
@@ -113,6 +119,7 @@ def mode_page():
         print("Please enter a valid command.")
         user_response = input("Please enter 1 to choose Campaign mode, 2 to choose Sudden death Mode or # to go back to Home page: ")
 
+    #Redirects user based on user_response
     if user_response == "1" or user_response == "Campaign" or user_response == "campaign":
         print("\nYou have chosen 1 - Campaign to start Campaign mode.")
         chapter_select_page()
@@ -132,6 +139,7 @@ def chapter_select_page():
 
     unlocked_chap_nums_list = db_get_unlocked_chap_nums()
     locked_chap_nums_list = db_get_locked_chap_nums()
+
     #Valid inputs refer to inputs with correct chapter numbers, and invalid inputs refers to inputs with wrong chapter numbers
     correct_inputs_list = []
     wrong_inputs_list = []
@@ -158,12 +166,14 @@ def chapter_select_page_input_validation(valid_inputs_list, invalid_inputs_list)
         and user has to select chapter again
     """
     user_response = input("Please enter 1 to choose Chapter 1, 2 to choose Chapter 2, so on and so forth or # to go back to Mode page: ")
-    
+    #Redirects user based on user_response
     if user_response in valid_inputs_list:
         chap_num = int(user_response[-1])
         campaign(chap_num)
     elif user_response == "#" or user_response == "Back to Mode page" or user_response == "back to Mode page":
         mode_page()
+
+    #Reprompts user for valid user_response input
     elif user_response in invalid_inputs_list:
         chap_num = int(user_response[-1])
         print("\nChapter {} is locked.".format(chap_num))
@@ -189,7 +199,6 @@ def campaign_scorecard_page(score, result_list):
 
     print("\n\n\n")
 
-#TODO: Pass in user id in future
 def campaign(chap_num):
     """Handles logic for campaign chapter, where user has to attempt 5 questions from selected chapter.
 
@@ -217,20 +226,21 @@ def campaign(chap_num):
         print("Congratulations, you just got a new highscore of {}/5!".format(current_score))
     
     # UI for new chapter being unlocked
-    # TODO: put this in a new function
     if current_score >= 4:
-        #NOT BEING UNLOCKED
         db_update_chapter_unlocked(chap_num + 1)
+
         if chap_num < 7:
             print("Congratulations! You have unlocked chapter {}!".format(chap_num + 1))
 
             user_response = input("Please enter 1 to attempt the next chapter, 2 to try this chapter again or # to go back to home page: ")
             
+            #Reprompts user for valid user_response input
             while user_response != "1" and user_response != "2" and user_response != "#":
                 print("\nYou entered an invalid command: {}.".format(user_response))
                 print("Please enter a valid command.")
                 user_response = input("Please enter 1 to attempt the next chapter, 2 to try this chapter again or # to go back to home page: ")
 
+            #Redirects user based on user_response
             if user_response == "1":
                 campaign(chap_num + 1)
             elif user_response == "2":
@@ -243,11 +253,14 @@ def campaign(chap_num):
             print("Congratulations! You have completed campaign mode!")
 
             user_response = input("Please enter 1 to try this chapter again or # to go back to home page: ")
+
+            #Reprompts user for valid user_response input
             while user_response != "1" and user_response != "#":
                 print("\nYou entered an invalid command: {}.".format(user_response))
                 print("Please enter a valid command.")
                 user_response = input("Please enter 1 to try again or # to go back to home page: ")
 
+            #Redirects user based on user_response
             if user_response == "1":
                 campaign(chap_num)
             elif user_response == "#":
@@ -259,11 +272,13 @@ def campaign(chap_num):
         print("\nYou failed to unlock the next chapter. :(")
         user_response = input("Please enter 1 to try again or # to go back to home page: ")
 
+        #Reprompts user for valid user_response input
         while user_response != "1" and user_response != "#":
             print("\nYou entered an invalid command: {}.".format(user_response))
             print("Please enter a valid command.")
             user_response = input("Please enter 1 to try again or # to go back to home page: ")
 
+        #Redirects user based on user_response
         if user_response == "1":
             campaign(chap_num)
         elif user_response == "#":
@@ -271,13 +286,16 @@ def campaign(chap_num):
             home_page()
 
 def sudden_death_page():
+    """Creates scorecard page CLI."""
     user_response = input("Please enter 1 to begin the sudden death game mode, 2 to view the top 5 highscores or # to go back to Home page: ")
 
+    #Reprompts user for valid user_response input
     while user_response != "1" and user_response != "2" and user_response != "#":
         print("\nYou entered an invalid command: {}.".format(user_response))
         print("Please enter a valid command.")
         user_response = input("Please enter 1 to begin the sudden death game mode, 2 to view the top 5 highscores or # to go back to Home page: ")
 
+    #Redirects user based on user_response
     if user_response == "1":
         print("\nYou have chosen 1 - Sudden death to start Sudden death. One wrong move you loseeeeeeee.")
         grade_sudden_death()
@@ -298,12 +316,13 @@ def sudden_death_page():
         print("\n")
 
         user_response = input("Please enter 1 to attempt the sudden death game mode or # to go back to home page: ")
-
+        #Reprompts user for valid user_response input
         while user_response != "1" and user_response != "#":
             print("\nYou entered an invalid command: {}.".format(user_response))
             print("Please enter a valid command.")
             user_response = input("Please enter 1 to try again or # to go back to home page: ")
 
+        #Redirects user based on user_response
         if user_response == "1":
             print("\nYou have chosen 1 - Sudden death to start Sudden death. One wrong move you loseeeeeeee.")
             grade_sudden_death()
@@ -312,61 +331,69 @@ def sudden_death_page():
             print("\nYou have chosen # - Back to Home page.")
             home_page()
  
-    # grade_sudden_death()
-
 def grade_sudden_death():
     """Handles logic for sudden death mode.
 
     User answers every question in questions table. If user gets question wrong, the mode ends.
-
-    Args:
-        None
-
-    Returns:
-        None
     """
-    questions_correct = 0
+    correct_qns_num = 0
     questions_list = db_get_all_questions()
 
     while len(questions_list) > 0:
         question = random.choice(questions_list)
         answers_list = db_get_answers_by_question_id(question._id)
-        isResultCorrect = grade_question_page(question, answers_list)
+        isAnswerCorrect = grade_question_page(question, answers_list)
 
-        if isResultCorrect:
-            questions_correct += 1
+        #User gets answer right
+        if isAnswerCorrect:
+            correct_qns_num += 1
             questions_list.pop(questions_list.index(question))
+
+        #User gets answer wrong    
         else:
-            print("You got {} questions correct!".format(questions_correct))
+            print("You got {} questions correct!".format(correct_qns_num))
             user_name = input("What name would you like to save this score under?")
-            score = Score("", user_name, questions_correct)
+            score = Score("", user_name, correct_qns_num)
             db_add_score(score)
 
             user_response = input("Please enter 1 to try again or # to go back to home page: ")
-
+            #Reprompts user for valid user_response input
             while user_response != "1" and user_response != "#":
                 print("\nYou entered an invalid command: {}.".format(user_response))
                 print("Please enter a valid command.")
                 user_response = input("Please enter 1 to try again or # to go back to home page: ")
 
+            #Redirects user based on user_response
             if user_response == "1":
                 grade_sudden_death()
+
             elif user_response == "#":
                 print("\nYou have chosen # - Back to Home page.")
                 home_page()
+    
+    complete_sudden_death_page(correct_qns_num)
 
-
-    print("Congratulations! You have completed the sudden death gamemode! You got all {} questions right!".format(questions_correct))
+def complete_sudden_death_page(correct_qns_num):
+    """CLI displayed after user gets every sudden death question correct
+    
+    Args:
+        correct_qns_num: Number of questions user answered correctly
+    
+    """
+    print("Congratulations! You have completed the sudden death gamemode! You got all {} questions right!".format(correct_qns_num))
     user_name = input("What name would you like to save this score under?")
-    score = Score("", user_name, questions_correct)
+
+    score = Score("", user_name, correct_qns_num)
     db_add_score(score)
 
+    #Reprompts user for valid user_response input
     user_response = input("Please enter 1 to try again or # to go back to home page: ")
     while user_response != "1" and user_response != "#":
         print("\nYou entered an invalid command: {}.".format(user_response))
         print("Please enter a valid command.")
         user_response = input("Please enter 1 to try again or # to go back to home page: ")
 
+    #Redirects user based on user_response
     if user_response == "1":
         grade_sudden_death()
     elif user_response == "#":
@@ -374,7 +401,7 @@ def grade_sudden_death():
         home_page()
 
 def grade_campaign_questions(chap_num):
-    """Cheks results of user attempting 5 questions from selected chapter.
+    """Checks results of user attempting 5 questions from selected chapter.
 
     Args:
         chap_num: chapter number
@@ -388,7 +415,7 @@ def grade_campaign_questions(chap_num):
     result_list = []
     questions_list = db_get_questions_by_chap_num(chap_num)
     
-    #Choose 5 questions out of all the questions in the chapter
+    #Choose random 5 questions from all the questions in the chapter
     random_questions_list = random.sample(questions_list, 5)
 
     for question in random_questions_list:
@@ -415,7 +442,7 @@ def grade_question_page(question, answers_list):
         answers_list: list of Answer objects
         
     Returns:
-        Boolean depending on user's answer
+        True if correct answer, False if wrong answer
     """
     grading = "wrong"
     print("\n\nQuestion: {}".format(question._name))
