@@ -232,7 +232,7 @@ def db_get_all_chapters(db='main'):
         A list of data for each chapter. Each row is represented as a Chapter object, and then appended into
         chapters_list.
     """
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
 
     cursor.execute("SELECT * FROM chapters")
@@ -258,7 +258,7 @@ def db_get_unlocked_chap_nums(db='main'):
     Returns:
         A list of unlocked chapter numbers.
     """
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
 
     cursor.execute("SELECT chap_num FROM chapters where unlocked = 1")
@@ -284,7 +284,7 @@ def db_get_locked_chap_nums(db='main'):
     Returns:
         A list of locked chapter numbers.
     """
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
 
     cursor.execute("SELECT chap_num FROM chapters where unlocked = 0")
@@ -310,7 +310,7 @@ def db_get_chapter_high_score(chap_num, db='main'):
     Returns:
         High score of chapter
     """
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
 
     cursor.execute("SELECT high_score FROM chapters WHERE chap_num = ?", (chap_num,))
@@ -334,7 +334,7 @@ def db_update_chapter_high_score(chap_num, new_high_score, db='main'):
         None
     """
     
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
 
     cursor.execute('''UPDATE chapters
@@ -355,7 +355,7 @@ def db_update_chapter_unlocked(chap_num, db='main'):
     Returns:
         None
     """
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
 
     cursor.execute('''UPDATE chapters
@@ -376,7 +376,7 @@ def db_get_all_questions(db="main"):
         A list of question objects. Each row is represented as a Question object, and then appended into
         question_list.
     """
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
 
     cursor.execute("SELECT * FROM questions")
@@ -405,7 +405,7 @@ def db_get_questions_by_chap_num(chap_num, db='main'):
         question_list.
     """
 
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
 
     cursor.execute("SELECT * FROM questions WHERE chap_num = ?", (chap_num,))
@@ -435,7 +435,7 @@ def db_get_answers_by_question_id(qn_id, db='main'):
         answer_list.
     """
 
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
 
     cursor.execute("SELECT * FROM answers WHERE qn_id = ?", (qn_id,))
@@ -465,7 +465,7 @@ def db_add_question(question, db='main'):
     Returns:
         None
     """
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
     
     cursor.execute("INSERT INTO questions (chap_num, name) VALUES(?, ?)", (question._chap_num, question._name))
@@ -483,7 +483,7 @@ def db_get_newest_question_id(db = 'main'):
     Returns:
         newest_qn_id: id of newest question
     """
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
     cursor.execute("SELECT id FROM questions ORDER BY id DESC LIMIT 1")
 
@@ -504,7 +504,7 @@ def db_add_answer(answer, db = 'main'):
     Returns:
         None
     """
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
 
     cursor.execute("INSERT INTO answers (qn_id, name) VALUES(?, ?)", (answer._qn_id, answer._name))
@@ -524,8 +524,7 @@ def db_get_highscores(db='main'):
         A list of scores. Each row is represented as a score object, and then appended into
         scores_list.
     """
-
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM scores ORDER BY score DESC LIMIT 5")
 
@@ -551,7 +550,7 @@ def db_add_score(score, db='main'):
     Returns:
         None
     """
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
 
     cursor.execute("INSERT INTO scores (name, score) VALUES(?, ?)", (score._name, score._score))
@@ -561,7 +560,7 @@ def db_add_score(score, db='main'):
     connection.close()
 
 def db_sort_question_by_chapter(db='main'):
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
     
     cursor.execute("SELECT chap_num FROM questions" )
@@ -573,7 +572,6 @@ def db_sort_question_by_chapter(db='main'):
         (chap_num, ) = chap_tuple
         cursor.execute("SELECT * FROM questions WHERE chap_num = ?", (chap_num,))
 
-        
         question_list = []
         #(last_chap, ) = list(chapter_set)[-1]
         results = cursor.fetchall()
@@ -590,23 +588,9 @@ def db_sort_question_by_chapter(db='main'):
     
     return chapter_question_list
 
-#TODO: this is not a database fn, xfer to main.py
-def db_sort_answer_by_chapter(chapter_question_list, db = 'main'):
-    #TODO: write docstring
-    chapter_answer_list = []
-    for chapter in chapter_question_list:
-        answer_list = []
-        for question in chapter:
-            answer = db_get_answers_by_question_id(question._id)
-            answer_list.append(answer)
-            
-        chapter_answer_list.append(answer_list)
-        
-    return chapter_answer_list
-
 def db_get_all_qn_id(db='main'):
     #TODO: write docstring
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
     
     cursor.execute("SELECT id FROM questions" )
@@ -623,7 +607,7 @@ def db_get_all_qn_id(db='main'):
 
 def db_remove_question_by_id(id, db = 'main'):
     #TODO: write docstring
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
     
     cursor.execute("DELETE FROM questions where id = ?" , (id,))
@@ -634,7 +618,7 @@ def db_remove_question_by_id(id, db = 'main'):
 
 def db_remove_answer_by_qn_id(qn_id, db = 'main'):
     #TODO: write docstring
-    connection = sqlite3.connect('main.db' if db == 'main' else 'test.db')
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
     
     cursor.execute("DELETE FROM answers where qn_id = ?" , (qn_id,))

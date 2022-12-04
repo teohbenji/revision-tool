@@ -613,6 +613,7 @@ def remove_question_page():
 
     user_response = input("Please enter 1 to remove a question, 2 to show all questions and answers, or # to return to the Settings page: ")
 
+    #Reprompts user for valid user_response input
     while user_response != "1" and user_response != "2" and user_response != "#":
         print("\nYou entered an invalid command: {}.".format(user_response))
         print("Please enter a valid command.")
@@ -627,11 +628,39 @@ def remove_question_page():
         settings_page()
 
     elif user_response == "2":
-        print("\nYou have chosen 2 - Show all qestions and answers.")
+        print("\nYou have chosen 2 - Show all questions and answers.")
         show_all_qns_and_answers_page()
+
+def show_all_qns_and_answers_page():
+    """Creates CLI to display all questions and answers"""
+    chapter_question_list = db_sort_question_by_chapter()
+    chapter_answer_list = sort_answer_by_chapter(chapter_question_list)
+
+    print("--------------------------------")
+    for chapter_list, chapter_list2 in zip(chapter_question_list, chapter_answer_list):
+
+        print("Chapter {} Questions\n".format(chapter_list[0]._chap_num))
+        for question, answer in zip(chapter_list, chapter_list2):
+            #Prints question with single answer
+            if len(answer) == 1:
+                print("\nQuestion Unique ID: {} \
+                    \nQuestion: {} \
+                    \nAnswer: {} ".format (question._id, question._name, answer[0]._name))
+            
+            #Prints question with multiple answers
+            else:
+                multiple_answer_string = ""
+                for multipleanswer in answer:
+                    multiple_answer_string += "{}/".format(multipleanswer._name)
+                print("\nQuestion Unique ID: {} \
+                    \nQuestion: {} \
+                    \nMultiple way to answer: {} ".format (question._id, question._name, multiple_answer_string))
+
+        print("\n--------------------------------")
 
         user_response = input("Please enter 1 to remove a question or # to return to the Settings page: ")
 
+        #Reprompts user for valid user_response input
         while user_response != "1" and user_response != "#":
             print("\nYou entered an invalid command: {}.".format(user_response))
             print("Please enter a valid command.")
@@ -645,11 +674,32 @@ def remove_question_page():
             print("\nYou have chosen # - Back to Settings page.")
             settings_page()
 
+def sort_answer_by_chapter(chapter_question_list):
+    """Sorts answer objects by chapter
+
+    Args:
+        chapter_question_list: List of questions sorted by chapter
+
+    Returns:
+        chapter_answer_list: List of answers sorted by chapter
+    """
+    chapter_answer_list = []
+    for chapter in chapter_question_list:
+        answer_list = []
+        for question in chapter:
+            answer = db_get_answers_by_question_id(question._id)
+            answer_list.append(answer)
+            
+        chapter_answer_list.append(answer_list)
+        
+    return chapter_answer_list
+
 def remove_question():
     """Deletes question based on qn id that user inputs"""
     qn_id = input("\nPlease enter the unique ID number of the question you wish to remove: ")
     valid_qn_id_list = db_get_all_qn_id()
 
+    #Reprompts user for valid qn_id input
     while qn_id not in valid_qn_id_list and qn_id != '#':
         print("\nYou entered an invalid command: {}.".format(qn_id))
         print("Please enter a valid command.")
@@ -667,30 +717,6 @@ def remove_question():
         print("\nYou have successfully deleted the question and answer with unique id: {}".format(qn_id))
         print("You will be directed back to Settings page\n")
         settings_page()
-
-def show_all_qns_and_answers_page():
-    """Creates CLI to display all questions and answers"""
-    chapter_question_list = db_sort_question_by_chapter(db='main')
-    chapter_answer_list = db_sort_answer_by_chapter(chapter_question_list, db = 'main')
-
-    print("--------------------------------")
-    for chapter_list, chapter_list2 in zip(chapter_question_list, chapter_answer_list):
-
-        print("Chapter {} Questions\n".format(chapter_list[0]._chap_num))
-        for question, answer in zip(chapter_list, chapter_list2):
-            if len(answer) == 1:
-                print("\nQuestion Unique ID: {} \
-                    \nQuestion: {} \
-                    \nAnswer: {} ".format (question._id, question._name, answer[0]._name))
-            else:
-                multiple_answer_string = ""
-                for multipleanswer in answer:
-                    multiple_answer_string += "{}/".format(multipleanswer._name)
-                print("\nQuestion Unique ID: {} \
-                    \nQuestion: {} \
-                    \nMultiple way to answer: {} ".format (question._id, question._name, multiple_answer_string))
-
-        print("\n--------------------------------")
 
 def initial_setup():
     """Setups if main.db doesn't exist"""
