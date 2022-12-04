@@ -226,7 +226,7 @@ def db_get_all_chapters(db='main'):
     """Gets list of all chapter data from chapters table
 
     Args:
-        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db 
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db 
 
     Returns:
         A list of data for each chapter. Each row is represented as a Chapter object, and then appended into
@@ -253,7 +253,7 @@ def db_get_unlocked_chap_nums(db='main'):
     """Gets list of unlocked chapter numbers from chapters table
 
     Args:
-        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db 
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db 
 
     Returns:
         A list of unlocked chapter numbers.
@@ -279,7 +279,7 @@ def db_get_locked_chap_nums(db='main'):
     """Gets list of locked chapter numbers from chapters table
 
     Args:
-        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db 
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db 
 
     Returns:
         A list of locked chapter numbers.
@@ -305,7 +305,7 @@ def db_get_chapter_high_score(chap_num, db='main'):
 
     Args:
         chap_num: Chapter number
-        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db 
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db 
 
     Returns:
         High score of chapter
@@ -328,7 +328,7 @@ def db_update_chapter_high_score(chap_num, new_high_score, db='main'):
     Args:
         chap_num: Chapter number
         new_high_score: New high score that replaces old high score in table
-        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db 
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db 
 
     Returns:
         None
@@ -350,7 +350,7 @@ def db_update_chapter_unlocked(chap_num, db='main'):
 
     Args:
         chap_num: Chapter number
-        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db
 
     Returns:
         None
@@ -370,7 +370,7 @@ def db_get_all_questions(db="main"):
     """Gets a list of all questions from questions table
 
     Args:
-        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db
         
     Returns:
         A list of question objects. Each row is represented as a Question object, and then appended into
@@ -398,7 +398,7 @@ def db_get_questions_by_chap_num(chap_num, db='main'):
 
     Args:
         chap_num: chapter number
-        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db
 
     Returns:
         A list of questions. Each row is represented as a Question object, and then appended into
@@ -428,7 +428,7 @@ def db_get_answers_by_question_id(qn_id, db='main'):
 
     Args:
         qn_id: question id
-        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db
 
     Returns:
         A list of answers. Each row is represented as an Answer object, and then appended into
@@ -457,7 +457,7 @@ def db_add_question(question, db='main'):
     """Adds question into questions table
 
     question object has empty id value, only _chap_num and _name
-    db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
+    db: Default value is 'main' to access main.db, use 'test' instead to access test.db
 
     Args:
         question: Question object
@@ -478,7 +478,7 @@ def db_get_newest_question_id(db = 'main'):
     """Gets id of newest question from questions table
 
     Args:
-        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db
 
     Returns:
         newest_qn_id: id of newest question
@@ -499,7 +499,7 @@ def db_add_answer(answer, db = 'main'):
 
     Args:
         answer: Answer object
-        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db
 
     Returns:
         None
@@ -518,7 +518,7 @@ def db_get_highscores(db='main'):
     """Gets list of the 5 highest scores in sudden death
 
     Args:
-        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db
 
     Returns:
         A list of scores. Each row is represented as a score object, and then appended into
@@ -545,7 +545,7 @@ def db_add_score(score, db='main'):
     """Add new score from sudden death mode
     Args:
         score: score object to be added
-        db: Default value is 'main' to access main.db, use 'test' instead for accessing test.db
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db
 
     Returns:
         None
@@ -559,7 +559,14 @@ def db_add_score(score, db='main'):
     cursor.close()
     connection.close()
 
-def db_sort_question_by_chapter(db='main'):
+def db_get_questions_sorted_by_chapter(db='main'):
+    """Gets questions from question table, and sorts them by chapter
+    Args:
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db
+
+    Returns:
+        chapter_question_list: List of lists, where each nested list contains questions of the same chapter
+    """
     connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
     
@@ -573,7 +580,6 @@ def db_sort_question_by_chapter(db='main'):
         cursor.execute("SELECT * FROM questions WHERE chap_num = ?", (chap_num,))
 
         question_list = []
-        #(last_chap, ) = list(chapter_set)[-1]
         results = cursor.fetchall()
 
         # Save each result in Question object
@@ -589,35 +595,59 @@ def db_sort_question_by_chapter(db='main'):
     return chapter_question_list
 
 def db_get_all_qn_id(db='main'):
-    #TODO: write docstring
+    """Gets a list of all question ids from questions table
+
+    Args:
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db
+
+    Returns:
+        qn_id_list: List of qn_id strings
+    """
     connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
     
     cursor.execute("SELECT id FROM questions" )
-    id_list = cursor.fetchall()
-    str_id_list = []
-    for id_tuple in id_list:
+    results = cursor.fetchall()
+    
+    qn_id_list = []
+    for id_tuple in results:
         (id,) = id_tuple
-        str_id_list.append(str(id))
+        qn_id_list.append(str(id))
 
     cursor.close()
     connection.close()
     
-    return str_id_list
+    return qn_id_list
 
-def db_remove_question_by_id(id, db = 'main'):
-    #TODO: write docstring
+def db_remove_question_by_id(qn_id, db = 'main'):
+    """Deletes question from questions table 
+
+    Args:
+        qn_id: Question id of question to be deleted
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db
+
+    Returns:
+        None
+    """
     connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
     
-    cursor.execute("DELETE FROM questions where id = ?" , (id,))
+    cursor.execute("DELETE FROM questions where id = ?" , (qn_id,))
 
     connection.commit()
     cursor.close()
     connection.close()
 
 def db_remove_answer_by_qn_id(qn_id, db = 'main'):
-    #TODO: write docstring
+    """Deletes answer(s) from answers table using qn_id
+
+    Args:
+        qn_id: Question id of answers to be deleted
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db
+
+    Returns:
+        None
+    """
     connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
     

@@ -660,7 +660,7 @@ def remove_question_page():
 
 def show_all_qns_and_answers_page():
     """Creates CLI to display all questions and answers"""
-    chapter_question_list = db_sort_question_by_chapter()
+    chapter_question_list = db_get_questions_sorted_by_chapter()
     chapter_answer_list = sort_answer_by_chapter(chapter_question_list)
 
     print("--------------------------------")
@@ -693,6 +693,7 @@ def show_all_qns_and_answers_page():
             print("Please enter a valid command.")
             user_response = input("Please enter 1 to remove a question or # to return to the Settings page: ")
 
+        #Redirects user based on user_response
         if user_response == "1":
             print("\nYou have chosen 1 - Remove specific question.")
             remove_question()
