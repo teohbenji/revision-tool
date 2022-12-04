@@ -72,7 +72,9 @@ def settings_page():
         home_page()
 
 def reset_page():
-    """Creates reset data CLI"""
+    """Creates reset data CLI
+    
+    Includes options to confirm reset database or return to settings page"""
     #Warns user before resetting database
     print("WARNING: Are you sure you want to reset the program?")
     print("ALL PROGRESS WILL BE LOST, including new questions created and the highscores in campaign and sudden death mode.\n")

@@ -214,7 +214,7 @@ def get_all_table_names(cursor):
         cursor: cursor object for executing SQLite queries
         
     Returns:
-        A list of single variable tuples containing table names in schema.
+        results: A list of single variable tuples containing table names in schema.
         E.g. [(customers,), (orders,)]
     """
     cursor.execute("""SELECT name FROM sqlite_schema WHERE type ='table'""")
@@ -229,7 +229,7 @@ def db_get_all_chapters(db='main'):
         db: Default value is 'main' to access main.db, use 'test' instead to access test.db 
 
     Returns:
-        A list of data for each chapter. Each row is represented as a Chapter object, and then appended into
+        chapters_list: A list of data for each chapter. Each row is represented as a Chapter object, and then appended into
         chapters_list.
     """
     connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
@@ -250,13 +250,13 @@ def db_get_all_chapters(db='main'):
     return chapters_list
 
 def db_get_unlocked_chap_nums(db='main'):
-    """Gets list of unlocked chapter numbers from chapters table
+    """Gets unlocked chapter numbers from chapters table
 
     Args:
         db: Default value is 'main' to access main.db, use 'test' instead to access test.db 
 
     Returns:
-        A list of unlocked chapter numbers.
+        unlocked_chap_nums_list: A list of unlocked chapter numbers.
     """
     connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
@@ -276,13 +276,13 @@ def db_get_unlocked_chap_nums(db='main'):
     return unlocked_chap_nums_list
 
 def db_get_locked_chap_nums(db='main'):
-    """Gets list of locked chapter numbers from chapters table
+    """Gets locked chapter numbers from chapters table
 
     Args:
         db: Default value is 'main' to access main.db, use 'test' instead to access test.db 
 
     Returns:
-        A list of locked chapter numbers.
+        locked_chap_nums_list: A list of locked chapter numbers.
     """
     connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
@@ -308,7 +308,7 @@ def db_get_chapter_high_score(chap_num, db='main'):
         db: Default value is 'main' to access main.db, use 'test' instead to access test.db 
 
     Returns:
-        High score of chapter
+        high_score: High score of chapter
     """
     connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()
@@ -373,7 +373,7 @@ def db_get_all_questions(db="main"):
         db: Default value is 'main' to access main.db, use 'test' instead to access test.db
         
     Returns:
-        A list of question objects. Each row is represented as a Question object, and then appended into
+        questions_list: A list of question objects. Each row is represented as a Question object, and then appended into
         question_list.
     """
     connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
@@ -401,7 +401,7 @@ def db_get_questions_by_chap_num(chap_num, db='main'):
         db: Default value is 'main' to access main.db, use 'test' instead to access test.db
 
     Returns:
-        A list of questions. Each row is represented as a Question object, and then appended into
+        questions_list: A list of questions. Each row is represented as a Question object, and then appended into
         question_list.
     """
 
@@ -410,18 +410,18 @@ def db_get_questions_by_chap_num(chap_num, db='main'):
 
     cursor.execute("SELECT * FROM questions WHERE chap_num = ?", (chap_num,))
 
-    question_list = []
+    questions_list = []
     results = cursor.fetchall()
 
     # Save each result in Question object
     for result in results:
         question = Question(result[0], result[1], result[2])
-        question_list.append(question)
+        questions_list.append(question)
     
     cursor.close()
     connection.close()
 
-    return question_list
+    return questions_list
 
 def db_get_answers_by_question_id(qn_id, db='main'):
     """Gets list of answers of specified question id from answers table
@@ -431,7 +431,7 @@ def db_get_answers_by_question_id(qn_id, db='main'):
         db: Default value is 'main' to access main.db, use 'test' instead to access test.db
 
     Returns:
-        A list of answers. Each row is represented as an Answer object, and then appended into
+        answers_list: A list of answers. Each row is represented as an Answer object, and then appended into
         answer_list.
     """
 
@@ -440,18 +440,18 @@ def db_get_answers_by_question_id(qn_id, db='main'):
 
     cursor.execute("SELECT * FROM answers WHERE qn_id = ?", (qn_id,))
 
-    answer_list = []
+    answers_list = []
     results = cursor.fetchall()
 
     # Save each result in Answer object
     for result in results:
         answer = Answer(result[0], result[1], result[2])
-        answer_list.append(answer)
+        answers_list.append(answer)
     
     cursor.close()
     connection.close()
 
-    return answer_list
+    return answers_list
 
 def db_add_question(question, db='main'):
     """Adds question into questions table
@@ -521,7 +521,7 @@ def db_get_highscores(db='main'):
         db: Default value is 'main' to access main.db, use 'test' instead to access test.db
 
     Returns:
-        A list of scores. Each row is represented as a score object, and then appended into
+        scores_list: A list of scores. Each row is represented as a score object, and then appended into
         scores_list.
     """
     connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
