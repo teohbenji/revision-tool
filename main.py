@@ -38,22 +38,23 @@ def settings_page():
     """Creates settings page CLI
     
     Includes options to add question or return to home page"""
-    print("""Settings page
+    print("""---------------
+Settings page
     1 - Add a question
     2 - Remove a question
     3 - Reset program
-    4 - Back to Home page""")
+    # - Back to Home page""")
     print("---------------")
 
-    user_response = input("Please enter 1 to add a question, 2 to remove a question, 3 to reset program or 4 to go back to Home page: ")
+    user_response = input("Please enter 1 to add a question, 2 to remove a question, 3 to reset program or # to go back to Home page: ")
 
     while user_response != "1" and user_response != "Add a question" and user_response != "add a question" and \
           user_response != "2" and user_response != "Remove a question" and user_response != "remove a question" and \
           user_response != "3" and user_response != "Reset Program" and user_response != "reset Program" and \
-          user_response != "4" and user_response != "Back to Home page" and user_response != "back to Home page":
+          user_response != "#" and user_response != "Back to Home page" and user_response != "back to Home page":
         print("\nYou entered an invalid command: {}.".format(user_response))
         print("Please enter a valid command.")
-        user_response = input("Please enter 1 to add a question, 2 to remove a question, 3 to reset program or 4 to go back to Home page: ")
+        user_response = input("Please enter 1 to add a question, 2 to remove a question, 3 to reset program or # to go back to Home page: ")
 
     if user_response == "1" or user_response == "Add a question" or user_response == "add a question":
         print("\nYou have chosen 1 - Add a question.")
@@ -64,29 +65,53 @@ def settings_page():
     elif user_response == "3" or user_response == "Reset Program" or user_response == "reset Program":
         print("\nYou have chosen 3 - Reset program.")
         reset_page()         
-    elif user_response == "4" or user_response == "Back to Home page" or user_response == "back to Home page":
-        print("\nYou have chosen 4 - Back to Home page.")
+    elif user_response == "#" or user_response == "Back to Home page" or user_response == "back to Home page":
+        print("\nYou have chosen # - Back to Home page.")
         home_page()
+
+def reset_page():
+    """Creates reset data CLI"""
+    #Warns user before resetting database
+    print("WARNING: Are you sure you want to reset the program?")
+    print("ALL PROGRESS WILL BE LOST, including new questions created and the highscores in campaign and sudden death mode.\n")
+
+    user_response = input("Please enter 1 to confirm or # to go back to the settings page: ")
+
+    while user_response != "1" and user_response != "#":
+        print("\nYou entered an invalid command: {}.".format(user_response))
+        print("Please enter a valid command.")
+        user_response = input("Please enter 1 to confirm, # to go back to the settings page: ")
+
+    if user_response == "1":
+        db_setup()
+        print("\n---------------------------------------------------")
+        print("Reset success! Returning you to the settings page")
+        print("---------------------------------------------------\n")
+
+    else:
+        print("\nYou have chosen # - Back to Settings page.")
+
+    settings_page()
 
 def mode_page():
     """Creates mode page CLI
     
     Includes options to play campaign, sudden death or return to home page"""
-    print("---------------\n")
+    print("\n---------------")
     print("""Mode Select
     1 - Campaign (Play on to move to the next chapter)
     2 - Sudden death (One wrong answer and you lose...)
-    3 - Back to Home page""")
+    # - Back to Home page""")
     print("---------------")
 
-    user_response = input("Please enter 1 to choose Campaign mode, 2 to choose Sudden death Mode or 3 to go back to Home page: ")
+    user_response = input("Please enter 1 to choose Campaign mode, 2 to choose Sudden death Mode or # to go back to Home page: ")
 
     while user_response != "1" and user_response != "Campaign" and user_response != "campaign" and \
           user_response != "2" and user_response != "Sudden death" and user_response != "sudden death" and \
-          user_response != "3" and user_response != "Back to Home page" and user_response != "back to Home page":
+          user_response != "#" and user_response != "Back to Home page" and user_response != "back to Home page":
         print("\nYou entered an invalid command: {}.".format(user_response))
         print("Please enter a valid command.")
-        user_response = input("Please enter 1 to choose Campaign mode, 2 to choose Sudden death Mode or 3 to go back to Home page: ")
+        user_response = input("Please enter 1 to choose Campaign mode, 2 to choose Sudden death Mode or # to go back to Home page: ")
 
     if user_response == "1" or user_response == "Campaign" or user_response == "campaign":
         print("\nYou have chosen 1 - Campaign to start Campaign mode.")
@@ -94,8 +119,8 @@ def mode_page():
     elif user_response == "2" or user_response == "Sudden death" or user_response == "sudden death":
         print("\nYou have chosen 2 - Sudden death")
         sudden_death_page()
-    elif user_response == "3" or user_response == "Back to Home page" or user_response == "back to Home page":
-        print("\nYou have chosen 3 - Back to Home page.")
+    elif user_response == "#" or user_response == "Back to Home page" or user_response == "back to Home page":
+        print("\nYou have chosen # - Back to Home page.")
         home_page()
 
 def chapter_select_page():
