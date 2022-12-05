@@ -193,6 +193,26 @@ def setup_questions_table(cursor):
                     \n3 print(ls)"""),
 
                     #Chapter 4 Questions
+                    (4, """1 a = "A"
+                    \n2 b = "men"
+                    \n3 print(a+b)
+                    \n\nWhat is the output?"""),
+                    (4, """1 a = I love school
+                    \n2 print(        )
+                    \n\nUsing the slicing method, what should be within the print statement such that loohcs evol I is displayed?"""),
+                    (4, """1 your_str = "Life is hard"
+                    \n2 test = your_str.split()
+                    \n3 print(type(test))
+                    \n\nThe output is <class '[]'>. What will be in place of the []?"""),
+                    (4, """1 happy_string = "I really love you!"
+                    \n2 sad_string = happy_string.replace("really", "do not")
+                    \n3 print(sad_string)
+                    \n\nWhat is the output? (Note: case-sensitive and punctuation sensitive)"""),
+                    (4, """1 my_life = "I am so poor"
+                    \nWhich of the following ways below can be used to make the entire string upper case resulting in the output I AM SO POOR?
+                    \n\n1) my_life.isupper()\n2) my_life.upper()\n3) my_life.capitalize()\n4) my_life.casefold()
+                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
+
 
 
                     #Chapter 5 Questions
@@ -264,7 +284,11 @@ def setup_answers_table(cursor):
                   (19, 'ls.append("Debbie")'),
 
                   #Chapter 4 Answers
-
+                  (20, "Amen"),
+                  (21, "a[::-1]"),
+                  (22, "list"),
+                  (23, "I do not love you!"),
+                  (24, "2"),
 
                   #Chapter 5 Answers
 
