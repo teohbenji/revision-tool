@@ -216,7 +216,26 @@ def setup_questions_table(cursor):
 
 
                     #Chapter 5 Questions
-
+                    (5, """"A programmer wants to create a dictionary object and assign it to variable a.
+                    \nWhich of the following python statements accomplishes this and can be executed without error?
+                    \n\n1) a = dict()\n2) a = []\n3) a = ()\n4) [ (1,2): "hello", (0,0): "world" ]"""),
+                    (5, """What is printed by the following statements?
+                    \n\ndd = {"cat": 12, "dog": 6, "elephant": 23}
+                    \nprint( dd["dog"] )"""),
+                    (5, """What is printed by the following statements?
+                    \n\ndd = {"cat": 12, "dog": 6, "elephant": 23}
+                    \ndd["mouse"] = dd["cat"] + dd["dog"]
+                    \nprint(dd["mouse"]"""),
+                    (5, """What is printed by the following statements?
+                    \n\ndd = {"cat": 12, "dog": 6, "elephant": 23, "bear": 20
+                    \nkeylist = list(dd.key())
+                    \nkeylist.sort()
+                    \nprint(keylist[3])"""),
+                    (5, """What code should be placed in the blanks in the print statement, such that banana is displayed on the screen?
+                    \nitem_sold = { "vegetables": ["broccoli", "cabbage"],
+                    \n              "fruits": ["apple", "banana", "orange"],
+                    \n              "flowers": ["rose", "carnation", "orchid"] }
+                    \nprint(   )"""),
 
                     #Chapter 6 Questions
 
@@ -291,7 +310,12 @@ def setup_answers_table(cursor):
                   (24, "2"),
 
                   #Chapter 5 Answers
-
+                  (25, "1"),
+                  (26, "6"),
+                  (27, "18"),
+                  (28, "elephant"),
+                  (29, "item_sold['fruits'][1]"),
+                  (29, 'item_sold["fruits"][1]'),
 
                   #Chapter 6 Answers
 
