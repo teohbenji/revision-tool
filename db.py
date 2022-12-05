@@ -193,6 +193,17 @@ def setup_questions_table(cursor):
                     \n3 print(ls)"""),
 
                     #Chapter 4 Questions
+
+
+                    #Chapter 5 Questions
+
+
+                    #Chapter 6 Questions
+
+
+                    #Chapter 7 Questions
+
+
                     ]
 
     cursor.executemany("INSERT INTO questions (chap_num, name) VALUES(?, ?)", question_list)
@@ -253,6 +264,15 @@ def setup_answers_table(cursor):
                   (19, 'ls.append("Debbie")'),
 
                   #Chapter 4 Answers
+
+
+                  #Chapter 5 Answers
+
+
+                  #Chapter 6 Answers
+
+
+                  #Chapter 7 Answers
                   
                   ]
 
@@ -280,10 +300,10 @@ def setup_chapters_table(cursor):
     chapter_list = [(1, 0, True),
                   (2, 0, True),#TODO:For testing, set back to False when done
                   (3, 0, True),#TODO:For testing, set back to False when done
-                  (4, 0, False),
-                  (5, 0, False),
-                  (6, 0, False),
-                  (7, 0, False)]
+                  (4, 0, True),
+                  (5, 0, True),
+                  (6, 0, True),
+                  (7, 0, True)]
 
     cursor.executemany("INSERT INTO chapters (chap_num, high_score, unlocked) VALUES(?, ?, ?)", chapter_list) 
 
