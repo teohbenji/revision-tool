@@ -216,33 +216,76 @@ def setup_questions_table(cursor):
 
 
                     #Chapter 5 Questions
-                    (5, """"A programmer wants to create a dictionary object and assign it to variable a.
+                    (5, """A programmer wants to create a dictionary object and assign it to variable a.
                     \nWhich of the following python statements accomplishes this and can be executed without error?
                     \n\n1) a = dict()\n2) a = []\n3) a = ()\n4) [ (1,2): "hello", (0,0): "world" ]"""),
                     (5, """What is printed by the following statements?
-                    \n\ndd = {"cat": 12, "dog": 6, "elephant": 23}
-                    \nprint( dd["dog"] )"""),
+                    \n\n1 dd = {"cat": 12, "dog": 6, "elephant": 23}
+                    \n2 print( dd["dog"] )"""),
                     (5, """What is printed by the following statements?
-                    \n\ndd = {"cat": 12, "dog": 6, "elephant": 23}
-                    \ndd["mouse"] = dd["cat"] + dd["dog"]
-                    \nprint(dd["mouse"]"""),
+                    \n\n1 dd = {"cat": 12, "dog": 6, "elephant": 23}
+                    \n2 dd["mouse"] = dd["cat"] + dd["dog"]
+                    \n3 print(dd["mouse"])"""),
                     (5, """What is printed by the following statements?
-                    \n\ndd = {"cat": 12, "dog": 6, "elephant": 23, "bear": 20
-                    \nkeylist = list(dd.key())
-                    \nkeylist.sort()
-                    \nprint(keylist[3])"""),
+                    \n\n1 dd = {"cat": 12, "dog": 6, "elephant": 23, "bear": 20
+                    \n2 keylist = list(dd.key())
+                    \n3 keylist.sort()
+                    \n4 print(keylist[3])"""),
                     (5, """What code should be placed in the blanks in the print statement, such that banana is displayed on the screen?
-                    \nitem_sold = { "vegetables": ["broccoli", "cabbage"],
-                    \n              "fruits": ["apple", "banana", "orange"],
-                    \n              "flowers": ["rose", "carnation", "orchid"] }
-                    \nprint(   )"""),
+                    \n1 item_sold = { "vegetables": ["broccoli", "cabbage"],
+                    \n2             "fruits": ["apple", "banana", "orange"],
+                    \n3             "flowers": ["rose", "carnation", "orchid"] }
+                    \n4 print(   )"""),
 
                     #Chapter 6 Questions
-
+                    (6, """The following code causes 7 10 to be displayed on the screen.
+                    \nWhat is the code at line 3 that enables this to happen?     
+                    \n\n1 x = 10
+                    \n2 y = 7
+                    \n3 
+                    \n4 print(x, y)"""),
+                    (6, """How many times is the print statement executed?
+                    \n\n1 for i in range(3):
+                    \n2       for j in range(5):
+                    \n3           sum = i + j
+                    \n4       print(sum)"""),
+                    (6, """How many times is the print statement executed?
+                    \n\n1 for i in range(2):
+                    \n2       for j in range(4):
+                    \n3           sum = i + j
+                    \n4           print(sum)"""),
+                    (6, """Consider the following code. 
+                    \n\n1 fruits = [['apple', 'banana'], ['chestnut', 'durian'], ['grape', 'guava']] 
+                    \n2 fruit =  
+                    \n3 print(fruit) 
+                    \n\nWhat should be assigned to fruit in line 2, so that "durian" is printed in the display?"""),
+                    (6, """What expression creates a shallow copy of the list a, and assigns the value to b? All possible answers are accepted.
+                    \n\n1 fruits = ['apple', 'banana']
+                    \n2 b ="""), 
+                    (6, """Consider the following code.
+                    \n\n1 import copy
+                    \n2 x = [[12, 21], [23, 32], [45, 54]]
+                    \n3 y = Y
+                    \n\nWhat should Blank Y be, such that y is a deep copy of x?"""),
 
                     #Chapter 7 Questions
-
-
+                    (7, """An object contains a set of attributes and methods
+                    \n\n1) True\n2) False
+                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
+                    (7, """Functions attached to an object are called methods
+                    \n\n1) True\n2) False
+                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
+                    (7, """What is the process of creating an object from a class definition?"""),
+                    (7, """Consider the following code. How many instances of the complex class are there?
+                    \n1 x = complex(1,2)
+                    \n2 y = complex(-1,-2)
+                    \n3 z = complex(-1,0)"""),
+                    (7, """Consider the following function. Which line is the recursive call at?
+                    \n1 def factorial(n):
+                    \n2     if(n==1):
+                    \n3         return 1
+                    \n4     else:
+                    \n5         return n * factorial(n - 1)""")
                     ]
 
     cursor.executemany("INSERT INTO questions (chap_num, name) VALUES(?, ?)", question_list)
@@ -318,10 +361,29 @@ def setup_answers_table(cursor):
                   (29, 'item_sold["fruits"][1]'),
 
                   #Chapter 6 Answers
-
+                  (30, "x,y=y,x"),
+                  (30, "(x,y)=y,x"),
+                  (30, "x,y=(y,x)"),
+                  (30, "(x,y)=(y,x)"),
+                  (30, "x,y = y,x"),
+                  (30, "(x,y) = y,x"),
+                  (30, "x,y = (y,x)"),
+                  (30, "(x,y) = (y,x)"),
+                  (31, "3"),
+                  (32, "8"),
+                  (33, "fruits[2][2]"),
+                  (34, "b = a[:]"),
+                  (34, "b = list(a)"),
+                  (34, "b = a.copy()"),
+                  (35, "copy.deepcopy(x)"),
 
                   #Chapter 7 Answers
-                  
+                  (36, "1"),
+                  (37, "1"),
+                  (38, "Instantiation"),
+                  (38, "instantiation"),
+                  (39, "3"),
+                  (40, "5"),
                   ]
 
     cursor.executemany("INSERT INTO answers (qn_id, name) VALUES(?, ?)", answer_list)
@@ -346,12 +408,12 @@ def setup_chapters_table(cursor):
 
     # Populates table with chapter list
     chapter_list = [(1, 0, True),
-                  (2, 0, True),#TODO:For testing, set back to False when done
-                  (3, 0, True),#TODO:For testing, set back to False when done
-                  (4, 0, True),
-                  (5, 0, True),
-                  (6, 0, True),
-                  (7, 0, True)]
+                  (2, 0, False),
+                  (3, 0, False),
+                  (4, 0, False),
+                  (5, 0, False),
+                  (6, 0, False),
+                  (7, 0, False)]
 
     cursor.executemany("INSERT INTO chapters (chap_num, high_score, unlocked) VALUES(?, ?, ?)", chapter_list) 
 
