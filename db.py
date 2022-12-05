@@ -36,6 +36,7 @@ class Question:
         self._chap_num = chap_num
         self._name = name
     
+    #Compare attribute values of two Question objects
     def __eq__(self, other) : 
         return self.__dict__ == other.__dict__
 
@@ -91,7 +92,7 @@ class Score:
         self._name = name
         self._score = score
 
-    #Compare attribute values of two Answer objects
+    #Compare attribute values of two Score objects
     def __eq__(self, other) : 
         return self.__dict__ == other.__dict__   
 
@@ -112,16 +113,51 @@ def setup_questions_table(cursor):
     cursor.execute(create_table_query)
 
     # Populates table with question list
-    question_list = [(1, "What is the value of x = 7 / 2?"),
-                    (1, "What is the value of x = 7 // 2?"),
-                    (1, "What is the value of x = 7 % 2?"),
-                    (1, "a = 1, b = 2. What does a >= b return?"),
-                    (1, "a = 2, b = 1. What does a == b return?"),
-                    (2, "Chapter 2 Question 1"),
-                    (2, "Chapter 2 Question 2"),
-                    (2, "Chapter 2 Question 3"),
-                    (2, "Chapter 2 Question 4"),
-                    (2, "Chapter 2 Question 5")]
+    question_list = [
+                    #Chapter 1 Questions
+                    (1, "x = 7 / 2\n\nWhat is the value of x?"),
+                    (1,  "y = 11 // 2\n\nWhat is the value of y?"),
+                    (1,  "z = 8 % 3\n\nWhat is the value of z?"),
+                    (1, "a = 1, b = 2\nx = a >= b\n\nWhat is the value of x?"),
+                    (1, "a = 4.0, b = 4\nx = a == b\n\nWhat is the value of x?"),
+                    (1, """x = 'England'\ny = 'France'\nprint(x+y)
+                    \n\nWhat is displayed on the screen when the code is run?
+                    \n\n1) France England\n2) EnglandFrance\n3) FranceEngland\n4) England France
+                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
+                    (1, """x = 'Germany'\ny = 'Japan'\nz = 'Spain'\nprint(y,z,x)
+                    \n\nWhat is displayed on the screen when the code is run?
+                    \n\n1) Japan Spain Germany\n2) Spain Japan Germany\n3) SpainJapanGermany\n4) JapanSpainGermany
+                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
+
+                    #Chapter 2 Questions
+                    (2, """In Python, which of the below is the correct way to print "Hello"?
+                    \n\n1) Print "Hello"\n2) print "Hello"\n3) Print("Hello")\n4) print("Hello")
+                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
+                    (2, """Which of the following is an invalid variable name?
+                    \n\n1) bl_nk\n2) print bl1nk\n3) blink-1\n4) BLINK1
+                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
+                    (2, """Which of the following is a valid function header?
+                    \n\n1) def func(x):\n2) func(x):\n3) def func@(x):\n4) def func-(x):
+                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
+                    (2, """Consider the description below.
+                    \n\n1. The string '7' is passed to the float function.\n2. The value returned by the float function is passed to the integer function.\n3. The value returned by the integer function is assigned to the variable x.
+                    \n\nWhich of the following python statements match this description?
+                    \n\n1) x = int(float(7))\n2) x = float(int(7))\n3) x = float(int('7'))\n4) x = int(float('7'))
+                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
+                    (2, """In the following script, the programmer wants to calculate the sin of pi / 3
+                    \n\n1 import math
+                    \n2 rad = math.pi / 3
+                    \n3 value = 
+                    \n4 print(value)
+                    \n\nWhat should be the expression that is assigned to value at Line 3?
+                    \nThe expression must include the variable value, and a suitable function from the math library"""),
+                    (2, """Analyse the following script.
+                    \n\n1
+                    \n2 val = sin(3) / 3
+                    \n3 print(value)
+                    \n\nWhat import statement should be put at line 1, so that the script runs without error?
+                    \n\n1) from math import *\n2) from math import asin\n3) import math"""),
+                    ]
 
     cursor.executemany("INSERT INTO questions (chap_num, name) VALUES(?, ?)", question_list)
 
@@ -145,19 +181,24 @@ def setup_answers_table(cursor):
     cursor.execute(create_table_query)
 
     # Populates table with answer list
-    answer_list = [(1, "3.5"),
-                  (2, "3"),
-                  (3, "1"),
+    answer_list = [
+                  #Chapter 1 Answers
+                  (1, "3.5"),
+                  (2, "5"),
+                  (3, "2"),
                   (4, "False"),
-                  (5, "False"),
-                  (6, "Answer 1"),
-                  (6, "Answer 2"),
-                  (7, "Answer 1"),
-                  (7, "Answer 2"),
-                  (7, "Answer 3"),
-                  (8, "Answer"),
-                  (9, "Answer"),
-                  (10, "Answer")]
+                  (5, "True"),
+                  (6, "2"),
+                  (7, "1"),
+
+                  #Chapter 2 Answers
+                  (8, "4"),
+                  (9, "3"),
+                  (10, "1"),
+                  (11, "4"),
+                  (12, "math.sin(rad)"),
+                  (13, "1")
+                  ]
 
     cursor.executemany("INSERT INTO answers (qn_id, name) VALUES(?, ?)", answer_list)
 
@@ -181,7 +222,7 @@ def setup_chapters_table(cursor):
 
     # Populates table with chapter list
     chapter_list = [(1, 0, True),
-                  (2, 0, False),
+                  (2, 0, True),#TODO:For testing, set back to False when done
                   (3, 0, False),
                   (4, 0, False),
                   (5, 0, False),
