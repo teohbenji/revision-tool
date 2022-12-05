@@ -144,19 +144,55 @@ def setup_questions_table(cursor):
                     \n\nWhich of the following python statements match this description?
                     \n\n1) x = int(float(7))\n2) x = float(int(7))\n3) x = float(int('7'))\n4) x = int(float('7'))
                     \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
-                    (2, """In the following script, the programmer wants to calculate the sin of pi / 3
+                    (2, """In the following code, the programmer wants to calculate the sin of pi / 3
                     \n\n1 import math
                     \n2 rad = math.pi / 3
                     \n3 value = 
                     \n4 print(value)
                     \n\nWhat should be the expression that is assigned to value at Line 3?
                     \nThe expression must include the variable value, and a suitable function from the math library"""),
-                    (2, """Analyse the following script.
+                    (2, """Analyse the following code.
                     \n\n1
                     \n2 val = sin(3) / 3
                     \n3 print(value)
-                    \n\nWhat import statement should be put at line 1, so that the script runs without error?
+                    \n\nWhat import statement should be put at line 1, so that the code runs without error?
                     \n\n1) from math import *\n2) from math import asin\n3) import math"""),
+
+                    #Chapter 3 Questions
+                    (3, """Complete the blank x with the range function so that the following is displayed on the screen:
+                    \n[3, 4, 5, 6, 7, 8, 9, 10]
+                    \n\n1 ls = list(x) 
+                    \n2 print(ls)"""),
+                    (3, """After the code is executed, the following is displayed on the screen:
+                    \n[8, 9, 10, 11, 12]
+                    \n\n1 a = list(range(2,17))
+                    \n2 b = 
+                    \n3 print(b)
+                    \n\n What should be assigned to b? b contains an expression involving a list slice, using only positive indices."""),
+                    (3, """What is displayed by the following statements?
+                    \n1 x = [4, 6, 7]
+                    \n2 y = [1, 5, 9]
+                    \n3 print(x+y)
+                    \n\n1) [(4, 6, 7), (1, 5, 9)]\n2) [4, 6, 7, 1, 5, 9]\n3) [1, 5, 9, 4, 6, 7]\n4) x = [(1, 5, 9), (4, 6, 7)])
+                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
+                    (3, """Consider the following code
+                    \n1 count = 2
+                    \n2 while z : 
+                    \n3     print("apple")
+                    \n4     count = count + 1
+                    \n\nWhen executed, it displays \napple\napple\napple\napple
+                    \n\nWhat is expression z? Any possible answer is accepted"""),
+                    (3, """Consider the following code.
+                    \n\n1 ls = ['apple', 'banana', 'chestnut']
+                    \n2 print("The last element of ls is", A) 
+                    \n\nWhat is Blank A?. It is an expression that accesses the last element of ls using a negative index."""),
+                    (3, """Complete Line 2 so that the following is displayed on the screen:
+                    \n['Adam', 'Bob', 'Candy', 'Debbie'] 
+                    \n\n1 ls = ['Adam', 'Bob', 'Candy'] 
+                    \n2
+                    \n3 print(ls)"""),
+
+                    #Chapter 4 Questions
                     ]
 
     cursor.executemany("INSERT INTO questions (chap_num, name) VALUES(?, ?)", question_list)
@@ -197,7 +233,27 @@ def setup_answers_table(cursor):
                   (10, "1"),
                   (11, "4"),
                   (12, "math.sin(rad)"),
-                  (13, "1")
+                  (13, "1"),
+
+                  #Chapter 3 Answers
+                  (14, "range(3,11,1)"),
+                  (14, "range(3, 11, 1)"),
+                  (14, "range(3,11)"),
+                  (14, "range(3, 11)"),
+                  (15, "a[6:11]"),
+                  (16, "2"),
+                  (17, "count<=5"),
+                  (17, "count <= 5"),
+                  (17, "count=6"),
+                  (17, "count = 6"),
+                  (17, "count!=6"),
+                  (17, "count != 6"),
+                  (18, "ls[-1]"),
+                  (19, "ls.append('Debbie')"),
+                  (19, 'ls.append("Debbie")'),
+
+                  #Chapter 4 Answers
+                  
                   ]
 
     cursor.executemany("INSERT INTO answers (qn_id, name) VALUES(?, ?)", answer_list)
@@ -223,7 +279,7 @@ def setup_chapters_table(cursor):
     # Populates table with chapter list
     chapter_list = [(1, 0, True),
                   (2, 0, True),#TODO:For testing, set back to False when done
-                  (3, 0, False),
+                  (3, 0, True),#TODO:For testing, set back to False when done
                   (4, 0, False),
                   (5, 0, False),
                   (6, 0, False),
