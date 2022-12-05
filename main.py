@@ -340,11 +340,14 @@ def grade_sudden_death():
     """
     correct_qns_num = 0
     questions_list = db_get_all_questions()
+    question_num = 0 
 
     while len(questions_list) > 0:
+        question_num += 1
+
         question = random.choice(questions_list)
         answers_list = db_get_answers_by_question_id(question._id)
-        isAnswerCorrect = grade_question_page(question, answers_list)
+        isAnswerCorrect = grade_question_page(question_num, question, answers_list)
 
         #User gets answer right
         if isAnswerCorrect:
@@ -419,11 +422,14 @@ def grade_campaign_questions(chap_num):
     
     #Choose random 5 questions from all the questions in the chapter
     random_questions_list = random.sample(questions_list, 5)
+    question_num = 0
 
     for question in random_questions_list:
         answers_list = []
         answers_list = db_get_answers_by_question_id(question._id)
-        isResultTrue = grade_question_page(question, answers_list)
+        question_num += 1
+
+        isResultTrue = grade_question_page(question_num, question, answers_list)
 
         if isResultTrue:
             result_list.append("Correct")
@@ -433,13 +439,13 @@ def grade_campaign_questions(chap_num):
     
     return current_score, result_list
 
-def grade_question_page(question, answers_list):
+def grade_question_page(question_num, question, answers_list,):
     """Creates question grading CLI
 
-    Prints different lines depending on user answer. If user answer is wrong,
-    prints out all possible answers
+    Prints question, then prints different lines depending on user input. If user answer is wrong, prints out all possible answers
 
     Args:
+        question_no: Question number
         question: Question object
         answers_list: list of Answer objects
         
@@ -447,7 +453,7 @@ def grade_question_page(question, answers_list):
         True if correct answer, False if wrong answer
     """
     grading = "wrong"
-    print("\n\nQuestion: {}".format(question._name))
+    print("\n\nQuestion {}:\n{}".format(question_num, question._name))
     print("\n")
     user_answer = input("Your answer: ")
     
