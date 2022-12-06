@@ -800,13 +800,20 @@ def db_get_questions_sorted_by_chapter(db='main'):
     cursor = connection.cursor()
     
     cursor.execute("SELECT chap_num FROM questions" )
+    #Retrieves a list from database and makes it a set to prevent repetition
     chapter_set = set(cursor.fetchall())
-
-    chapter_question_list = []
-
+    #creates an empty list to transfer the tuple data eg. (2,) from the set as integers e. 2 in the list
+    sorted_chapter_list = []
     for chap_tuple in chapter_set:
         (chap_num, ) = chap_tuple
-        cursor.execute("SELECT * FROM questions WHERE chap_num = ?", (chap_num,))
+        sorted_chapter_list.append(chap_num)
+    #sort the chapter numbers in the list by ascending order
+    sorted_chapter_list.sort()
+        
+    chapter_question_list = []
+
+    for chapter in sorted_chapter_list:
+        cursor.execute("SELECT * FROM questions WHERE chap_num = ?", (chapter,))
 
         question_list = []
         results = cursor.fetchall()
