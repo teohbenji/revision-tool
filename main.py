@@ -311,9 +311,13 @@ def sudden_death_page():
         highscores = db_get_highscores()
         place = 1
 
-        for score in highscores:
-            print("{}) {} - {}".format(place, score._name, score._score))
-            place += 1
+        if len(highscores) == 0:
+            print("No highscores yet! Are you worthy to be the next champion???")
+
+        else:
+            for score in highscores:
+                print("{}) {} - {}".format(place, score._name, score._score))
+                place += 1
             
         print("\n")
 
@@ -361,20 +365,26 @@ def grade_sudden_death():
             score = Score("", user_name, correct_qns_num)
             db_add_score(score)
 
-            user_response = input("Please enter 1 to try again or # to go back to home page: ")
+            user_response = input("Please enter 1 to try again, 2 to go back to sudden death page or # to go back to home page: ")
             #Reprompts user for valid user_response input
-            while user_response != "1" and user_response != "#":
+            while user_response != "1" and user_response != "2" and user_response != "#":
                 print("\nYou entered an invalid command: {}.".format(user_response))
                 print("Please enter a valid command.")
-                user_response = input("Please enter 1 to try again or # to go back to home page: ")
+                user_response = input("Please enter 1 to try again, 2 to go back to sudden death page or # to go back to home page: ")
 
             #Redirects user based on user_response
             if user_response == "1":
                 grade_sudden_death()
 
+            elif user_response == "2":
+                print("\nYou have chosen # - Back to Sudden death page.")
+                sudden_death_page()
+
             elif user_response == "#":
                 print("\nYou have chosen # - Back to Home page.")
                 home_page()
+            
+            
     
     complete_sudden_death_page(correct_qns_num)
 
