@@ -116,8 +116,8 @@ def setup_questions_table(cursor):
     question_list = [
                     #Chapter 1 Questions
                     (1, "1 x = 7 / 2\n\nWhat is the value of x?"),
-                    (1,  "1 y = 11 // 2\n\nWhat is the value of y?"),
-                    (1,  "1 z = 8 % 3\n\nWhat is the value of z?"),
+                    (1, "1 y = 11 // 2\n\nWhat is the value of y?"),
+                    (1, "1 z = 8 % 3\n\nWhat is the value of z?"),
                     (1, "1 a = 1\n2 b = 2\n3 x = a >= b\n\nWhat is the value of x?"),
                     (1, "1 a = 4.0\n2 b = 4\n3 x = a == b\n\nWhat is the value of x?"),
                     (1, """1 x = 'England'\n2 y = 'France'\n3 print(x+y)
@@ -168,7 +168,7 @@ def setup_questions_table(cursor):
                     \n\n1 a = list(range(2,17))
                     \n2 b = 
                     \n3 print(b)
-                    \n\n What should be assigned to b? b contains an expression involving a list slice, using only positive indices."""),
+                    \n\nWhat should be assigned to b? b contains an expression involving a list slice, using only positive indices."""),
                     (3, """What is displayed by the following statements?
                     \n1 x = [4, 6, 7]
                     \n2 y = [1, 5, 9]
@@ -232,7 +232,7 @@ def setup_questions_table(cursor):
                     \n3 keylist.sort()
                     \n4 print(keylist[3])"""),
                     (5, """What code should be placed in the blanks in the print statement, such that banana is displayed on the screen?
-                    \n1 item_sold = { "vegetables": ["broccoli", "cabbage"],
+                    \n1 items_sold = { "vegetables": ["broccoli", "cabbage"],
                     \n2             "fruits": ["apple", "banana", "orange"],
                     \n3             "flowers": ["rose", "carnation", "orchid"] }
                     \n4 print(   )"""),
@@ -357,8 +357,10 @@ def setup_answers_table(cursor):
                   (26, "6"),
                   (27, "18"),
                   (28, "elephant"),
-                  (29, "item_sold['fruits'][1]"),
-                  (29, 'item_sold["fruits"][1]'),
+                  (29, "items_sold['fruits'][1]"),
+                  (29, 'items_sold["fruits"][1]'),
+                  (29, 'items_sold.get("fruits")[1]'),
+                  (29, "items_sold.get('fruits')[1]"),
 
                   #Chapter 6 Answers
                   (30, "x,y=y,x"),
@@ -371,10 +373,10 @@ def setup_answers_table(cursor):
                   (30, "(x,y) = (y,x)"),
                   (31, "3"),
                   (32, "8"),
-                  (33, "fruits[2][2]"),
-                  (34, "b = fruits[:]"),
-                  (34, "b = list(fruits)"),
-                  (34, "b = fruits.copy()"),
+                  (33, "fruits[1][1]"),
+                  (34, "fruits[:]"),
+                  (34, "list(fruits)"),
+                  (34, "fruits.copy()"),
                   (35, "copy.deepcopy(x)"),
 
                   #Chapter 7 Answers
