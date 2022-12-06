@@ -115,16 +115,16 @@ def setup_questions_table(cursor):
     # Populates table with question list
     question_list = [
                     #Chapter 1 Questions
-                    (1, "x = 7 / 2\n\nWhat is the value of x?"),
-                    (1,  "y = 11 // 2\n\nWhat is the value of y?"),
-                    (1,  "z = 8 % 3\n\nWhat is the value of z?"),
-                    (1, "a = 1, b = 2\nx = a >= b\n\nWhat is the value of x?"),
-                    (1, "a = 4.0, b = 4\nx = a == b\n\nWhat is the value of x?"),
-                    (1, """x = 'England'\ny = 'France'\nprint(x+y)
+                    (1, "1 x = 7 / 2\n\nWhat is the value of x?"),
+                    (1,  "1 y = 11 // 2\n\nWhat is the value of y?"),
+                    (1,  "1 z = 8 % 3\n\nWhat is the value of z?"),
+                    (1, "1 a = 1\n2 b = 2\n3 x = a >= b\n\nWhat is the value of x?"),
+                    (1, "1 a = 4.0\n2 b = 4\n3 x = a == b\n\nWhat is the value of x?"),
+                    (1, """1 x = 'England'\n2 y = 'France'\n3 print(x+y)
                     \n\nWhat is displayed on the screen when the code is run?
                     \n\n1) France England\n2) EnglandFrance\n3) FranceEngland\n4) England France
                     \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
-                    (1, """x = 'Germany'\ny = 'Japan'\nz = 'Spain'\nprint(y,z,x)
+                    (1, """1 x = 'Germany'\n2 y = 'Japan'\n3 z = 'Spain'\n4 print(y,z,x)
                     \n\nWhat is displayed on the screen when the code is run?
                     \n\n1) Japan Spain Germany\n2) Spain Japan Germany\n3) SpainJapanGermany\n4) JapanSpainGermany
                     \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
