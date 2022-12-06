@@ -259,7 +259,7 @@ def setup_questions_table(cursor):
                     \n2 fruit =  
                     \n3 print(fruit) 
                     \n\nWhat should be assigned to fruit in line 2, so that "durian" is printed in the display?"""),
-                    (6, """What expression creates a shallow copy of the list a, and assigns the value to b? All possible answers are accepted.
+                    (6, """What expression creates a shallow copy of the list fruits, and assigns the value to b in line 2? All possible answers are accepted.
                     \n\n1 fruits = ['apple', 'banana']
                     \n2 b ="""), 
                     (6, """Consider the following code.
@@ -372,9 +372,9 @@ def setup_answers_table(cursor):
                   (31, "3"),
                   (32, "8"),
                   (33, "fruits[2][2]"),
-                  (34, "b = a[:]"),
-                  (34, "b = list(a)"),
-                  (34, "b = a.copy()"),
+                  (34, "b = fruits[:]"),
+                  (34, "b = list(fruits)"),
+                  (34, "b = fruits.copy()"),
                   (35, "copy.deepcopy(x)"),
 
                   #Chapter 7 Answers

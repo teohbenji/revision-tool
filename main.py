@@ -766,6 +766,7 @@ def main():
     initial_setup()
     home_page()
 
-main()
+if __name__ == '__main__':
+    main()
 
 
