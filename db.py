@@ -847,8 +847,8 @@ def db_get_all_question_ids(db='main'):
     
     qn_id_list = []
     for id_tuple in results:
-        (id,) = id_tuple
-        qn_id_list.append(str(id))
+        (qn_id,) = id_tuple #avoid using id variable name as inbuilt function
+        qn_id_list.append(str(qn_id))
 
     cursor.close()
     connection.close()
