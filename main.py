@@ -1,4 +1,4 @@
-from db import *
+import db
 import os.path
 import random
 
@@ -89,7 +89,7 @@ def reset_page():
 
     #Resets database
     if user_response == "1":
-        db_setup()
+        db.setup()
         print("\n---------------------------------------------------")
         print("Reset success! Returning you to the settings page")
         print("---------------------------------------------------\n")
@@ -139,8 +139,8 @@ def chapter_select_page():
     print("---------------\n")
     print("Welcome to Campaign mode!")
 
-    unlocked_chap_nums_list = db_get_unlocked_chap_nums()
-    locked_chap_nums_list = db_get_locked_chap_nums()
+    unlocked_chap_nums_list = db.get_unlocked_chap_nums()
+    locked_chap_nums_list = db.get_locked_chap_nums()
 
     #Valid inputs refer to inputs with correct chapter numbers, and invalid inputs refers to inputs with wrong chapter numbers
     correct_inputs_list = []
@@ -148,7 +148,7 @@ def chapter_select_page():
 
     for chap_num in unlocked_chap_nums_list:
         correct_inputs_list += [str(chap_num), "Chapter {}".format(str(chap_num)), "chapter {}".format(str(chap_num))]
-        print("{} - Chapter {} ({}) * Highest score: {} / 5 *".format(chap_num, chap_num, "Unlocked", db_get_chapter_high_score(chap_num)))
+        print("{} - Chapter {} ({}) * Highest score: {} / 5 *".format(chap_num, chap_num, "Unlocked", db.get_chapter_high_score(chap_num)))
 
     for chap_num in locked_chap_nums_list:
         wrong_inputs_list += [str(chap_num), "Chapter {}".format(str(chap_num)), "chapter {}".format(str(chap_num))]
@@ -220,16 +220,16 @@ def campaign(chap_num):
 
     campaign_scorecard_page(current_score, result_list)
 
-    chap_high_score = db_get_chapter_high_score(chap_num)
+    chap_high_score = db.get_chapter_high_score(chap_num)
     
     #Update high score if user beats highscore
     if current_score > chap_high_score:
-        db_update_chapter_high_score(chap_num, current_score)
+        db.update_chapter_high_score(chap_num, current_score)
         print("Congratulations, you just got a new highscore of {}/5!".format(current_score))
     
     # UI for new chapter being unlocked
     if current_score >= 4:
-        db_update_chapter_unlocked(chap_num + 1)
+        db.update_chapter_unlocked(chap_num + 1)
 
         if chap_num < 7:
             print("Congratulations! You have unlocked chapter {}!".format(chap_num + 1))
@@ -308,7 +308,7 @@ def sudden_death_page():
 
     elif user_response == "2":
         print("\nYou have chosen 2 - These are your champions:")
-        highscores = db_get_highscores()
+        highscores = db.get_highscores()
         place = 1
 
         if len(highscores) == 0:
@@ -343,14 +343,14 @@ def grade_sudden_death():
     User answers every question in questions table. If user gets question wrong, the mode ends.
     """
     correct_qns_num = 0
-    questions_list = db_get_all_questions()
+    questions_list = db.get_all_questions()
     question_num = 0 
 
     while len(questions_list) > 0:
         question_num += 1
 
         question = random.choice(questions_list)
-        answers_list = db_get_answers_by_question_id(question._id)
+        answers_list = db.get_answers_by_question_id(question._id)
         isAnswerCorrect = grade_question_page(question_num, question, answers_list)
 
         #User gets answer right
@@ -361,9 +361,9 @@ def grade_sudden_death():
         #User gets answer wrong    
         else:
             print("You got {} questions correct!".format(correct_qns_num))
-            user_name = input("What name would you like to save this score under?")
-            score = Score("", user_name, correct_qns_num)
-            db_add_score(score)
+            user_name = input("What name would you like to save this score under?: ")
+            score = db.Score("", user_name, correct_qns_num)
+            db.add_score(score)
 
             user_response = input("Please enter 1 to try again, 2 to go back to sudden death page or # to go back to home page: ")
             #Reprompts user for valid user_response input
@@ -398,8 +398,8 @@ def complete_sudden_death_page(correct_qns_num):
     print("Congratulations! You have completed the sudden death gamemode! You got all {} questions right!".format(correct_qns_num))
     user_name = input("What name would you like to save this score under?")
 
-    score = Score("", user_name, correct_qns_num)
-    db_add_score(score)
+    score = db.Score("", user_name, correct_qns_num)
+    db.add_score(score)
 
     #Reprompts user for valid user_response input
     user_response = input("Please enter 1 to try again or # to go back to home page: ")
@@ -428,7 +428,7 @@ def grade_campaign_questions(chap_num):
 
     current_score = 0
     result_list = []
-    questions_list = db_get_questions_by_chap_num(chap_num)
+    questions_list = db.get_questions_by_chap_num(chap_num)
     
     #Choose random 5 questions from all the questions in the chapter
     random_questions_list = random.sample(questions_list, 5)
@@ -436,7 +436,7 @@ def grade_campaign_questions(chap_num):
 
     for question in random_questions_list:
         answers_list = []
-        answers_list = db_get_answers_by_question_id(question._id)
+        answers_list = db.get_answers_by_question_id(question._id)
         question_num += 1
 
         isResultTrue = grade_question_page(question_num, question, answers_list)
@@ -634,11 +634,11 @@ def confirm_add_question(chap_num, question_name, answer_name):
         confirmation = input("Please enter 1 to confirm your new question and answer or # to quit: ")
 
     if confirmation == "1":
-        question = Question('', int(chap_num), question_name)
-        db_add_question(question)
+        question = db.Question('', int(chap_num), question_name)
+        db.add_question(question)
 
-        answer = Answer("", db_get_newest_question_id(), answer_name)
-        db_add_answer(answer)
+        answer = db.Answer("", db.get_newest_question_id(), answer_name)
+        db.add_answer(answer)
 
         print("------------------------------------------\nYou have successfully added the question and answer.")
         print("You will be redirected to Settings page.------------------------------------------\n")
@@ -678,7 +678,7 @@ def remove_question_page():
 
 def show_all_qns_and_answers_page():
     """Creates CLI to display all questions and answers"""
-    chapter_question_list = db_get_questions_sorted_by_chapter()
+    chapter_question_list = db.get_questions_sorted_by_chapter()
     chapter_answer_list = sort_answer_by_chapter(chapter_question_list)
 
     print("--------------------------------")
@@ -733,7 +733,7 @@ def sort_answer_by_chapter(chapter_question_list):
     for chapter in chapter_question_list:
         answer_list = []
         for question in chapter:
-            answer = db_get_answers_by_question_id(question._id)
+            answer = db.get_answers_by_question_id(question._id)
             answer_list.append(answer)
             
         chapter_answer_list.append(answer_list)
@@ -743,7 +743,7 @@ def sort_answer_by_chapter(chapter_question_list):
 def remove_question():
     """Deletes question based on qn id that user inputs"""
     qn_id = input("\nPlease enter the unique ID number of the question you wish to remove: ")
-    valid_qn_id_list = db_get_all_question_ids()
+    valid_qn_id_list = db.get_all_question_ids()
 
     #Reprompts user for valid qn_id input
     while qn_id not in valid_qn_id_list and qn_id != '#':
@@ -757,8 +757,8 @@ def remove_question():
         settings_page()
 
     elif qn_id in valid_qn_id_list:
-        db_remove_question_by_id(int(qn_id))
-        db_remove_answer_by_question_id(int(qn_id))
+        db.remove_question_by_id(int(qn_id))
+        db.remove_answer_by_question_id(int(qn_id))
 
         print("\nYou have successfully deleted the question and answer with unique id: {}".format(qn_id))
         print("You will be directed back to Settings page\n")
@@ -766,10 +766,10 @@ def remove_question():
 
 def initial_setup():
     """Setups if main.db doesn't exist"""
-    db_exists = os.path.exists('main.db')
+    is_db_created = os.path.exists('main.db')
 
-    if not db_exists:
-        db_setup()
+    if not is_db_created:
+        db.setup()
 
 def main():
     """Main logic of program"""

@@ -136,65 +136,65 @@ class Testdb(unittest.TestCase):
         test_db_setup()
 
     def test_db_get_all_chapters(self):
-        self.assertEqual(db_get_all_chapters("test"), [Chapter(1, 1, 5, 1), Chapter(2, 2, 4, 1), Chapter(3, 3, 0, 0)])
+        self.assertEqual(get_all_chapters("test"), [Chapter(1, 1, 5, 1), Chapter(2, 2, 4, 1), Chapter(3, 3, 0, 0)])
     
     def test_db_get_unlocked_chap_nums(self):
-        self.assertEqual(db_get_unlocked_chap_nums("test"), [1, 2])
+        self.assertEqual(get_unlocked_chap_nums("test"), [1, 2])
 
     def test_db_get_locked_chap_nums(self):
-        self.assertEqual(db_get_locked_chap_nums("test"), [3])
+        self.assertEqual(get_locked_chap_nums("test"), [3])
 
     def test_db_get_chapter_high_score(self):
-        self.assertEqual(db_get_chapter_high_score(1, "test"), 5)
-        self.assertEqual(db_get_chapter_high_score(2, "test"), 4)
-        self.assertEqual(db_get_chapter_high_score(3, "test"), 0)
+        self.assertEqual(get_chapter_high_score(1, "test"), 5)
+        self.assertEqual(get_chapter_high_score(2, "test"), 4)
+        self.assertEqual(get_chapter_high_score(3, "test"), 0)
 
     def test_db_update_chapter_high_score(self):
-        db_update_chapter_high_score(3, 4, "test")
-        self.assertEqual(db_get_chapter_high_score(3, "test"), 4)
+        update_chapter_high_score(3, 4, "test")
+        self.assertEqual(get_chapter_high_score(3, "test"), 4)
 
     def test_db_update_chapter_unlocked(self):
-        db_update_chapter_unlocked(3, "test")
-        self.assertTrue(3 in db_get_unlocked_chap_nums("test"))
+        update_chapter_unlocked(3, "test")
+        self.assertTrue(3 in get_unlocked_chap_nums("test"))
 
     def test_db_get_all_questions(self):
-        self.assertEqual(db_get_all_questions("test"), [Question(1, 1, "Chap 1 Q1"), Question(2, 1, "Chap 1 Q2"), 
+        self.assertEqual(\get_all_questions("test"), [Question(1, 1, "Chap 1 Q1"), Question(2, 1, "Chap 1 Q2"), 
                                                         Question(3, 2, "Chap 2 Q1"), Question(4, 3, "Chap 3 Q1")])
 
     def test_db_get_questions_by_chap_num(self):
-        self.assertEqual(db_get_questions_by_chap_num(1, "test"), [Question(1, 1, "Chap 1 Q1"), Question(2, 1, "Chap 1 Q2")])
-        self.assertEqual(db_get_questions_by_chap_num(3, "test"), [Question(4, 3, "Chap 3 Q1")])
+        self.assertEqual(get_questions_by_chap_num(1, "test"), [Question(1, 1, "Chap 1 Q1"), Question(2, 1, "Chap 1 Q2")])
+        self.assertEqual(get_questions_by_chap_num(3, "test"), [Question(4, 3, "Chap 3 Q1")])
 
     def test_db_get_answers_by_question_id(self):
-        self.assertEqual(db_get_answers_by_question_id(1, "test"), [Answer(1, 1, "Chap 1 Q1 A1"), Answer(2, 1, "Chap 1 Q1 A2")])
-        self.assertEqual(db_get_answers_by_question_id(2, "test"), [Answer(3, 2, "Chap 1 Q2 A1")])
+        self.assertEqual(get_answers_by_question_id(1, "test"), [Answer(1, 1, "Chap 1 Q1 A1"), Answer(2, 1, "Chap 1 Q1 A2")])
+        self.assertEqual(get_answers_by_question_id(2, "test"), [Answer(3, 2, "Chap 1 Q2 A1")])
 
     def test_get_newest_question_id(self):
-        self.assertEqual(db_get_newest_question_id("test"), 4)
+        self.assertEqual(get_newest_question_id("test"), 4)
     
     def test_db_add_question(self):
-        db_add_question(Question("", 4, "Chap 4 Q1"), "test")
-        self.assertEqual(db_get_newest_question_id("test"), 5)
+        add_question(Question("", 4, "Chap 4 Q1"), "test")
+        self.assertEqual(get_newest_question_id("test"), 5)
     
     def test_db_get_highscores(self):
-        self.assertEqual(db_get_highscores("test"), [Score(7, "Kobe", 24), Score(3, "Jordan", 23), Score(5, "Messi", 10),
+        self.assertEqual(get_highscores("test"), [Score(7, "Kobe", 24), Score(3, "Jordan", 23), Score(5, "Messi", 10),
                                                      Score(4, "Ronaldo", 7), Score(6, "Lebron", 6)])
 
     def test_db_add_score(self):
-        db_add_score(Score("", "Trent", 66), "test")
-        self.assertEqual(db_get_highscores("test"), [Score(8, "Trent", 66), Score(7, "Kobe", 24), Score(3, "Jordan", 23), 
+        add_score(Score("", "Trent", 66), "test")
+        self.assertEqual(get_highscores("test"), [Score(8, "Trent", 66), Score(7, "Kobe", 24), Score(3, "Jordan", 23), 
                                                      Score(5, "Messi", 10), Score(4, "Ronaldo", 7)])
 
     def test_db_get_all_question_ids(self):
-        self.assertEqual(db_get_all_question_ids("test"), ['1', '2', '3', '4'])
+        self.assertEqual(get_all_question_ids("test"), ['1', '2', '3', '4'])
 
     def test_db_remove_question_by_id(self):
-        db_remove_question_by_id(4, "test")
-        self.assertEqual(db_get_newest_question_id("test"), 3)
+        remove_question_by_id(4, "test")
+        self.assertEqual(get_newest_question_id("test"), 3)
 
     def test_db_remove_answer_by_question_id(self):
-        db_remove_answer_by_question_id(4, "test")
-        self.assertEqual(db_get_answers_by_question_id(4, "test"), [])
+        remove_answer_by_question_id(4, "test")
+        self.assertEqual(get_answers_by_question_id(4, "test"), [])
 
 if __name__ == '__main__':
     unittest.main()

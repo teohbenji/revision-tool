@@ -1,6 +1,6 @@
 import sqlite3
 
-def db_setup():
+def setup():
     """Setup main.db by deleting and recreating tables"""
     # Define connection and cursor
     connection = sqlite3.connect('main.db')
@@ -339,8 +339,8 @@ def setup_answers_table(cursor):
                   (16, "2"),
                   (17, "count<=5"),
                   (17, "count <= 5"),
-                  (17, "count=6"),
-                  (17, "count = 6"),
+                  (17, "count<6"),
+                  (17, "count < 6"),
                   (17, "count!=6"),
                   (17, "count != 6"),
                   (18, "ls[-1]"),
@@ -453,7 +453,7 @@ def get_all_table_names(cursor):
 
     return results
 
-def db_get_all_chapters(db='main'):
+def get_all_chapters(db='main'):
     """Gets list of all chapter data from chapters table
 
     Args:
@@ -480,7 +480,7 @@ def db_get_all_chapters(db='main'):
 
     return chapters_list
 
-def db_get_unlocked_chap_nums(db='main'):
+def get_unlocked_chap_nums(db='main'):
     """Gets unlocked chapter numbers from chapters table
 
     Args:
@@ -506,7 +506,7 @@ def db_get_unlocked_chap_nums(db='main'):
 
     return unlocked_chap_nums_list
 
-def db_get_locked_chap_nums(db='main'):
+def get_locked_chap_nums(db='main'):
     """Gets locked chapter numbers from chapters table
 
     Args:
@@ -531,7 +531,7 @@ def db_get_locked_chap_nums(db='main'):
 
     return locked_chap_nums_list
 
-def db_get_chapter_high_score(chap_num, db='main'):
+def get_chapter_high_score(chap_num, db='main'):
     """Gets high score of chapter from chapters table
 
     Args:
@@ -553,7 +553,7 @@ def db_get_chapter_high_score(chap_num, db='main'):
 
     return high_score
 
-def db_update_chapter_high_score(chap_num, new_high_score, db='main'):
+def update_chapter_high_score(chap_num, new_high_score, db='main'):
     """Updates high score of chapter in chapters table
 
     Args:
@@ -576,7 +576,7 @@ def db_update_chapter_high_score(chap_num, new_high_score, db='main'):
     cursor.close()
     connection.close()
 
-def db_update_chapter_unlocked(chap_num, db='main'):
+def update_chapter_unlocked(chap_num, db='main'):
     """Updates unlocked status of chapter in chapters table
 
     Args:
@@ -597,7 +597,7 @@ def db_update_chapter_unlocked(chap_num, db='main'):
     cursor.close()
     connection.close()
 
-def db_get_all_questions(db="main"):
+def get_all_questions(db="main"):
     """Gets a list of all questions from questions table
 
     Args:
@@ -624,7 +624,7 @@ def db_get_all_questions(db="main"):
 
     return questions_list
 
-def db_get_questions_by_chap_num(chap_num, db='main'):
+def get_questions_by_chap_num(chap_num, db='main'):
     """Gets list of questions of specified chapter number from questions table
 
     Args:
@@ -654,7 +654,7 @@ def db_get_questions_by_chap_num(chap_num, db='main'):
 
     return questions_list
 
-def db_get_answers_by_question_id(qn_id, db='main'):
+def get_answers_by_question_id(qn_id, db='main'):
     """Gets list of answers of specified question id from answers table
 
     Args:
@@ -684,7 +684,7 @@ def db_get_answers_by_question_id(qn_id, db='main'):
 
     return answers_list
 
-def db_add_question(question, db='main'):
+def add_question(question, db='main'):
     """Adds question into questions table
 
     question object has empty id value, only _chap_num and _name
@@ -705,7 +705,7 @@ def db_add_question(question, db='main'):
     cursor.close()
     connection.close()
 
-def db_get_newest_question_id(db = 'main'):
+def get_newest_question_id(db = 'main'):
     """Gets id of newest question from questions table
 
     Args:
@@ -723,7 +723,7 @@ def db_get_newest_question_id(db = 'main'):
 
     return newest_qn_id
 
-def db_add_answer(answer, db = 'main'):
+def add_answer(answer, db = 'main'):
     """Adds answer into answers table
 
     answer object has empty id value, only _qn_id and _name
@@ -745,7 +745,7 @@ def db_add_answer(answer, db = 'main'):
     connection.close()
 
 
-def db_get_highscores(db='main'):
+def get_highscores(db='main'):
     """Gets list of the 5 highest scores in sudden death
 
     Args:
@@ -772,7 +772,7 @@ def db_get_highscores(db='main'):
 
     return scores_list
 
-def db_add_score(score, db='main'):
+def add_score(score, db='main'):
     """Add new score from sudden death mode
     Args:
         score: score object to be added
@@ -790,7 +790,7 @@ def db_add_score(score, db='main'):
     cursor.close()
     connection.close()
 
-def db_get_questions_sorted_by_chapter(db='main'):
+def get_questions_sorted_by_chapter(db='main'):
     """Gets questions from question table, and sorts them by chapter
     Args:
         db: Default value is 'main' to access main.db, use 'test' instead to access test.db
@@ -832,7 +832,7 @@ def db_get_questions_sorted_by_chapter(db='main'):
     
     return chapter_question_list
 
-def db_get_all_question_ids(db='main'):
+def get_all_question_ids(db='main'):
     """Gets a list of all question ids from questions table
 
     Args:
@@ -857,7 +857,7 @@ def db_get_all_question_ids(db='main'):
     
     return qn_id_list
 
-def db_remove_question_by_id(qn_id, db = 'main'):
+def remove_question_by_id(qn_id, db = 'main'):
     """Deletes question from questions table 
 
     Args:
@@ -876,7 +876,7 @@ def db_remove_question_by_id(qn_id, db = 'main'):
     cursor.close()
     connection.close()
 
-def db_remove_answer_by_question_id(qn_id, db = 'main'):
+def remove_answer_by_question_id(qn_id, db = 'main'):
     """Deletes answer(s) from answers table using qn_id
 
     Args:
