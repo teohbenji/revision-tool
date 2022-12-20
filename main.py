@@ -719,21 +719,34 @@ def show_all_qns_and_answers_page():
     for chapter_list, chapter_list2 in zip(chapter_question_list, chapter_answer_list):
 
         print("Chapter {} Questions\n".format(chapter_list[0]._chap_num))
-        for question, answer in zip(chapter_list, chapter_list2):
+        for question, answer_list in zip(chapter_list, chapter_list2):
             #Prints question with single answer
-            if len(answer) == 1:
+            if len(answer_list) == 1:
                 print("\nQuestion Unique ID: {} \
                     \nQuestion: {} \
-                    \nAnswer: {} ".format (question._id, question._name, answer[0]._name))
+                    \nAnswer: {} ".format (question._id, question._name, answer_list[0]._name))
             
             #Prints question with multiple answers
             else:
-                multiple_answer_string = ""
-                for multipleanswer in answer:
-                    multiple_answer_string += "{}/".format(multipleanswer._name)
+                multiple_answer_str = ""
+
+                for i in range(len(answer_list)):
+                    answer_name = answer_list[i]._name
+
+                    is_ans_regex = "\s*" in answer_name #check if answer contains regex
+
+                    #remove regex chars from answer name
+                    if is_ans_regex:
+                        answer_name = remove_regex_from_str(answer_name)
+
+                    if i < len(answer_list) - 1:
+                        multiple_answer_str += "{} / ".format(answer_name)
+                    else:
+                        multiple_answer_str += "{}".format(answer_name)
+                
                 print("\nQuestion Unique ID: {} \
                     \nQuestion: {} \
-                    \nMultiple way to answer: {} ".format (question._id, question._name, multiple_answer_string))
+                    \nAccepted answers: {} ".format (question._id, question._name, multiple_answer_str))
 
         print("\n--------------------------------")
 
