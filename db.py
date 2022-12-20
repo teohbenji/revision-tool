@@ -134,7 +134,7 @@ def setup_questions_table(cursor):
                     \n\n1) Print "Hello"\n2) print "Hello"\n3) Print("Hello")\n4) print("Hello")
                     \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
                     (2, """Which of the following is an invalid variable name?
-                    \n\n1) bl_nk\n2) print bl1nk\n3) blink-1\n4) BLINK1
+                    \n\n1) bl_nk\n2) bl1nk\n3) blink-1\n4) BLINK1
                     \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
                     (2, """Which of the following is a valid function header?
                     \n\n1) def func(x):\n2) func(x):\n3) def func@(x):\n4) def func-(x):
@@ -150,13 +150,15 @@ def setup_questions_table(cursor):
                     \n3 value = 
                     \n4 print(value)
                     \n\nWhat should be the expression that is assigned to value at Line 3?
-                    \nThe expression must include the variable value, and a suitable function from the math library"""),
+                    \nThe expression must include the variable value, and a suitable function from the math library
+                    \nAny number of spaces within the brackets are allowed e.g. f(x,y), f( x, y ) are both accepted"""),
                     (2, """Analyse the following code.
                     \n\n1
                     \n2 val = sin(3) / 3
                     \n3 print(value)
                     \n\nWhat import statement should be put at line 1, so that the code runs without error?
-                    \n\n1) from math import *\n2) from math import asin\n3) import math"""),
+                    \n\n1) from math import *\n2) from math import asin\n3) import math
+                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
 
                     #Chapter 3 Questions
                     (3, """Complete the blank x with the range function so that the following is displayed on the screen:
