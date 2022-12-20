@@ -150,8 +150,7 @@ def setup_questions_table(cursor):
                     \n3 value = 
                     \n4 print(value)
                     \n\nWhat should be the expression that is assigned to value at Line 3?
-                    \nThe expression must include the variable value, and a suitable function from the math library
-                    \nAny number of spaces within the brackets are allowed e.g. f(x,y), f( x, y ) are both accepted"""),
+                    \nThe expression must include the variable rad, and a suitable function from the math library"""),
                     (2, """Analyse the following code.
                     \n\n1
                     \n2 val = sin(3) / 3
@@ -331,18 +330,13 @@ def setup_answers_table(cursor):
                   (13, "1"),
 
                   #Chapter 3 Answers
-                  (14, "range(3,11,1)"),
-                  (14, "range(3, 11, 1)"),
-                  (14, "range(3,11)"),
-                  (14, "range(3, 11)"),
+                  (14, "^range[(]\s*3\s*,\s*11\s*,\s*1\s*[)]$"),
+                  (14, "^range[(]\s*3\s*,\s*11\s*[)]$"),
                   (15, "a[6:11]"),
                   (16, "2"),
-                  (17, "count<=5"),
-                  (17, "count <= 5"),
-                  (17, "count<6"),
-                  (17, "count < 6"),
-                  (17, "count!=6"),
-                  (17, "count != 6"),
+                  (17, "^count\s*<=\s*5$"),
+                  (17, "^count\s*<\s*6$"),
+                  (17, "^count\s*!=\s*6$"),
                   (18, "ls[-1]"),
                   (19, "ls.append('Debbie')"),
                   (19, 'ls.append("Debbie")'),
@@ -365,14 +359,8 @@ def setup_answers_table(cursor):
                   (29, "items_sold.get('fruits')[1]"),
 
                   #Chapter 6 Answers
-                  (30, "x,y=y,x"),
-                  (30, "(x,y)=y,x"),
-                  (30, "x,y=(y,x)"),
-                  (30, "(x,y)=(y,x)"),
-                  (30, "x,y = y,x"),
-                  (30, "(x,y) = y,x"),
-                  (30, "x,y = (y,x)"),
-                  (30, "(x,y) = (y,x)"),
+                  (30, "^\s*x\s*,\s*y\s*\s*=\s*\s*y\s*,\s*x\s*$"),
+                  (30, "^[(]\s*x\s*,\s*y\s*[)]\s*=\s*[(]\s*y\s*,\s*x\s*[)]$"),
                   (31, "3"),
                   (32, "8"),
                   (33, "fruits[1][1]"),

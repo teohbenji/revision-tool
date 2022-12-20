@@ -1,6 +1,8 @@
 import db
+
 import os.path
 import random
+import re
 
 def home_page():
     """Creates home page CLI
@@ -468,7 +470,15 @@ def grade_question_page(question_num, question, answers_list,):
     user_answer = input("Your answer: ")
     
     for answer in answers_list:
-        if user_answer == answer._name:
+        is_ans_regex = "\s*" in answer._name #check if answer contains regex
+
+        #If answer is regex, use match. Else do str comparison 
+        if is_ans_regex:
+            is_user_ans_correct = isinstance(re.search(answer._name, user_answer), re.Match) 
+        else:
+            is_user_ans_correct = user_answer == answer._name
+
+        if is_user_ans_correct:
             grading = "right"
             print("You got it {}!".format(grading))
             input("Press enter to continue")
@@ -476,14 +486,38 @@ def grade_question_page(question_num, question, answers_list,):
             return True
 
     print("You got it {}!".format(grading))
-    print("Correct answer(s): ")
+    print("\nCorrect answer(s): ")
 
     #Prints out all correct answers
     for answer in answers_list:
-        print(answer._name)
+        answer_name = answer._name
+
+        #remove regex chars from answer name
+        if is_ans_regex:
+            answer_name = remove_regex_from_str(answer_name)
+
+        print(answer_name)
+
     input("Press enter to continue")
 
     return False
+
+def remove_regex_from_str(regex_str):
+    """Removes regex chars from string
+    
+    Args:
+        regex_str: Str containing regex
+
+    Returns:
+        cleaned_str: Str without regex
+    """
+    cleaned_str = regex_str.replace("[(]", "(").replace("[)]", ")")
+    chars_list = ["\s*", "^", "$"]
+        
+    for char in chars_list:
+        cleaned_str = cleaned_str.replace(char, "")
+
+    return cleaned_str
 
 def add_new_question_page():
     """Creates add new question CLI"""
