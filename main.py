@@ -192,16 +192,16 @@ def campaign_scorecard_page(score, result_list):
     """Creates scorecard page CLI. 
     
     Result of each question is printed. If score >3 /5, prints Success. Else prints Try again!"""
-    print("\n\n\n----Scorecard----")
+    print("\n----Scorecard----")
     for i in range(5):
         print("Q{} - {}".format(i + 1, result_list[i]))
+    
+    print("-----------------")
         
     if score >= 4:
-        print("Result: {}/5 Success!".format(score))
+        print("\nResult: {}/5 Success!\n".format(score))
     else:
-        print("Result: {}/5 Try again!".format(score))
-
-    print("\n\n\n")
+        print("\nResult: {}/5 Try again!\n".format(score))
 
 def campaign(chap_num):
     """Handles logic for campaign chapter, where user has to attempt 5 questions from selected chapter.
@@ -271,23 +271,61 @@ def campaign(chap_num):
                 print("\nYou have chosen # - Back to Home page.")
                 home_page()
     
-     # UI for failed attempt. Prompt to try again or return to home page
+    #UI for failed attempt. Prompt to try again or return to home page
     else:
-        print("\nYou failed to unlock the next chapter. :(")
-        user_response = input("Please enter 1 to try again or # to go back to home page: ")
+        if chap_num < 7:
+            #If next chapter already unlocked
+            if chap_high_score >= 4:
+                user_response = input("Please enter 1 to attempt the next chapter, 2 to try this chapter again or # to go back to home page: ")
+                
+                #Reprompts user for valid user_response input
+                while user_response != "1" and user_response != "2" and user_response != "#":
+                    print("\nYou entered an invalid command: {}.".format(user_response))
+                    print("Please enter a valid command.")
+                    user_response = input("Please enter 1 to attempt the next chapter, 2 to try this chapter again or # to go back to home page: ")
 
-        #Reprompts user for valid user_response input
-        while user_response != "1" and user_response != "#":
-            print("\nYou entered an invalid command: {}.".format(user_response))
-            print("Please enter a valid command.")
+                #Redirects user based on user_response
+                if user_response == "1":
+                    campaign(chap_num + 1)
+                elif user_response == "2":
+                    campaign(chap_num)
+                elif user_response == "#":
+                    print("\nYou have chosen # - Back to Home page.")
+                    home_page()
+                    
+            # If next chapter not unlocked
+            else: 
+                print("\nYou failed to unlock the next chapter. :(")
+                user_response = input("Please enter 1 to try again or # to go back to home page: ")
+
+                #Reprompts user for valid user_response inputs
+                while user_response != "1" and user_response != "#":
+                    print("\nYou entered an invalid command: {}.".format(user_response))
+                    print("Please enter a valid command.")
+                    user_response = input("Please enter 1 to try again or # to go back to home page: ")
+
+                #Redirects user based on user_response
+                if user_response == "1":
+                    campaign(chap_num)
+                elif user_response == "#":
+                    print("\nYou have chosen # - Back to Home page.")
+                    home_page()
+        # If chapter 7, and score < 4
+        else:
             user_response = input("Please enter 1 to try again or # to go back to home page: ")
 
-        #Redirects user based on user_response
-        if user_response == "1":
-            campaign(chap_num)
-        elif user_response == "#":
-            print("\nYou have chosen # - Back to Home page.")
-            home_page()
+            #Reprompts user for valid user_response inputs
+            while user_response != "1" and user_response != "#":
+                print("\nYou entered an invalid command: {}.".format(user_response))
+                print("Please enter a valid command.")
+                user_response = input("Please enter 1 to try again or # to go back to home page: ")
+
+            #Redirects user based on user_response
+            if user_response == "1":
+                campaign(chap_num)
+            elif user_response == "#":
+                print("\nYou have chosen # - Back to Home page.")
+                home_page()
 
 def sudden_death_page():
     """Creates scorecard page CLI."""
