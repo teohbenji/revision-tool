@@ -176,144 +176,230 @@ def setup_questions_table(cursor):
                     \n\nWhat is the code in blank A?\
                     \nThe code must include the variable rad, and a suitable function from the math library"),
                     (2, "Consider the following code. Which import statement should be put in blank A, so that the code runs without error?\
-                    \n\n-------------------\
+                    \n\n------------------\
                     \n1 ***BLANK A***\
                     \n2 val = sin(3) / 3\
                     \n3 print(value)\
-                    \n-------------------\
+                    \n------------------\
                     \n1) from math import *\n2) from math import asin\n3) import math\
                     \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."),
 
                     #Chapter 3 Questions
-                    (3, """Complete the blank x with the range function so that the following is displayed on the screen:
-                    \n[3, 4, 5, 6, 7, 8, 9, 10]
-                    \n\n1 ls = list(x) 
-                    \n2 print(ls)"""),
-                    (3, """After the code is executed, the following is displayed on the screen:
-                    \n[8, 9, 10, 11, 12]
-                    \n\n1 a = list(range(2,17))
-                    \n2 b = 
-                    \n3 print(b)
-                    \n\nWhat should be assigned to b? b contains an expression involving a list slice, using only positive indices."""),
-                    (3, """What is displayed by the following statements?
-                    \n1 x = [4, 6, 7]
-                    \n2 y = [1, 5, 9]
-                    \n3 print(x+y)
-                    \n\n1) [(4, 6, 7), (1, 5, 9)]\n2) [4, 6, 7, 1, 5, 9]\n3) [1, 5, 9, 4, 6, 7]\n4) x = [(1, 5, 9), (4, 6, 7)])
-                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
-                    (3, """Consider the following code
-                    \n1 count = 2
-                    \n2 while z : 
-                    \n3     print("apple")
-                    \n4     count = count + 1
-                    \n\nWhen executed, it displays \napple\napple\napple\napple
-                    \n\nWhat is expression z? Any possible answer is accepted"""),
-                    (3, """Consider the following code.
-                    \n\n1 ls = ['apple', 'banana', 'chestnut']
-                    \n2 print("The last element of ls is", A) 
-                    \n\nWhat is Blank A?. It is an expression that accesses the last element of ls using a negative index."""),
-                    (3, """Complete Line 2 so that the following is displayed on the screen:
-                    \n['Adam', 'Bob', 'Candy', 'Debbie'] 
-                    \n\n1 ls = ['Adam', 'Bob', 'Candy'] 
-                    \n2
-                    \n3 print(ls)"""),
+                    (3, "The following code is executed\
+                    \n\n--------------------------\
+                    \n1 ls = list(***BLANK A***)\
+                    \n2 print(ls)\
+                    \n--------------------------\
+                    \n\nto give the following output\
+                    \n-------------------------\
+                    \n[3, 4, 5, 6, 7, 8, 9, 10]\
+                    \n-------------------------\
+                    \n\nWhat is the code in Blank A? The range function must be included."),
+                    (3, "The following code is executed\
+                    \n\n-----------------------\
+                    \n1 a = list(range(2,17))\
+                    \n2 b = ***BLANK A***\
+                    \n3 print(b)\
+                    \n-----------------------\
+                    \n\nto give the following output\
+                    \n------------------\
+                    \n[8, 9, 10, 11, 12]\
+                    \n------------------\
+                    \n\nWhat is the code in Blank A? Blank A contains an expression involving a list slice, using only positive indices."),
+                    (3, "What is the output of the following program?\
+                    \n\n---------------\
+                    \n1 x = [4, 6, 7]\
+                    \n2 y = [1, 5, 9]\
+                    \n3 print(x+y)\
+                    \n---------------\
+                    \n1) [(4, 6, 7), (1, 5, 9)]\n2) [4, 6, 7, 1, 5, 9]\n3) [1, 5, 9, 4, 6, 7]\n4) x = [(1, 5, 9), (4, 6, 7)])\
+                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."),
+                    (3, "The following code is executed\
+                    \n\n-----------------------\
+                    \n1 count = 2\
+                    \n2 while ***BLANK A***:\
+                    \n3     print('apple')\
+                    \n4     count = count + 1\
+                    \n-----------------------\
+                    \n\nto give the following output\
+                    \n-----\
+                    \napple\napple\napple\napple\
+                    \n-----\
+                    \n\nWhat is the code in Blank A?"),
+                    (3, "Consider the following code\
+                    \n\n---------------------------------------------------\
+                    \n1 ls = ['apple', 'banana', 'chestnut']\
+                    \n2 print('The last element of ls is', ***BLANK A***)\
+                    \n---------------------------------------------------\
+                    \n\nWhat is the code in Blank A? It is an expression that accesses the last element of ls using a negative index."),
+                    (3, "The following code is executed\
+                    \n\n-----------------------------\
+                    \n1 ls = ['Adam', 'Bob', 'Candy']\
+                    \n2 ***BLANK A***\
+                    \n3 print(ls)\
+                    \n-----------------------------\
+                    \n\nto give the following output\
+                    \n----------------------------------\
+                    \n['Adam', 'Bob', 'Candy', 'Debbie']\
+                    \n----------------------------------\
+                    \n\nWhat is the code in Blank A?"),
 
                     #Chapter 4 Questions
-                    (4, """1 a = "A"
-                    \n2 b = "men"
-                    \n3 print(a+b)
-                    \n\nWhat is the output?"""),
-                    (4, """1 a = I love school
-                    \n2 print(        )
-                    \n\nUsing the slicing method, what should be within the print statement such that loohcs evol I is displayed?"""),
-                    (4, """1 your_str = "Life is hard"
-                    \n2 test = your_str.split()
-                    \n3 print(type(test))
-                    \n\nThe output is <class '[]'>. What will be in place of the []?"""),
-                    (4, """1 happy_string = "I really love you!"
-                    \n2 sad_string = happy_string.replace("really", "do not")
-                    \n3 print(sad_string)
-                    \n\nWhat is the output? (Note: case-sensitive and punctuation sensitive)"""),
-                    (4, """1 my_life = "I am so poor"
-                    \nWhich of the following ways below can be used to make the entire string upper case resulting in the output I AM SO POOR?
-                    \n\n1) my_life.isupper()\n2) my_life.upper()\n3) my_life.capitalize()\n4) my_life.casefold()
-                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
-
-
+                    (4, "What is the output of the following program?\
+                    \n\n------------\
+                    \n1 a = 'A'\
+                    \n2 b = 'men'\
+                    \n3 print(a+b)\
+                    \n------------"),
+                    (4, "The following code is executed\
+                    \n\n--------------------\
+                    \n1 a = I love school\
+                    \n2 print(***BLANK A***)\
+                    \n----------------------\
+                    \n\nto give the following output\
+                    \n-------------\
+                    \nloohcs evol I\
+                    \n-------------\
+                    \n\nUsing the slicing method, what is the code in Blank A?"),
+                    (4, "The following code is executed\
+                    \n\n--------------------------\
+                    \n1 your_str = 'Life is hard'\
+                    \n2 test = your_str.split()\
+                    \n3 print(type(test))\
+                    \n--------------------------\
+                    \n\nto give the following output\
+                    \n-----------------------\
+                    \n<class '***BLANK A***'>\
+                    \n-----------------------\
+                    \n\nWhat is Blank A?"),
+                    (4, "What is the output of the following program?\
+                    \n\n--------------------------------------------------------\
+                    \n1 happy_string = 'I really love you!'\
+                    \n2  sad_string = happy_string.replace('really', 'do not')\
+                    \n3 print(sad_string)\
+                    \n--------------------------------------------------------"),
+                    (4, "The following code is executed\
+                    \n\n--------------------------\
+                    \n1 my_life = 'I am so poor'\
+                    \n2 ***BLANK A***\
+                    \n--------------------------\
+                    \n\nto give the following output\
+                    \n------------\
+                    \nI AM SO POOR\
+                    \n------------\
+                    \n1) my_life.isupper()\n2) my_life.upper()\n3) my_life.capitalize()\n4) my_life.casefold()\
+                    \n\nWhich of the above options is the code in Blank A? Please input the option number as the answer e.g. 1, 2, 3 etc."),
 
                     #Chapter 5 Questions
                     (5, """A programmer wants to create a dictionary object and assign it to variable a.
                     \nWhich of the following python statements accomplishes this and can be executed without error?
-                    \n\n1) a = dict()\n2) a = []\n3) a = ()\n4) [ (1,2): "hello", (0,0): "world" ]"""),
-                    (5, """What is printed by the following statements?
-                    \n\n1 dd = {"cat": 12, "dog": 6, "elephant": 23}
-                    \n2 print( dd["dog"] )"""),
-                    (5, """What is printed by the following statements?
-                    \n\n1 dd = {"cat": 12, "dog": 6, "elephant": 23}
-                    \n2 dd["mouse"] = dd["cat"] + dd["dog"]
-                    \n3 print(dd["mouse"])"""),
-                    (5, """What is printed by the following statements?
-                    \n\n1 dd = {"cat": 12, "dog": 6, "elephant": 23, "bear": 20
-                    \n2 keylist = list(dd.key())
-                    \n3 keylist.sort()
-                    \n4 print(keylist[3])"""),
-                    (5, """What code should be placed in the blanks in the print statement, such that banana is displayed on the screen?
-                    \n1 items_sold = { "vegetables": ["broccoli", "cabbage"],
-                    \n2             "fruits": ["apple", "banana", "orange"],
-                    \n3             "flowers": ["rose", "carnation", "orchid"] }
-                    \n4 print(   )"""),
+                    \n1) a = dict()\n2) a = []\n3) a = ()\n4) [ (1,2): "hello", (0,0): "world" ]"""),
+                    (5, "What is the output of the following program?\
+                    \n\n--------------------------------------------\
+                    \n1 dd = {'cat': 12, 'dog': 6, 'elephant': 23}\
+                    \n2 print(dd['dog'])\
+                    \n--------------------------------------------"),
+                    (5, "What is the output of the following program?\
+                    \n\n--------------------------------------------\
+                    \n1 dd = {'cat': 12, 'dog': 6, 'elephant': 23}\
+                    \n2 dd['mouse'] = dd['cat'] + dd['dog']\
+                    \n3 print(dd['mouse'])\
+                    \n--------------------------------------------"),
+                    (5, "What is the output of the following program?\
+                    \n\n--------------------------------------------------------\
+                    \n1 dd = {'cat': 12, 'dog': 6, 'elephant': 23, 'bear': 20}\
+                    \n2 keylist = list(dd.key())\
+                    \n3 keylist.sort()\
+                    \n4 print(keylist[3])\
+                    \n--------------------------------------------------------"),
+                    (5, "The following code is executed\
+                    \n\n---------------------------------------------------------\
+                    \n1 items_sold = {'vegetables': ['broccoli', 'cabbage'],\
+                    \n2             'fruits': ['apple', 'banana', 'orange'],\
+                    \n3             'flowers': ['rose', 'carnation', 'orchid']}\
+                    \n4 print(***BLANK A***)\
+                    \n---------------------------------------------------------\
+                    \n\nto give the following output\
+                    \n------\
+                    \nbanana\
+                    \n------\
+                    \n\nWhat is the code in Blank A?"),
 
                     #Chapter 6 Questions
-                    (6, """The following code causes 7 10 to be displayed on the screen.
-                    \nWhat is the code at line 3 that enables this to happen?     
-                    \n\n1 x = 10
-                    \n2 y = 7
-                    \n3 
-                    \n4 print(x, y)"""),
-                    (6, """How many times is the print statement executed?
-                    \n\n1 for i in range(3):
-                    \n2       for j in range(5):
-                    \n3           sum = i + j
-                    \n4       print(sum)"""),
-                    (6, """How many times is the print statement executed?
-                    \n\n1 for i in range(2):
-                    \n2       for j in range(4):
-                    \n3           sum = i + j
-                    \n4           print(sum)"""),
-                    (6, """Consider the following code. 
-                    \n\n1 fruits = [['apple', 'banana'], ['chestnut', 'durian'], ['grape', 'guava']] 
-                    \n2 fruit =  
-                    \n3 print(fruit) 
-                    \n\nWhat should be assigned to fruit in line 2, so that "durian" is printed in the display?"""),
-                    (6, """What expression creates a shallow copy of the list fruits, and assigns the value to b in line 2? All possible answers are accepted.
-                    \n\n1 fruits = ['apple', 'banana']
-                    \n2 b ="""), 
-                    (6, """Consider the following code.
-                    \n\n1 import copy
-                    \n2 x = [[12, 21], [23, 32], [45, 54]]
-                    \n3 y = Y
-                    \n\nWhat should Blank Y be, such that y is a deep copy of x?"""),
+                    (6, "The following code is executed\
+                    \n\n---------------\
+                    \n1 x = 10\
+                    \n2 y = 7\
+                    \n3 ***BLANK A***\
+                    \n4 print(x,y)\
+                    \n---------------\
+                    \n\nto give the following output\
+                    \n----\
+                    \n7 10\
+                    \n----\
+                    \n\nWhat is the code in Blank A?"),
+                    (6, "Consider the following code. How many times is the print statement executed?\
+                    \n\n--------------------------\
+                    \n1 for i in range(3):\
+                    \n2       for j in range(5):\
+                    \n3           sum = i + j\
+                    \n4       print(sum)\
+                    \n--------------------------"),
+                    (6, "Consider the following code. How many times is the print statement executed?\
+                    \n\n--------------------------\
+                    \n1 for i in range(2):\
+                    \n2       for j in range(4):\
+                    \n3           sum = i + j\
+                    \n4           print(sum)\
+                    \n--------------------------"),    
+                    (6, "The following code is executed\
+                    \n\n---------------------------------------------------------\
+                    \n1 fruits = [['apple', 'banana'], ['chestnut', 'durian'], ['grape', 'guava']] \
+                    \n2 fruit = ***BLANK A***\
+                    \n3 print(fruit)\
+                    \n---------------------------------------------------------\
+                    \n\nto give the following output\
+                    \n------\
+                    \ndurian\
+                    \n------\
+                    \n\nWhat is the code in Blank A?"),
+                    (6, "Consider the following code. What expression creates a shallow copy of the list fruits, and assigns the value to b in line 2?\
+                    \n\n--------------------------\
+                    \n1 fruits = ['apple', 'banana']\
+                    \n2 b = ?\
+                    \n--------------------------"),
+                    (6, "Consider the following code. What expression creates a shallow copy of the list fruits, and assigns the value to b in line 2?\
+                    \n\n--------------------------\
+                    \n1 import copy\
+                    \n2 x = [[12, 21], [23, 32], [45, 54]]\
+                    \n3 y = ***BLANK A***\
+                    \n--------------------------\
+                    \n\nWhat should the code in Blank A be, such that y is a deep copy of x?"),
 
                     #Chapter 7 Questions
-                    (7, """An object contains a set of attributes and methods
-                    \n\n1) True\n2) False
-                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
-                    (7, """Functions attached to an object are called methods
-                    \n\n1) True\n2) False
-                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
+                    (7, """An object contains a set of attributes and methods. True or False?
+                    \n1) True\n2) False
+                    \nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
+                    (7, """Functions attached to an object are called methods. True or False?
+                    \n1) True\n2) False
+                    \nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
                     (7, """What is the process of creating an object from a class definition?"""),
-                    (7, """Consider the following code. How many instances of the complex class are there?
-                    \n1 x = complex(1,2)
-                    \n2 y = complex(-1,-2)
-                    \n3 z = complex(-1,0)"""),
-                    (7, """Consider the following function. Which line is the recursive call at?
-                    \n1 def factorial(n):
-                    \n2     if(n==1):
-                    \n3         return 1
-                    \n4     else:
-                    \n5         return n * factorial(n - 1)""")
-                    ]
-
+                    (7, "Consider the following code. How many instances of the complex class are created after the code is run?\
+                    \n\n--------------------------\
+                    \n1 x = complex(1,2)\
+                    \n2 y = complex(-1,-2)\
+                    \n2 z = complex(-1,0)\
+                    \n--------------------------"),
+                    (7, "Consider the following code. Which line is the recursive call at?\
+                    \n\n--------------------------\
+                    \n1 def factorial(n):\
+                    \n2     if(n==1):\
+                    \n3         return 1\
+                    \n4     else:\
+                    \n5         return n * factorial(n - 1)\
+                    \n--------------------------")]
+                    
+                
     cursor.executemany("INSERT INTO questions (chap_num, name) VALUES(?, ?)", question_list)
 
 def setup_answers_table(cursor):
