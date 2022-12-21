@@ -115,49 +115,74 @@ def setup_questions_table(cursor):
     # Populates table with question list
     question_list = [
                     #Chapter 1 Questions
-                    (1, "1 x = 7 / 2\n\nWhat is the value of x?"),
-                    (1, "1 y = 11 // 2\n\nWhat is the value of y?"),
-                    (1, "1 z = 8 % 3\n\nWhat is the value of z?"),
-                    (1, "1 a = 1\n2 b = 2\n3 x = a >= b\n\nWhat is the value of x?"),
-                    (1, "1 a = 4.0\n2 b = 4\n3 x = a == b\n\nWhat is the value of x?"),
-                    (1, """1 x = 'England'\n2 y = 'France'\n3 print(x+y)
-                    \n\nWhat is displayed on the screen when the code is run?
-                    \n\n1) France England\n2) EnglandFrance\n3) FranceEngland\n4) England France
-                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
-                    (1, """1 x = 'Germany'\n2 y = 'Japan'\n3 z = 'Spain'\n4 print(y,z,x)
-                    \n\nWhat is displayed on the screen when the code is run?
-                    \n\n1) Japan Spain Germany\n2) Spain Japan Germany\n3) SpainJapanGermany\n4) JapanSpainGermany
-                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
+                    (1, "The expression -8 % 3 evaluates to"),
+                    (1, "The expression -3 // 2 evaluates to"),
+                    (1, "The expression 9 % 5 evaluates to"),
+                    (1, "What is the output of the following program?\
+                    \n\n----------------\
+                    \n1 a = 1\
+                    \n2 b = 2\
+                    \n3 print(a >= b)\
+                    \n----------------"),
+                    (1, "What is the output of the following program?\
+                    \n\n---------------\
+                    \n1 a = 4.0\
+                    \n2 b = 4\
+                    \n3 print(a == b)\
+                    \n---------------"),
+                    (1, "What is the output of the following program?\
+                    \n\n--------------\
+                    \n1 x = 'England'\
+                    \n2 y = 'France'\
+                    \n3 print(x+y)\
+                    \n--------------\
+                    \n1) France England\n2) EnglandFrance\n3) FranceEngland\n4) England France\
+                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."),
+                    (1, "What is the output of the following program?\
+                    \n\n-------------\
+                    \n1 x = 'Germany'\
+                    \n2 y = 'Japan'\
+                    \n3 y = 'Spain'\
+                    \n5 print(y,z,x)\
+                    \n---------------\
+                    \n1) Japan Spain Germany\n2) Spain Japan Germany\n3) SpainJapanGermany\n4) JapanSpainGermany\
+                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."),
 
                     #Chapter 2 Questions
-                    (2, """In Python, which of the below is the correct way to print "Hello"?
-                    \n\n1) Print "Hello"\n2) print "Hello"\n3) Print("Hello")\n4) print("Hello")
+                    (2, """Which of the statements below is the correct way to print "Hello"?
+                    \n1) Print "Hello"\n2) print "Hello"\n3) Print("Hello")\n4) print("Hello")
                     \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
                     (2, """Which of the following is an invalid variable name?
-                    \n\n1) bl_nk\n2) bl1nk\n3) blink-1\n4) BLINK1
+                    \n1) bl_nk\n2) bl1nk\n3) blink-1\n4) BLINK1
                     \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
                     (2, """Which of the following is a valid function header?
-                    \n\n1) def func(x):\n2) func(x):\n3) def func@(x):\n4) def func-(x):
+                    \n1) def func(x):\n2) func(x):\n3) def func@(x):\n4) def func-(x):
                     \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
-                    (2, """Consider the description below.
-                    \n\n1. The string '7' is passed to the float function.\n2. The value returned by the float function is passed to the integer function.\n3. The value returned by the integer function is assigned to the variable x.
-                    \n\nWhich of the following python statements match this description?
-                    \n\n1) x = int(float(7))\n2) x = float(int(7))\n3) x = float(int('7'))\n4) x = int(float('7'))
-                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
-                    (2, """In the following code, the programmer wants to calculate the sin of pi / 3
-                    \n\n1 import math
-                    \n2 rad = math.pi / 3
-                    \n3 value = 
-                    \n4 print(value)
-                    \n\nWhat should be the expression that is assigned to value at Line 3?
-                    \nThe expression must include the variable rad, and a suitable function from the math library"""),
-                    (2, """Analyse the following code.
-                    \n\n1
-                    \n2 val = sin(3) / 3
-                    \n3 print(value)
-                    \n\nWhat import statement should be put at line 1, so that the code runs without error?
-                    \n\n1) from math import *\n2) from math import asin\n3) import math
-                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."""),
+                    (2, "Consider the description below. Which statement matches this description?\
+                    \n\n----------------------------------------------------------------------------\
+                    \n1. The string '7' is passed to the float function.\
+                    \n2. The value returned by the float function is passed to the integer function.\
+                    \n3. The value returned by the integer function is assigned to the variable x.\
+                    \n----------------------------------------------------------------------------\
+                    \n1) x = int(float(7))\n2) x = float(int(7))\n3) x = float(int('7'))\n4) x = int(float('7'))\
+                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."),
+                    (2, "In the following code, the programmer wants to calculate the sin of pi / 3\
+                    \n\n-----------------------\
+                    \n1 import math\
+                    \n2 rad = math.pi / 3\
+                    \n3 value = ***BLANK A***\
+                    \n4 print(value)\
+                    \n-----------------------\
+                    \n\nWhat is the code in blank A?\
+                    \nThe code must include the variable rad, and a suitable function from the math library"),
+                    (2, "Consider the following code. Which import statement should be put in blank A, so that the code runs without error?\
+                    \n\n-------------------\
+                    \n1 ***BLANK A***\
+                    \n2 val = sin(3) / 3\
+                    \n3 print(value)\
+                    \n-------------------\
+                    \n1) from math import *\n2) from math import asin\n3) import math\
+                    \n\nPlease input the option number as the answer e.g. 1, 2, 3 etc."),
 
                     #Chapter 3 Questions
                     (3, """Complete the blank x with the range function so that the following is displayed on the screen:
@@ -313,9 +338,9 @@ def setup_answers_table(cursor):
     # Populates table with answer list
     answer_list = [
                   #Chapter 1 Answers
-                  (1, "3.5"),
-                  (2, "5"),
-                  (3, "2"),
+                  (1, "1"),
+                  (2, "-2"),
+                  (3, "4"),
                   (4, "False"),
                   (5, "True"),
                   (6, "2"),
