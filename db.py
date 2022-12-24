@@ -723,6 +723,30 @@ def get_all_questions(db="main"):
 
     return questions_list
 
+def get_question_by_id(qn_id, db="main"):
+    """Gets question of specified id from questions table
+
+    Args:
+        qn_id: Question id
+        db: Default value is 'main' to access main.db, use 'test' instead to access test.db
+        
+    Returns:
+        question: Question object
+    """
+    connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT * FROM questions where id = ?", (qn_id, ))
+    result_tup = cursor.fetchall()[0]
+    
+    # Save result in Question object
+    question = Question(result_tup[0], result_tup[1], result_tup[2])
+
+    cursor.close()
+    connection.close()
+
+    return question
+
 def get_questions_by_chap_num(chap_num, db='main'):
     """Gets list of questions of specified chapter number from questions table
 
