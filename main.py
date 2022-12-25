@@ -741,49 +741,83 @@ def remove_question_home_page():
         settings_page()
 
     elif user_response == "2":
-        show_all_qns_and_answers_page()
+        print_qns_and_answers_of_chap_page(1)
 
-def show_all_qns_and_answers_page():
-    """Creates CLI to display all questions and answers"""
+def print_qns_and_answers_of_chap_page(chap_num):
+    """Creates CLI to display questions and answers for each chapter
+    
+    Q&A from only one chapter is shown at a time. Options to view next chapter, view prev chapter, delete qn or return to remove question homepage"""
     clear_screen()
     chapter_question_list = db.get_questions_sorted_by_chapter()
     chapter_answer_list = sort_answer_by_chapter(chapter_question_list)
+    question_list = chapter_question_list[chap_num - 1]
+    list_of_answers_list = chapter_answer_list[chap_num - 1]
+    num_of_chaps = len(chapter_question_list) 
 
     print("--------------------------------")
-    for chapter_list, chapter_list2 in zip(chapter_question_list, chapter_answer_list):
+    print("Chapter {} Questions\n".format(chap_num))
 
-        print("Chapter {} Questions\n".format(chapter_list[0]._chap_num))
-        for question, answer_list in zip(chapter_list, chapter_list2):
-            #Prints question with single answer
-            if len(answer_list) == 1:
-                print("\nQuestion Unique ID: {} \
-                    \nQuestion: {} \
-                    \nAnswer: {} ".format (question._id, question._name, answer_list[0]._name))
-            
-            #Prints question with multiple answers
-            else:
-                multiple_answer_str = format_multiple_answer_str(answer_list)
+    #Print questions and answers of chapter
+    for i in range(len(question_list)):
+        print_question_and_answers(question_list[i], list_of_answers_list[i])
 
-                print("\nQuestion Unique ID: {} \
-                    \nQuestion: {} \
-                    \nAccepted answers: {} ".format (question._id, question._name, multiple_answer_str))
+    print("--------------------------------")
 
-        print("\n--------------------------------")
+    #First chapter
+    if chap_num == 1:
+        prompt = "\nPlease enter 1 to view next chapter or # to return to the Remove question page: "
 
-    user_response = input("Please enter 1 to remove a question or # to return to the Settings page: ")
+    #Last chapter
+    elif chap_num == num_of_chaps:
+        prompt = "\nPlease enter 1 to view previous chapter or # to return to the Remove question page: "
+    
+    else: 
+        prompt = "\nPlease enter 1 to view next chapter, 2 to view previous chapter or # to return to the Remove question page: "
+    
+    user_response = input(prompt)
 
     #Reprompts user for valid user_response input
-    while user_response != "1" and user_response != "#":
-        print("\nYou entered an invalid command: {}.".format(user_response))
-        print("Please enter a valid command.")
-        user_response = input("Please enter 1 to remove a question or # to return to the Settings page: ")
+    # First chapter, option 1 is for next chapter 
+    if chap_num == 1:
+        while user_response != "1" and user_response != "#":
+            print("\nYou entered an invalid command: {}.".format(user_response))
+            print("Please enter a valid command.")
+            user_response = input(prompt)
 
-    #Redirects user based on user_response
-    if user_response == "1":
-        remove_question_page()
+        if user_response == "1":
+            print_qns_and_answers_of_chap_page(chap_num + 1)
+
+        elif user_response == "#":
+            remove_question_home_page()
+
+    # Last chapter, option 1 is for prev chapter 
+    elif chap_num == num_of_chaps:
+        while user_response != "1" and user_response != "#":
+            print("\nYou entered an invalid command: {}.".format(user_response))
+            print("Please enter a valid command.")
+            user_response = input(prompt)
+
+        if user_response == "1":
+            print_qns_and_answers_of_chap_page(chap_num - 1)
+
+        elif user_response == "#":
+            remove_question_home_page()
+
+    #If not first or last chapter, so option 2 is available
+    else:
+        while user_response != "1" and user_response != "2" and user_response != "#":
+            print("\nYou entered an invalid command: {}.".format(user_response))
+            print("Please enter a valid command.")
+            user_response = input(prompt)
         
-    elif user_response == "#":
-        settings_page()
+        if user_response == "1":
+            print_qns_and_answers_of_chap_page(chap_num + 1)
+
+        elif user_response == "2":
+            print_qns_and_answers_of_chap_page(chap_num - 1)
+
+        elif user_response == "#":
+            remove_question_home_page()
 
 def format_multiple_answer_str(answer_list):
     """Format multiple answers of a question into a single string for display
@@ -819,7 +853,7 @@ def sort_answer_by_chapter(chapter_question_list):
         chapter_question_list: List of questions sorted by chapter
 
     Returns:
-        chapter_answer_list: List of answers sorted by chapter
+        chapter_answer_list: List of lists, where each nested list contains answers from the same chapter
     """
     chapter_answer_list = []
     for chapter in chapter_question_list:
