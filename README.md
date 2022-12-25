@@ -14,7 +14,7 @@ Quiz questions adapted from SUTD's 10.014 Computational Thinking Design course w
 No external libraries required. To start the program, run the following command. 
 
 ```bash
-  main.py
+  python3 main.py
 ```
     
 ## Running Tests
@@ -22,7 +22,7 @@ No external libraries required. To start the program, run the following command.
 To run tests, run the following command
 
 ```bash
-  test_db.py
+  python3 test_db.py
 ```
 
 
@@ -36,7 +36,7 @@ To run tests, run the following command
 
 ## Tech Stack
 
-Python: SQLite, unittest
+Python: SQLite, unittest, regex
 
 ## Authors
 
