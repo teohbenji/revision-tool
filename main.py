@@ -58,6 +58,7 @@ def settings_page():
           user_response != "2" and user_response != "Remove a question" and user_response != "remove a question" and \
           user_response != "3" and user_response != "Reset Program" and user_response != "reset Program" and \
           user_response != "#" and user_response != "Back to Home page" and user_response != "back to Home page":
+
         print("\nYou entered an invalid command: {}.".format(user_response))
         print("Please enter a valid command.")
         user_response = input("Please enter 1 to add a question, 2 to remove a question, 3 to reset program or # to go back to Home page: ")
@@ -430,6 +431,7 @@ def grade_sudden_death():
             elif user_response == "#":
                 home_page()
             
+    #User gets every question correct
     complete_sudden_death_page(correct_qns_num)
 
 def complete_sudden_death_page(correct_qns_num):
@@ -578,7 +580,6 @@ def add_new_question_page():
     
     #Returns user to settings page
     elif chap_num == '#':
-        print("\nYou have entered # to go back to Settings page.\n")
         settings_page()
     
     qn_type = input("\nIs your question an mcq or open-ended question?\n1 - MCQ\n2 - Open-ended\nEnter 1 or 2: ")
@@ -598,7 +599,6 @@ def add_new_question_page():
 
     #Returns user to settings page
     elif qn_type == '#':
-        print("\nYou have entered # to go back to Settings page.\n")
         settings_page()
 
 def add_mcq_question_page(chap_num):
@@ -615,7 +615,6 @@ def add_mcq_question_page(chap_num):
     question_name = input("Input your new question: ")
 
     if question_name == '#':
-        print("\nYou have entered # to go back to Settings page.\n")
         settings_page()
 
     option_number = [str(i) for i in range(1,100)]
@@ -629,7 +628,6 @@ def add_mcq_question_page(chap_num):
 
         #Returns user to settings page
         if new_mcq_option =='#':
-            print("\nYou have entered # to go back to Settings page.\n")
             settings_page()
         
         current_option = option_number.pop(0)
@@ -647,7 +645,6 @@ def add_mcq_question_page(chap_num):
 
     #Returns user to settings page
     if add_another_option =='#':
-        print("\nYou have entered # to go back to Settings page.\n")
         settings_page()
 
     answer_name = input("\nInput your answer to the question (Eg. Enter 1 for Option 1, Enter 2 for Option 2): ")
@@ -659,7 +656,6 @@ def add_mcq_question_page(chap_num):
     
     #Returns user to settings page
     if answer_name == '#':
-        print("\nYou have entered # to go back to Settings page.\n")
         settings_page()
 
     confirm_add_question(chap_num, question_name, answer_name)
@@ -679,7 +675,6 @@ def add_open_ended_question_page(chap_num):
 
     #Returns user to settings page
     if question_name == '#':
-        print("\nYou have entered # to go back to Settings page.\n")
         settings_page()
 
     print("\nYou have entered:\nChapter number: {}\nQuestion: {}".format(chap_num, question_name))
@@ -688,7 +683,6 @@ def add_open_ended_question_page(chap_num):
 
     #Returns user to settings page
     if answer_name == '#':
-        print("\nYou have entered # to go back to Settings page.\n")
         settings_page()
     
     confirm_add_question(chap_num, question_name, answer_name)
@@ -727,11 +721,10 @@ def confirm_add_question(chap_num, question_name, answer_name):
 
     #Returns user to settings page
     elif confirmation == '#':
-        print("\nYou have entered # to go back to Settings page.\n")
         settings_page()
 
 def remove_question_home_page():
-    """Creates remove question home page CLI """
+    """Creates remove question home page CLI"""
     clear_screen()
     print("""---------------\nRemove question page
     1 - Remove specific question (Based on unique question id number. If you do not know the unique question id, pick option 2.)
@@ -799,7 +792,7 @@ def show_all_qns_and_answers_page():
         settings_page()
 
 def format_multiple_answer_str(answer_list):
-    """Fromat multiple answers of a question into a single string for display
+    """Format multiple answers of a question into a single string for display
 
     Args:
         answer_list: List of answer objects
@@ -899,7 +892,7 @@ def remove_question(qn_id):
     clear_screen()
     print("\nYou have successfully deleted the question and answer with unique id: {}".format(qn_id))
     print("You will be directed back to Settings page\n")
-    time.sleep(3)
+    time.sleep(2)
     settings_page()
 
 def clear_screen():
