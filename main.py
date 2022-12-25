@@ -97,9 +97,10 @@ def reset_page():
         print("\n---------------------------------------------------")
         print("Reset success! Returning you to the settings page")
         print("---------------------------------------------------\n")
-        time.sleep(2)
+        time.sleep(1)
+        settings_page()
 
-    else:
+    elif user_response == "#":
         settings_page()
 
 def mode_page():
@@ -214,9 +215,6 @@ def campaign(chap_num):
 
     Args:
         chap_num: chapter number
-
-    Returns:
-        None
     """
     (current_score, result_list) = grade_campaign_questions(chap_num)
 
@@ -607,8 +605,6 @@ def add_mcq_question_page(chap_num):
     Args: 
         chap_num: Chapter number of new question
     
-    Returns:
-        None
     """
     clear_screen()
     print("\nYou have chosen to add an MCQ question")
@@ -658,16 +654,13 @@ def add_mcq_question_page(chap_num):
     if answer_name == '#':
         settings_page()
 
-    confirm_add_question(chap_num, question_name, answer_name)
+    confirm_add_question_page(chap_num, question_name, answer_name)
 
 def add_open_ended_question_page(chap_num):
     """Creates add open ended question CLI
 
     Args: 
         chap_num: Chapter number of new question
-    
-    Returns:
-        None
     """
     clear_screen()
     print("\nYou have chosen to add an open-ended question")
@@ -685,18 +678,17 @@ def add_open_ended_question_page(chap_num):
     if answer_name == '#':
         settings_page()
     
-    confirm_add_question(chap_num, question_name, answer_name)
+    confirm_add_question_page(chap_num, question_name, answer_name)
 
-def confirm_add_question(chap_num, question_name, answer_name):
-    """Adds question after user confirmation
+def confirm_add_question_page(chap_num, question_name, answer_name):
+    """Creates CLI for confirmation of adding question
+
+    Includes options to confirm add question or return to settings page
     
     Args:
         chap_num: Chapter number of new question
         question_name: Name of question to be added
         answer_name: Name of answer to be added
-
-    Returns:
-        None
     """
     clear_screen()
     print("\nYou have entered:\nChapter number: {}\nQuestion: {}\nAnswer: {}".format(chap_num, question_name, answer_name))
@@ -724,7 +716,9 @@ def confirm_add_question(chap_num, question_name, answer_name):
         settings_page()
 
 def remove_question_home_page():
-    """Creates remove question home page CLI"""
+    """Creates remove question home page CLI
+    
+    Includes options for remove question, show all questions and return to settings page"""
     clear_screen()
     print("""---------------\nRemove question page
     1 - Remove specific question (Based on unique question id number. If you do not know the unique question id, pick option 2.)
@@ -855,30 +849,43 @@ def remove_question_page():
         settings_page()
 
     elif qn_id in valid_qn_id_list:
-        clear_screen()
-        question = db.get_question_by_id(qn_id)
-        answer_list = db.get_answers_by_question_id(qn_id)
-        answer_display_str = "Answer" if len(answer_list) == 1 else "Answers" 
-        multiple_answer_str = format_multiple_answer_str(answer_list)
+        confirm_remove_question_page(qn_id)
 
-        print("\nQuestion Unique ID: {} \
-                    \nQuestion: {} \
-                    \n{}: {}\n".format(question._id, question._name, answer_display_str, multiple_answer_str))
-        
+def confirm_remove_question_page(qn_id):
+    """Creates CLI for confirmation of question removal"""
+    clear_screen()
+    question = db.get_question_by_id(qn_id)
+    answer_list = db.get_answers_by_question_id(qn_id)
+    print_question_and_answers(question, answer_list)
+    
+    user_response = input("Enter 1 to confirm deletion of question. Enter 2 to remove a different question. If not, please enter # to go back to Remove question: ")
+
+    #Reprompts user for valid qn_id input
+    while user_response not in ["1", "2", '#']:
+        print("\nYou entered an invalid command: {}.".format(user_response))
+        print("Please enter a valid command.")
         user_response = input("Enter 1 to confirm deletion of question. Enter 2 to remove a different question. If not, please enter # to go back to Remove question: ")
 
-        #Reprompts user for valid qn_id input
-        while user_response not in [1, 2, '#']:
-            print("\nYou entered an invalid command: {}.".format(user_response))
-            print("Please enter a valid command.")
-            user_response = input("Enter 1 to confirm deletion of question. Enter 2 to remove a different question. If not, please enter # to go back to Remove question: ")
+    if user_response == "1":
+        remove_question(qn_id)
+    elif user_response == "2":
+        remove_question_page()
+    elif user_response == "#":
+        remove_question_home_page()
 
-        if user_response == 1:
-            remove_question(qn_id)
-        elif user_response == 2:
-            remove_question_page()
-        elif user_response == "#":
-            settings_page()
+def print_question_and_answers(question, answer_list):
+    """Displays question and answer(s)
+    
+    Args:
+        question: Question object to be displayed
+        answer_list: List of Answer object(s) of question
+    """
+    answer_display_str = "Answer" if len(answer_list) == 1 else "Answers" 
+    multiple_answer_str = format_multiple_answer_str(answer_list)
+
+    print("\nQuestion Unique ID: {} \
+                \nQuestion: {} \
+                \n\n{}: {}\n".format(question._id, question._name, answer_display_str, multiple_answer_str))
         
 def remove_question(qn_id):
     """Removes question by user id
@@ -890,8 +897,10 @@ def remove_question(qn_id):
     db.remove_answer_by_question_id(int(qn_id))
     
     clear_screen()
+    print("------------------------------------------------------------------------")
     print("\nYou have successfully deleted the question and answer with unique id: {}".format(qn_id))
-    print("You will be directed back to Settings page\n")
+    print("Returning you to the settings page\n")
+    print("------------------------------------------------------------------------")
     time.sleep(2)
     settings_page()
 
