@@ -11,9 +11,10 @@ Quiz questions adapted from SUTD's 10.014 Computational Thinking Design course w
 
 ## Installation
 
-No external libraries required. To start the program, run the following command. 
+To start the program, run the following commands. 
 
 ```bash
+  pip install pyrebase4
   python3 main.py
 ```
     
@@ -28,16 +29,18 @@ To run tests, run the following command
 
 ## Features
 
-- Campaign mode
-- Sudden death mode, with highscores table
+- Campaign mode with 7 chapters
+- Sudden death mode with highscores(Local and Online)
 - Add/remove questions and answers
 - Reset program
 
 
 ## Tech Stack
 
-Python: SQLite, unittest, regex
+Python: SQLite, unittest, regex, pyrebase4, time, os
 
+## Video
+(Older build) https://www.youtube.com/watch?v=Q4hceIs49IA
 ## Authors
 
 - [@teohbenji](https://www.github.com/teohbenji)
