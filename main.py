@@ -1,10 +1,9 @@
-import db
-import firebase_db
-
 import os
 import random
 import re
 import time
+import db
+import firebase_db
 
 def home_page():
     """Creates home page CLI
