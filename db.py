@@ -275,7 +275,7 @@ def setup_questions_table(cursor):
                     (4, "What is the output of the following program?\
                     \n\n--------------------------------------------------------\
                     \n1 happy_string = 'I really love you!'\
-                    \n2  sad_string = happy_string.replace('really', 'do not')\
+                    \n2 sad_string = happy_string.replace('really', 'do not')\
                     \n3 print(sad_string)\
                     \n--------------------------------------------------------"),
                     (4, "The following code is executed\
@@ -308,9 +308,9 @@ def setup_questions_table(cursor):
                     (5, "What is the output of the following program?\
                     \n\n--------------------------------------------------------\
                     \n1 dd = {'cat': 12, 'dog': 6, 'elephant': 23, 'bear': 20}\
-                    \n2 keylist = list(dd.key())\
-                    \n3 keylist.sort()\
-                    \n4 print(keylist[3])\
+                    \n2 key_list = list(dd.key())\
+                    \n3 key_list.sort()\
+                    \n4 print(key_list[3])\
                     \n--------------------------------------------------------"),
                     (5, "The following code is executed\
                     \n\n---------------------------------------------------------\
@@ -919,7 +919,7 @@ def get_questions_sorted_by_chapter(db='main'):
         db: Default value is 'main' to access main.db, use 'test' instead to access test.db
 
     Returns:
-        chapter_question_list: List of lists, where each nested list contains questions of the same chapter
+        chapter_question_list: List of lists, where each nested list contains questions from the same chapter
     """
     connection = sqlite3.connect('test.db' if db == 'test' else 'main.db')
     cursor = connection.cursor()

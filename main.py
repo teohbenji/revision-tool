@@ -1,4 +1,5 @@
 import db
+import firebase_db
 
 import os
 import random
@@ -349,34 +350,50 @@ def sudden_death_page():
         mode_page()
 
     elif user_response == "2":
-        print("\nThese are your champions:")
+        highscores_page()
+        
+def highscores_page():
+    """Creates CLI for local and global (firebase) highscores"""
+    clear_screen()
+    print("\nThese are your champions:")
+    local_highscores = db.get_highscores()
+    global_highscores = firebase_db.get_highscores()
+    place = 1
+
+    #Print local highscores
+    print("\n----Local----")
+
+    if len(local_highscores) == 0:
+        print("No highscores yet! Are you worthy to be the next champion???")
+    else:
+        for score in local_highscores:
+            print("{}) {} - {}".format(place, score._name, score._score))
+            place += 1
+    
+    #Print global highscores
+    print("\n----Global----")
+    place = 1
+
+    if len(global_highscores) == 0:
+        print("No highscores yet! Be the first ever champion!")
+    else:
+        for score in global_highscores:
+            print("{}) {} - {}".format(place, score._name, score._score))
+            place += 1
+
+    user_response = input("\nPlease enter 1 to attempt the sudden death game mode or # to go back to home page: ")
+    #Reprompts user for valid user_response input
+    while user_response != "1" and user_response != "#":
+        print("\nYou entered an invalid command: {}.".format(user_response))
+        print("Please enter a valid command.")
+        user_response = input("Please enter 1 to try again or # to go back to home page: ")
+
+    #Redirects user based on user_response
+    if user_response == "1":
         grade_sudden_death()
-        highscores = db.get_highscores()
-        place = 1
-
-        if len(highscores) == 0:
-            print("No highscores yet! Are you worthy to be the next champion???")
-
-        else:
-            for score in highscores:
-                print("{}) {} - {}".format(place, score._name, score._score))
-                place += 1
-            
-        print("\n")
-
-        user_response = input("Please enter 1 to attempt the sudden death game mode or # to go back to home page: ")
-        #Reprompts user for valid user_response input
-        while user_response != "1" and user_response != "#":
-            print("\nYou entered an invalid command: {}.".format(user_response))
-            print("Please enter a valid command.")
-            user_response = input("Please enter 1 to try again or # to go back to home page: ")
-
-        #Redirects user based on user_response
-        if user_response == "1":
-            grade_sudden_death()
-            
-        elif user_response == "#":
-            home_page()
+        
+    elif user_response == "#":
+        home_page()
  
 def grade_sudden_death():
     """Handles logic for sudden death mode.
@@ -407,30 +424,56 @@ def grade_sudden_death():
         #User gets answer wrong    
         else:
             clear_screen()
-            print("You got {} questions correct!".format(correct_qns_num))
-            user_name = input("What name would you like to save this score under?: ")
-            score = db.Score("", user_name, correct_qns_num)
-            db.add_score(score)
-
-            user_response = input("Please enter 1 to try again, 2 to go back to sudden death page or # to go back to home page: ")
-            #Reprompts user for valid user_response input
-            while user_response != "1" and user_response != "2" and user_response != "#":
-                print("\nYou entered an invalid command: {}.".format(user_response))
-                print("Please enter a valid command.")
-                user_response = input("Please enter 1 to try again, 2 to go back to sudden death page or # to go back to home page: ")
-
-            #Redirects user based on user_response
-            if user_response == "1":
-                grade_sudden_death()
-
-            elif user_response == "2":
-                sudden_death_page()
-
-            elif user_response == "#":
-                home_page()
+            if correct_qns_num == 0:
+                print("You didnt get any question correct:(".format(correct_qns_num))
+            elif correct_qns_num == 1:
+                print("You got 1 question correct!".format(correct_qns_num))
+            else:
+                print("You got {} questions correct!".format(correct_qns_num))
+            save_score_page(correct_qns_num)
             
     #User gets every question correct
     complete_sudden_death_page(correct_qns_num)
+
+def save_score_page(correct_qns_num):
+    """Creates CLI for saving sudden death score
+    
+    Args:
+        correct_qns_num: Number of correct questions
+    """
+    user_name = input("What name would you like to save this score under?: ")
+    
+    save_score(user_name, correct_qns_num)
+
+    user_response = input("Please enter 1 to try again, 2 to go back to sudden death page, 3 to view highscores or # to go back to home page: ")
+    #Reprompts user for valid user_response input
+    while user_response != "1" and user_response != "2" and user_response != "3" and user_response != "#":
+        print("\nYou entered an invalid command: {}.".format(user_response))
+        print("Please enter a valid command.")
+        user_response = input("Please enter 1 to try again, 2 to go back to sudden death page, 3 to view highscores or # to go back to home page: ")
+
+    #Redirects user based on user_response
+    if user_response == "1":
+        grade_sudden_death()
+
+    elif user_response == "2":
+        sudden_death_page()
+
+    elif user_response == "3":
+        highscores_page()
+
+    elif user_response == "#":
+        home_page()
+
+def save_score(user_name, correct_qns_num):
+    """Saves sudden death score into local db and online db
+    
+    Args:
+        
+    """
+    score = db.Score("", user_name, correct_qns_num)
+    db.add_score(score)
+    firebase_db.add_score(score)
 
 def complete_sudden_death_page(correct_qns_num):
     """CLI displayed after user gets every sudden death question correct
@@ -441,23 +484,7 @@ def complete_sudden_death_page(correct_qns_num):
     """
     clear_screen()
     print("Congratulations! You have completed the sudden death gamemode! You got all {} questions right!".format(correct_qns_num))
-    user_name = input("What name would you like to save this score under?")
-
-    score = db.Score("", user_name, correct_qns_num)
-    db.add_score(score)
-
-    #Reprompts user for valid user_response input
-    user_response = input("Please enter 1 to try again or # to go back to home page: ")
-    while user_response != "1" and user_response != "#":
-        print("\nYou entered an invalid command: {}.".format(user_response))
-        print("Please enter a valid command.")
-        user_response = input("Please enter 1 to try again or # to go back to home page: ")
-
-    #Redirects user based on user_response
-    if user_response == "1":
-        grade_sudden_death()
-    elif user_response == "#":
-        home_page()
+    save_score_page(correct_qns_num)
 
 def grade_campaign_questions(chap_num):
     """Checks results of user attempting 5 questions from selected chapter.
