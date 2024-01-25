@@ -33,11 +33,12 @@ To run tests, run the following command
 - Sudden death mode with highscores(Local and Online)
 - Add/remove questions and answers
 - Reset program
+- Compete against friends by posting highscores on online leaderboard
 
 
 ## Tech Stack
 
-Python: SQLite, unittest, regex, pyrebase4, time, os
+Python: SQLite, unittest, regex, pyrebase4, time, os, firebase
 
 ## Video
 (Older build) https://www.youtube.com/watch?v=Q4hceIs49IA
